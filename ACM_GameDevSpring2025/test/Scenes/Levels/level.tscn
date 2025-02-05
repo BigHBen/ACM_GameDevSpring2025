@@ -1,0 +1,50 @@
+[gd_scene load_steps=4 format=3 uid="uid://cu3vgu2kppqj3"]
+
+[ext_resource type="PackedScene" uid="uid://dvvlt70jx7hht" path="res://Scenes/Terrain/block.tscn" id="1_bf7mp"]
+[ext_resource type="PackedScene" uid="uid://b0ki5ql232pdh" path="res://Scenes/Characters/character_body_3d.tscn" id="2_m8vkt"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_arph3"]
+
+[node name="Level" type="Node3D"]
+
+[node name="block" parent="." instance=ExtResource("1_bf7mp")]
+
+[node name="block2" parent="." instance=ExtResource("1_bf7mp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 0)
+
+[node name="block3" parent="." instance=ExtResource("1_bf7mp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 0)
+
+[node name="block4" parent="." instance=ExtResource("1_bf7mp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, -5)
+
+[node name="block5" parent="." instance=ExtResource("1_bf7mp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -5)
+
+[node name="block6" parent="." instance=ExtResource("1_bf7mp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, -5)
+
+[node name="block7" parent="." instance=ExtResource("1_bf7mp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5)
+
+[node name="block8" parent="." instance=ExtResource("1_bf7mp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5, 0, 5)
+
+[node name="block9" parent="." instance=ExtResource("1_bf7mp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0, 6, 12)
+fov = 50.0
+
+[node name="SpotLight3D" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.854586, 0.51931, 0, -0.51931, 0.854586, 0, 1.99792, 2.96643)
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("2_m8vkt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.89705, 0.441929, 0, -0.441929, 0.89705, 3.07033, 10.6259, 14.1325)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_arph3")

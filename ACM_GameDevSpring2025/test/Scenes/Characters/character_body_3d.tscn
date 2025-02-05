@@ -1,0 +1,104 @@
+[gd_scene load_steps=12 format=3 uid="uid://b0ki5ql232pdh"]
+
+[ext_resource type="Script" path="res://character_body_3d.gd" id="1_7gxj3"]
+[ext_resource type="Script" path="res://Scenes/Characters/camera_3d.gd" id="2_qmjtv"]
+[ext_resource type="PackedScene" uid="uid://3xv7fn2jagdk" path="res://Assets/kenney_animated-characters-2/Model/characterMedium.fbx" id="2_y8rrr"]
+[ext_resource type="AnimationLibrary" uid="uid://drm1lpb0876lx" path="res://Assets/kenney_animated-characters-2/Animations/idle.fbx" id="3_6wq4c"]
+[ext_resource type="AnimationLibrary" uid="uid://x4nahb7yd5qo" path="res://Assets/kenney_animated-characters-2/Animations/jump.fbx" id="4_qcjgo"]
+[ext_resource type="AnimationLibrary" uid="uid://bql6xakgips63" path="res://Assets/kenney_animated-characters-2/Animations/run.fbx" id="5_25wyn"]
+
+[sub_resource type="AnimationNodeBlendSpace2D" id="AnimationNodeBlendSpace2D_xk5jb"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_m4fax"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_uvu42"]
+states/BlendSpace2D/node = SubResource("AnimationNodeBlendSpace2D_xk5jb")
+states/BlendSpace2D/position = Vector2(399, 100)
+transitions = ["Start", "BlendSpace2D", SubResource("AnimationNodeStateMachineTransition_m4fax")]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_e0b5i"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_5g3wo"]
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+script = ExtResource("1_7gxj3")
+
+[node name="characterMedium" parent="." instance=ExtResource("2_y8rrr")]
+transform = Transform3D(-0.01, -8.74228e-10, 3.82137e-17, 0, -4.37114e-10, -0.01, 8.74228e-10, -0.01, 4.37114e-10, 1, 0, 0)
+
+[node name="Root" parent="characterMedium" index="0"]
+transform = Transform3D(100, 0, 0, 0, -4.37114e-06, 100, 0, -100, -4.37114e-06, 0, 0, 0)
+
+[node name="GeneralSkeleton" parent="characterMedium/Root" index="0"]
+bones/0/rotation = Quaternion(-0.707107, 1.49012e-07, 0.707107, -5.96046e-08)
+bones/1/rotation = Quaternion(-0.507512, 0.508228, -0.491906, -0.492102)
+bones/2/rotation = Quaternion(0.0157358, -0.00207875, 0.994625, -0.102322)
+bones/3/rotation = Quaternion(0.946129, -0.0218708, 0.0755026, -0.314104)
+bones/7/rotation = Quaternion(-0.707107, 9.41569e-08, 0.707107, 9.4157e-08)
+bones/9/position = Vector3(-0.222209, 0.20688, -0.159343)
+bones/9/rotation = Quaternion(-0.707107, 1.49012e-07, 0.707107, -5.96047e-08)
+bones/10/rotation = Quaternion(-0.507686, 0.507902, -0.491728, -0.492437)
+bones/12/rotation = Quaternion(0.948112, 0.011445, -0.0440931, -0.314656)
+bones/16/rotation = Quaternion(-0.707107, 9.41569e-08, 0.707107, 9.4157e-08)
+bones/18/position = Vector3(-0.000239222, 1.67489, 0.0334513)
+bones/18/rotation = Quaternion(-4.45776e-08, -5.09317e-11, 6.29848e-08, 1)
+bones/19/rotation = Quaternion(0.0277722, -1.97542e-09, -6.29618e-08, 0.999614)
+bones/20/rotation = Quaternion(-0.0566837, 3.27088e-10, 9.026e-11, 0.998392)
+bones/21/rotation = Quaternion(-0.0504845, 0.0449382, 0.000452212, 0.997713)
+bones/22/rotation = Quaternion(-0.0448509, 0.000244969, -0.00403604, 0.998986)
+bones/23/rotation = Quaternion(2.22935e-08, 3.69619e-09, 2.32831e-09, 1)
+bones/24/rotation = Quaternion(0.0349115, -0.0449257, -0.00115333, 0.99838)
+bones/26/rotation = Quaternion(0.481784, 0.517613, 0.482888, -0.516508)
+bones/27/rotation = Quaternion(0.205629, 0.850862, 0.474008, 0.0952212)
+bones/28/rotation = Quaternion(-0.0564122, -0.444647, 0.0664362, 0.891456)
+bones/29/rotation = Quaternion(-4.57625e-08, 0.707107, 1.64972e-07, 0.707107)
+bones/31/rotation = Quaternion(-0.678338, 0.00792944, -0.171199, 0.714483)
+bones/32/rotation = Quaternion(-0.37014, 0.00190249, -0.0971557, 0.92388)
+bones/34/rotation = Quaternion(-0.247184, 0.550839, 0.175078, 0.777704)
+bones/35/rotation = Quaternion(7.91917e-07, -0.423008, -0.299113, 0.855334)
+bones/35/scale = Vector3(1.00061, 0.99985, 0.999543)
+bones/37/rotation = Quaternion(0.482987, -0.516486, -0.48402, -0.515453)
+bones/38/rotation = Quaternion(-0.132362, 0.862726, 0.485889, -0.0457797)
+bones/39/rotation = Quaternion(-0.0564165, 0.444647, -0.0664348, 0.891455)
+bones/40/rotation = Quaternion(-3.72529e-09, -0.707107, 3.72529e-09, 0.707107)
+bones/42/rotation = Quaternion(-0.652464, -0.00172055, 0.163082, 0.740062)
+bones/43/rotation = Quaternion(-0.370892, 0.000467122, 0.0942627, 0.92388)
+bones/45/rotation = Quaternion(-0.247185, -0.550839, -0.17508, 0.777704)
+bones/46/rotation = Quaternion(-5.16855e-06, 0.42301, 0.29911, 0.855334)
+bones/46/scale = Vector3(1.00061, 0.999883, 0.99951)
+bones/48/rotation = Quaternion(-0.167744, -0.0550392, 0.983002, 0.0503914)
+bones/49/rotation = Quaternion(-0.0749366, 0.974463, 0.210858, -0.0185969)
+bones/50/rotation = Quaternion(0.0286315, 0.799178, -0.599588, 0.0314485)
+bones/50/scale = Vector3(0.999984, 1.00001, 1)
+bones/51/scale = Vector3(0.999979, 1.00001, 1.00001)
+bones/53/rotation = Quaternion(0.061109, -0.173368, 0.982878, -0.0126713)
+bones/54/rotation = Quaternion(0.030605, 0.95885, 0.282234, 0.00386776)
+bones/55/rotation = Quaternion(-0.00306694, 0.764937, -0.644055, -0.00746928)
+bones/56/rotation = Quaternion(-8.7323e-07, 1, -2.38419e-07, 8.25815e-07)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="characterMedium"]
+libraries = {
+"idle": ExtResource("3_6wq4c"),
+"jump": ExtResource("4_qcjgo"),
+"run": ExtResource("5_25wyn")
+}
+autoplay = "idle/Root|Idle"
+
+[node name="AnimationTree" type="AnimationTree" parent="characterMedium/AnimationPlayer"]
+tree_root = SubResource("AnimationNodeStateMachine_uvu42")
+parameters/BlendSpace2D/blend_position = Vector2(0, 0.0341463)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("CapsuleMesh_e0b5i")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CapsuleShape3D_5g3wo")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 2, 3)
+current = true
+script = ExtResource("2_qmjtv")
+
+[editable path="characterMedium"]

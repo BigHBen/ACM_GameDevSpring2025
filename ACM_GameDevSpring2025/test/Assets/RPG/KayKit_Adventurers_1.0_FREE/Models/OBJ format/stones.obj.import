@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://58v3fx2p35yd"
+path="res://.godot/imported/stones.obj-9e207a835bd4f2dd5cac7cfb4ae19cb4.mesh"
+
+[deps]
+
+files=["res://.godot/imported/stones.obj-9e207a835bd4f2dd5cac7cfb4ae19cb4.mesh"]
+
+source_file="res://Assets/RPG/KayKit_Adventurers_1.0_FREE/Models/OBJ format/stones.obj"
+dest_files=["res://.godot/imported/stones.obj-9e207a835bd4f2dd5cac7cfb4ae19cb4.mesh", "res://.godot/imported/stones.obj-9e207a835bd4f2dd5cac7cfb4ae19cb4.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

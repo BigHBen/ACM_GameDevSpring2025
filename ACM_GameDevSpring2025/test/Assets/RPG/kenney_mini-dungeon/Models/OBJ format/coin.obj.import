@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://8m4gbopqoxdn"
+path="res://.godot/imported/coin.obj-e01ca0dd7e5b85279a2bca690417705f.mesh"
+
+[deps]
+
+files=["res://.godot/imported/coin.obj-e01ca0dd7e5b85279a2bca690417705f.mesh"]
+
+source_file="res://Assets/RPG/kenney_mini-dungeon/Models/OBJ format/coin.obj"
+dest_files=["res://.godot/imported/coin.obj-e01ca0dd7e5b85279a2bca690417705f.mesh", "res://.godot/imported/coin.obj-e01ca0dd7e5b85279a2bca690417705f.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
