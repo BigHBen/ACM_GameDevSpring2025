@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://k7dc56bkt44u"
+path="res://.godot/imported/boat-row-large.obj-5cdaf1b514d279304656a22a7e5d4a25.mesh"
+
+[deps]
+
+files=["res://.godot/imported/boat-row-large.obj-5cdaf1b514d279304656a22a7e5d4a25.mesh"]
+
+source_file="res://Assets/kenney_pirate-kit/Models/OBJ format/boat-row-large.obj"
+dest_files=["res://.godot/imported/boat-row-large.obj-5cdaf1b514d279304656a22a7e5d4a25.mesh", "res://.godot/imported/boat-row-large.obj-5cdaf1b514d279304656a22a7e5d4a25.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

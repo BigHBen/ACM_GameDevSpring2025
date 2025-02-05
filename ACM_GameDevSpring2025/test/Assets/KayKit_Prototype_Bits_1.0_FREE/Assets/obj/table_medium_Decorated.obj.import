@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://c5cpf2288wv2n"
+path="res://.godot/imported/table_medium_Decorated.obj-2ac75b426432741a22a77e31f7e7e7cf.mesh"
+
+[deps]
+
+files=["res://.godot/imported/table_medium_Decorated.obj-2ac75b426432741a22a77e31f7e7e7cf.mesh"]
+
+source_file="res://Assets/KayKit_Prototype_Bits_1.0_FREE/Assets/obj/table_medium_Decorated.obj"
+dest_files=["res://.godot/imported/table_medium_Decorated.obj-2ac75b426432741a22a77e31f7e7e7cf.mesh", "res://.godot/imported/table_medium_Decorated.obj-2ac75b426432741a22a77e31f7e7e7cf.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bbgshw7822mq0"
+path="res://.godot/imported/statue.obj-cffb553311700450aa88d71565f6d065.mesh"
+
+[deps]
+
+files=["res://.godot/imported/statue.obj-cffb553311700450aa88d71565f6d065.mesh"]
+
+source_file="res://Assets/kenney_mini-arena/Models/OBJ format/statue.obj"
+dest_files=["res://.godot/imported/statue.obj-cffb553311700450aa88d71565f6d065.mesh", "res://.godot/imported/statue.obj-cffb553311700450aa88d71565f6d065.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

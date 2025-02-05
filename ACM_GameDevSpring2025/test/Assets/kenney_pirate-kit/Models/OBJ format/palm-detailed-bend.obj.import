@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://ble03fffjmrh1"
+path="res://.godot/imported/palm-detailed-bend.obj-0c35713f7f1495ec65f533b6ace457e4.mesh"
+
+[deps]
+
+files=["res://.godot/imported/palm-detailed-bend.obj-0c35713f7f1495ec65f533b6ace457e4.mesh"]
+
+source_file="res://Assets/kenney_pirate-kit/Models/OBJ format/palm-detailed-bend.obj"
+dest_files=["res://.godot/imported/palm-detailed-bend.obj-0c35713f7f1495ec65f533b6ace457e4.mesh", "res://.godot/imported/palm-detailed-bend.obj-0c35713f7f1495ec65f533b6ace457e4.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

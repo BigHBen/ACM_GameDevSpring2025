@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://df2bt4hchrb21"
+path="res://.godot/imported/wall.obj-a83b2c0988d16db4e5fafec66cc08817.mesh"
+
+[deps]
+
+files=["res://.godot/imported/wall.obj-a83b2c0988d16db4e5fafec66cc08817.mesh"]
+
+source_file="res://Assets/kenney_mini-arena/Models/OBJ format/wall.obj"
+dest_files=["res://.godot/imported/wall.obj-a83b2c0988d16db4e5fafec66cc08817.mesh", "res://.godot/imported/wall.obj-a83b2c0988d16db4e5fafec66cc08817.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

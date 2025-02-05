@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://hkfhyx0fn4r2"
+path="res://.godot/imported/weapon-rack.obj-e299593877c99df6696686965160f9a8.mesh"
+
+[deps]
+
+files=["res://.godot/imported/weapon-rack.obj-e299593877c99df6696686965160f9a8.mesh"]
+
+source_file="res://Assets/kenney_mini-arena/Models/OBJ format/weapon-rack.obj"
+dest_files=["res://.godot/imported/weapon-rack.obj-e299593877c99df6696686965160f9a8.mesh", "res://.godot/imported/weapon-rack.obj-e299593877c99df6696686965160f9a8.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
