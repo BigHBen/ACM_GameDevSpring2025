@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://glmmqlidn4d"]
+
+[ext_resource type="MeshLibrary" uid="uid://5x51gbr435bp" path="res://Tileset/tiles.tres" id="1_jrf0d"]
+[ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="2_82sre"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k3ddj"]
+
+[sub_resource type="Sky" id="Sky_q5pke"]
+sky_material = SubResource("ProceduralSkyMaterial_k3ddj")
+
+[sub_resource type="Environment" id="Environment_v4rco"]
+background_mode = 2
+sky = SubResource("Sky_q5pke")
+reflected_light_source = 2
+tonemap_mode = 2
+
+[node name="test_dungeon" type="Node3D"]
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_v4rco")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("1_jrf0d")
+data = {
+"cells": PackedInt32Array(0, 65535, 21, 0, 1, 21, 2, 1, 21, 4, 65535, 21, 4, 1, 21, 65534, 1, 21, 65534, 65535, 21, 2, 65535, 21)
+}
+
+[node name="Knight" parent="." instance=ExtResource("2_82sre")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.82537, 0)
