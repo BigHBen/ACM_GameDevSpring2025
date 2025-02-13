@@ -14,7 +14,9 @@ var attacks = [
 	"1H_Melee_Attack_Slice_Diagonal",
 	"1H_Melee_Attack_Chop"
 ]
-var last_floor = true
+var rayOrigin = Vector3()
+var rayEnd = Vector3()
+
 
 @onready var model = $Rig
 @onready var anim_tree = $AnimationTree
@@ -23,10 +25,29 @@ var last_floor = true
 
 # Movement is HEAVILY modified code from KidsCanCode
 # https://www.youtube.com/@Kidscancode/featured
+
+# Look at Cursor Provided from Nolkaloid and edited to fit Godot 4
+# https://www.youtube.com/watch?v=mmvIkkKJVlQ
 func _physics_process(delta):
+	# Variables
+		# Get Current Physics State
+	var space_state = get_world_3d().direct_space_state
+		# Get Current Mouse Position in the Viewport
+	var mouse_position = get_viewport().get_mouse_position()
+	
+	rayOrigin =  camera.project_ray_origin(mouse_position) # Set ray origin
+	rayEnd = rayOrigin + camera.project_ray_normal(mouse_position) * 2000 # set ray end point
+	
+	var query = PhysicsRayQueryParameters3D.create(rayOrigin, rayEnd)
+	var intersection = space_state.intersect_ray(query)
+	
+	# Character Rotation
+	if not intersection.is_empty():
+		var pos = intersection.position
+		model.look_at(Vector3(pos.x, position.y, pos.z), Vector3.UP)
+	# Movement Stuff
 	velocity.y += -gravity * delta
 	get_move_input(delta)
-
 	move_and_slide()
 	if velocity.length() > 1.0:
 		model.rotation.y = lerp_angle(model.rotation.y, camera.rotation.y, rotation_speed * delta)

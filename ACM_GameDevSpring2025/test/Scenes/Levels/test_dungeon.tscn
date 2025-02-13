@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://glmmqlidn4d"]
+[gd_scene load_steps=7 format=3 uid="uid://glmmqlidn4d"]
 
 [ext_resource type="MeshLibrary" uid="uid://5x51gbr435bp" path="res://Tileset/tiles.tres" id="1_jrf0d"]
 [ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="2_82sre"]
@@ -14,6 +14,8 @@ sky = SubResource("Sky_q5pke")
 reflected_light_source = 2
 tonemap_mode = 2
 
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_wm67e"]
+
 [node name="test_dungeon" type="Node3D"]
 
 [node name="Environment" type="Node3D" parent="."]
@@ -22,6 +24,12 @@ tonemap_mode = 2
 environment = SubResource("Environment_v4rco")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+
+[node name="WorldBorder" type="StaticBody3D" parent="Environment"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/WorldBorder"]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_wm67e")
 
 [node name="GridMap" type="GridMap" parent="."]
 mesh_library = ExtResource("1_jrf0d")
