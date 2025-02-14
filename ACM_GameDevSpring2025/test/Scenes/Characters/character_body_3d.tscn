@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://b0ki5ql232pdh"]
 
-[ext_resource type="Script" path="res://character_body_3d.gd" id="1_7gxj3"]
-[ext_resource type="Script" path="res://Scenes/Characters/camera_3d.gd" id="2_qmjtv"]
+[ext_resource type="Script" path="res://Scripts/character_body_3d.gd" id="1_7gxj3"]
+[ext_resource type="Script" path="res://Scripts/camera_3d.gd" id="2_qmjtv"]
 [ext_resource type="PackedScene" uid="uid://3xv7fn2jagdk" path="res://Assets/kenney_animated-characters-2/Model/characterMedium.fbx" id="2_y8rrr"]
 [ext_resource type="AnimationLibrary" uid="uid://drm1lpb0876lx" path="res://Assets/kenney_animated-characters-2/Animations/idle.fbx" id="3_6wq4c"]
 [ext_resource type="AnimationLibrary" uid="uid://x4nahb7yd5qo" path="res://Assets/kenney_animated-characters-2/Animations/jump.fbx" id="4_qcjgo"]

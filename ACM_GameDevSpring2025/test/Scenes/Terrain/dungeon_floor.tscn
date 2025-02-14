@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://chcw250gcvwlx"]
+
+[ext_resource type="ArrayMesh" uid="uid://cpklo6eacbik4" path="res://Assets/RPG/kenney_mini-dungeon/Models/OBJ format/floor-detail.obj" id="1_yf78t"]
+
+[node name="DungeonFloor" type="StaticBody3D"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_yf78t")
