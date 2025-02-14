@@ -26,6 +26,8 @@ environment = SubResource("Environment_v4rco")
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
 
 [node name="WorldBorder" type="StaticBody3D" parent="Environment"]
+collision_layer = 4
+collision_mask = 0
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/WorldBorder"]
 transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)

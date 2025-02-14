@@ -38,7 +38,14 @@ func _physics_process(delta):
 	rayOrigin =  camera.project_ray_origin(mouse_position) # Set ray origin
 	rayEnd = rayOrigin + camera.project_ray_normal(mouse_position) * 2000 # set ray end point
 	
-	var query = PhysicsRayQueryParameters3D.create(rayOrigin, rayEnd)
+	# The Final Value sets what collision mask the ray is on.
+	# The default value is on every collision mask
+	# The value is a bitmask. The current value inserted is for collision mask 3.
+	# What this means is that ray will only collide with objects on layer 3. (Like the world border)
+	# Or that's what I could tell from the docs and random threads on the internet
+		# Collision layer vs mask: https://gamedev.stackexchange.com/questions/185178/whats-the-difference-between-collision-layers-and-collision-masks
+		# How to set .create bitmask value: https://www.reddit.com/r/godot/comments/mai6fa/exclude_parameter_in_intersect_raywhat_does_it_do/
+	var query = PhysicsRayQueryParameters3D.create(rayOrigin, rayEnd, 0b00000000000000000100)
 	var intersection = space_state.intersect_ray(query)
 	
 	# Character Rotation
