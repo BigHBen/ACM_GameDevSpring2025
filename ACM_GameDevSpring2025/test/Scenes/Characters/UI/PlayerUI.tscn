@@ -1,0 +1,79 @@
+[gd_scene load_steps=7 format=3 uid="uid://ckstcle8h8g1f"]
+
+[ext_resource type="Texture2D" uid="uid://dec45t4ti1i1o" path="res://Scenes/Characters/UI/PlaceHolderCircle.png" id="1_p8dyf"]
+[ext_resource type="PackedScene" uid="uid://nsjluf8e1piw" path="res://Scenes/Characters/UI/health_bar.tscn" id="2_ew8yr"]
+[ext_resource type="Texture2D" uid="uid://cwc1wl68qxqef" path="res://Scenes/Characters/UI/PlaceHolderPic.png" id="2_oabyn"]
+[ext_resource type="FontFile" uid="uid://hxqlvug5a3dn" path="res://Assets/Fonts/Sagewold-Regular.ttf" id="4_70alr"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_peqn2"]
+bg_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b0833"]
+bg_color = Color(0, 0, 0, 1)
+
+[node name="PlayerUi" type="CanvasLayer"]
+
+[node name="PlayerPortrait" type="Sprite2D" parent="."]
+z_index = 2
+position = Vector2(123, 120)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_p8dyf")
+
+[node name="KnightPortrait" type="Sprite2D" parent="PlayerPortrait"]
+position = Vector2(-7.99999, 4.87502)
+scale = Vector2(6.9434, 6.58945)
+texture = ExtResource("2_oabyn")
+
+[node name="HealthBar" parent="." instance=ExtResource("2_ew8yr")]
+offset_left = 187.0
+offset_top = 62.0
+offset_right = 687.0
+offset_bottom = 89.0
+
+[node name="Coins" type="Panel" parent="."]
+offset_left = 233.0
+offset_top = 112.0
+offset_right = 320.0
+offset_bottom = 152.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_peqn2")
+
+[node name="Label" type="Label" parent="Coins"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 1.0
+offset_right = 86.0
+offset_bottom = 39.0
+theme_override_fonts/font = ExtResource("4_70alr")
+theme_override_font_sizes/font_size = 25
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Potions" type="Panel" parent="."]
+offset_left = 400.0
+offset_top = 112.0
+offset_right = 487.0
+offset_bottom = 152.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_b0833")
+
+[node name="Label" type="Label" parent="Potions"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 1.0
+offset_right = 86.0
+offset_bottom = 39.0
+theme_override_fonts/font = ExtResource("4_70alr")
+theme_override_font_sizes/font_size = 25
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PlayerName" type="Label" parent="."]
+offset_left = 193.0
+offset_top = 18.0
+offset_right = 409.0
+offset_bottom = 67.0
+theme_override_fonts/font = ExtResource("4_70alr")
+theme_override_font_sizes/font_size = 40
+text = "Player"
+vertical_alignment = 2

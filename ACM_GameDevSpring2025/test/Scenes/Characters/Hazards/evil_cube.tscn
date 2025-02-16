@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://dxcmlu5im4msx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j20re"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_gduop"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h1w53"]
+albedo_color = Color(1, 0.17894, 0.33732, 1)
+
+[node name="EvilCube" type="Node3D"]
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_j20re")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+mesh = SubResource("BoxMesh_gduop")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_h1w53")

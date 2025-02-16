@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://glmmqlidn4d"]
+[gd_scene load_steps=8 format=3 uid="uid://glmmqlidn4d"]
 
 [ext_resource type="MeshLibrary" uid="uid://5x51gbr435bp" path="res://Tileset/tiles.tres" id="1_jrf0d"]
 [ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="2_82sre"]
+[ext_resource type="PackedScene" uid="uid://dxcmlu5im4msx" path="res://Scenes/Characters/Hazards/evil_cube.tscn" id="3_ckahd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k3ddj"]
 
@@ -17,6 +18,8 @@ tonemap_mode = 2
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_wm67e"]
 
 [node name="test_dungeon" type="Node3D"]
+
+[node name="Hazards" type="Node3D" parent="."]
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -41,3 +44,6 @@ data = {
 
 [node name="Knight" parent="." instance=ExtResource("2_82sre")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.82537, 0)
+
+[node name="EvilCube" parent="." instance=ExtResource("3_ckahd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.84838, 1.59283, -24.5054)
