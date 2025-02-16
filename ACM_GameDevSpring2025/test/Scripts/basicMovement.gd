@@ -6,6 +6,7 @@ class_name Player
 @export var jump_speed = 8.0
 @export var mouse_sensitivity = 0.0015
 @export var rotation_speed = 12.0
+@export var health = 100
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var jumping = false
@@ -22,7 +23,11 @@ var rayEnd = Vector3()
 @onready var anim_tree = $AnimationTree
 @onready var anim_state = $AnimationTree.get("parameters/playback")
 @onready var camera = $CameraPivot/Camera3D
+@onready var healthbar = $PlayerUi/HealthBar
 
+
+func _ready() -> void:
+	healthbar.init_health(health)
 # Movement is HEAVILY modified code from KidsCanCode
 # https://www.youtube.com/@Kidscancode/featured
 
@@ -72,3 +77,8 @@ func get_move_input(delta):
 func _unhandled_input(event):
 	if event.is_action_pressed("attack"):
 		anim_state.travel(attacks.pick_random())
+
+
+func take_damage(damage):
+	healthbar._set_health(health - damage)
+	health -= damage
