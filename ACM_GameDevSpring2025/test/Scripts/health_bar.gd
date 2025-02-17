@@ -23,4 +23,5 @@ func init_health(_health):
 	damagebar.value = health
 
 func _on_timer_timeout() -> void:
-	damagebar.value = health
+	var tween = create_tween()
+	tween.tween_property(damagebar, "value", health, 1).from(damagebar.value)
