@@ -5,7 +5,7 @@ class_name Player
 @export var acceleration = 4.0
 @export var jump_speed = 8.0
 @export var mouse_sensitivity = 0.0015
-@export var rotation_speed = 12.0
+@export var rotation_speed = 8.0
 @export var health = 100
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
@@ -61,8 +61,7 @@ func _physics_process(delta):
 	velocity.y += -gravity * delta
 	get_move_input(delta)
 	move_and_slide()
-	if velocity.length() > 1.0:
-		model.rotation.y = lerp_angle(model.rotation.y, camera.rotation.y, rotation_speed * delta)
+
 
 func get_move_input(delta):
 	var vy = velocity.y
