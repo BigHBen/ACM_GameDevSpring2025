@@ -3,7 +3,6 @@
 [ext_resource type="Script" path="res://Scenes/Terrain/Dungeon_Generation/dun_gen.gd" id="1_a7i0w"]
 [ext_resource type="MeshLibrary" uid="uid://dh84uptpejuw2" path="res://Scenes/Terrain/Dungeon_Generation/dungeon_tiles.tres" id="1_p7n56"]
 
-
 [node name="DunGen" type="Node3D"]
 script = ExtResource("1_a7i0w")
 survival_chance = 0.0

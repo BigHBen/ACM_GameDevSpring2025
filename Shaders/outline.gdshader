@@ -6,7 +6,7 @@ render_mode unshaded;
 	Inspired by Yui Kinomoto @arlez80, lukky_nl (YT), Robin Seibold (YT)
 	Uses Sobel Edge detection on a normal and depth texture
 	Written by William Li (LoudFlameLava)
-	
+
 	MIT License
 */
 
@@ -44,13 +44,13 @@ float edge_value_normal(sampler2D normal_tex, vec2 uv, vec2 pixel_size, mat3 sob
 	vec3 ne = texture(NORMAL_TEXTURE, uv + vec2(pixel_size.x, -pixel_size.y)).rgb;
 	vec3 sw = texture(NORMAL_TEXTURE, uv + vec2(-pixel_size.x, pixel_size.y)).rgb;
 	vec3 se = texture(NORMAL_TEXTURE, uv + vec2(pixel_size.x, pixel_size.y)).rgb;
-	
+
 	mat3 error_mat = mat3(
 		vec3(length(normal - nw), length(normal - n), length(normal - ne)),
 		vec3(length(normal - w), 0.0, length(normal - e)),
 		vec3(length(normal - sw), length(normal - s), length(normal - se))
 	);
-	
+
 	output += dot(sobel[0], error_mat[0]);
 	output += dot(sobel[1], error_mat[1]);
 	output += dot(sobel[2], error_mat[2]);
@@ -77,13 +77,13 @@ float edge_value_depth(sampler2D depth_tex, vec2 uv, vec2 pixel_size, mat3 sobel
 	float nw = get_depth(depth_tex, uv + vec2(-pixel_size.x, -pixel_size.y), inv_projection_matrix);
 	float se = get_depth(depth_tex, uv + vec2(pixel_size.x, pixel_size.y), inv_projection_matrix);
 	float sw = get_depth(depth_tex, uv + vec2(-pixel_size.x, pixel_size.y), inv_projection_matrix);
-	
+
 	mat3 error_mat = mat3(
 		vec3((depth - nw)/depth, (depth - n)/depth, (depth - ne)/depth),
 		vec3((depth - w)/depth, 0.0, (depth - e)/depth),
 		vec3((depth - sw)/depth, (depth - s)/depth, (depth - se)/depth)
 	);
-	
+
 	output += dot(sobel[0], error_mat[0]);
 	output += dot(sobel[1], error_mat[1]);
 	output += dot(sobel[2], error_mat[2]);

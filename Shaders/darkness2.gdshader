@@ -5,7 +5,7 @@ uniform float dark_strength : hint_range(0.0, 1.0) = 1.0; // Darkness strength (
 
 void fragment() {
     vec2 screen_pos = FRAGCOORD.xy / SCREEN_PIXEL_SIZE;
-    
+
     // Check if the current fragment (pixel) is within the room area (based on your gridmap's position/size)
     if (screen_pos.x > room_area.x && screen_pos.x < room_area.z &&
         screen_pos.y > room_area.y && screen_pos.y < room_area.w) {

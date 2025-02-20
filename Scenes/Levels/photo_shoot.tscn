@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://d0r3hwls0x2kd"]
 
-[ext_resource type="ArrayMesh" uid="uid://biiw7y7uud02i" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/obj/bottle_C_green.obj" id="1_nfeuf"]
+[ext_resource type="ArrayMesh" uid="uid://vowalvlf5ynm" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/obj/bottle_C_green.obj" id="1_nfeuf"]
 
 [sub_resource type="Environment" id="Environment_a1rgm"]
 

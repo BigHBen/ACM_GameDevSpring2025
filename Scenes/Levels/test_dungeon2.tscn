@@ -4,7 +4,7 @@
 [ext_resource type="MeshLibrary" uid="uid://5x51gbr435bp" path="res://Tileset/tiles.tres" id="2_ltgw4"]
 [ext_resource type="Script" path="res://Scenes/Levels/grid_map.gd" id="3_alac8"]
 [ext_resource type="MeshLibrary" uid="uid://bcckmnv4y4pi7" path="res://Scenes/Terrain/test_tiles.tres" id="4_ogpmp"]
-[ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://UI_Work/test/Scenes/Characters/knight2.tscn" id="5_m6mnb"]
+[ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="5_m6mnb"]
 [ext_resource type="PackedScene" uid="uid://dxcmlu5im4msx" path="res://Scenes/Characters/Hazards/evil_cube.tscn" id="6_frvph"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k3ddj"]

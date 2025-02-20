@@ -1,7 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://bfxgva3ins5k0"]
 
-[ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://UI_Work/test/Scenes/Characters/knight2.tscn" id="1_g3eg2"]
-
+[ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="1_g3eg2"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_jh305"]
 
