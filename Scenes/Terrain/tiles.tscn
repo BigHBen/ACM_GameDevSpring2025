@@ -1,0 +1,615 @@
+[gd_scene load_steps=137 format=4 uid="uid://bf1t1pr5vljug"]
+
+[ext_resource type="Texture2D" uid="uid://m5nvxyo8lj6n" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/dungeon_texture.png" id="1_whmml"]
+[ext_resource type="PackedScene" uid="uid://ckq2uep6s41wk" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_dirt_large_rocky.gltf" id="2_c6jyx"]
+[ext_resource type="PackedScene" uid="uid://diuxl5j7gc5a7" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_dirt_small_A.gltf" id="3_uyi2o"]
+[ext_resource type="PackedScene" uid="uid://if6jnq7nfdjo" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_dirt_small_B.gltf" id="4_03jg8"]
+[ext_resource type="PackedScene" uid="uid://dlp81u2kw68yw" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_dirt_small_C.gltf" id="5_he38f"]
+[ext_resource type="PackedScene" uid="uid://dlcjgyn2ftvh6" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_dirt_small_corner.gltf" id="6_gwet3"]
+[ext_resource type="PackedScene" uid="uid://nxlc7jcl1d6e" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_dirt_small_D.gltf" id="7_6lrfs"]
+[ext_resource type="PackedScene" uid="uid://c8sn87csukqb3" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_dirt_small_weeds.gltf" id="8_6fwtd"]
+[ext_resource type="PackedScene" uid="uid://cvg05t4s1x7sa" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_foundation_allsides.gltf" id="9_c4ecy"]
+[ext_resource type="PackedScene" uid="uid://dotocjdtlrbvc" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_foundation_corner.gltf" id="10_ksyay"]
+[ext_resource type="PackedScene" uid="uid://s183iw7j0ivj" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_foundation_diagonal_corner.gltf" id="11_mnrwb"]
+[ext_resource type="PackedScene" uid="uid://bb0btpytsxxw0" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_foundation_front.gltf" id="12_d15er"]
+[ext_resource type="PackedScene" uid="uid://c4fvwh7opu8n5" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_foundation_front_and_back.gltf" id="13_b2nvs"]
+[ext_resource type="PackedScene" uid="uid://bj3cybsa80tvp" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_foundation_front_and_sides.gltf" id="14_xrcfr"]
+[ext_resource type="PackedScene" uid="uid://c5ky46f660nc1" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_big_grate.gltf" id="15_m5my5"]
+[ext_resource type="PackedScene" uid="uid://b4hgsjctc1tp1" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_big_grate_open.gltf" id="16_talep"]
+[ext_resource type="PackedScene" uid="uid://llnj4go20yqv" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_big_spikes.gltf" id="17_4umpu"]
+[ext_resource type="PackedScene" uid="uid://c44jgnainbn6a" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_extralarge_grates.gltf" id="18_sv61g"]
+[ext_resource type="PackedScene" uid="uid://nnwnxk7183q0" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_extralarge_grates_open.gltf" id="19_ln6yv"]
+[ext_resource type="PackedScene" uid="uid://bvucho6kky883" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_grate.gltf" id="20_d522i"]
+[ext_resource type="PackedScene" uid="uid://dlk2eveak1uiy" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_grate_open.gltf" id="21_wc5vv"]
+[ext_resource type="PackedScene" uid="uid://dggiw4ue5am1c" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_large.gltf" id="22_s3718"]
+[ext_resource type="PackedScene" uid="uid://bya88urj4tbw8" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_large_rocks.gltf" id="23_e78sv"]
+[ext_resource type="PackedScene" uid="uid://dqto2k2meg0o" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_small.gltf" id="24_m5xka"]
+[ext_resource type="PackedScene" uid="uid://dpy8sim6jww6v" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_small_broken_A.gltf" id="25_twxcd"]
+[ext_resource type="PackedScene" uid="uid://2x6aahc0cxhr" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_small_broken_B.gltf" id="26_yrno8"]
+[ext_resource type="PackedScene" uid="uid://coh4xxeeq35kr" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_small_corner.gltf" id="27_r4lsc"]
+[ext_resource type="PackedScene" uid="uid://b67svc84xygeg" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_small_decorated.gltf" id="28_05cjd"]
+[ext_resource type="PackedScene" uid="uid://di6u6358hage3" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_small_weeds_A.gltf" id="29_w6icq"]
+[ext_resource type="PackedScene" uid="uid://d31wep8tsc2o" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_small_weeds_B.gltf" id="30_fvrjf"]
+[ext_resource type="PackedScene" uid="uid://d0fxc1howhxyf" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_wood_large.gltf" id="31_p1dju"]
+[ext_resource type="PackedScene" uid="uid://be56ptq6o7tfy" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_wood_large_dark.gltf" id="32_4urbv"]
+[ext_resource type="PackedScene" uid="uid://xbf7o02hajf5" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_wood_small.gltf" id="33_n0m68"]
+[ext_resource type="PackedScene" uid="uid://swt03h2gjmmj" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_wood_small_dark.gltf" id="34_u4jk7"]
+[ext_resource type="PackedScene" uid="uid://c6nhvete6a8cy" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/keg.gltf" id="35_5ykp8"]
+[ext_resource type="PackedScene" uid="uid://datc1ehrcw2jt" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/keg_decorated.gltf" id="36_8n48g"]
+[ext_resource type="PackedScene" uid="uid://mm524vl0xh5i" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/key.gltf" id="37_xiicu"]
+[ext_resource type="PackedScene" uid="uid://bifr55dargo4n" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/keyring.gltf" id="38_apy1a"]
+[ext_resource type="PackedScene" uid="uid://cy2vu5k58o36k" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/keyring_hanging.gltf" id="39_20o87"]
+[ext_resource type="PackedScene" uid="uid://c8wywfkg7b1vu" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/pillar_decorated.gltf" id="41_q4tbc"]
+[ext_resource type="PackedScene" uid="uid://3v1r5o0agkn5" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/plate.gltf" id="42_ft7go"]
+[ext_resource type="PackedScene" uid="uid://cw3w2dn6hpa2i" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/plate_food_A.gltf" id="43_md24y"]
+[ext_resource type="PackedScene" uid="uid://dvv72w3k1kucv" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/plate_food_B.gltf" id="44_iodx4"]
+[ext_resource type="PackedScene" uid="uid://d0f4bm3j1mdov" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/plate_small.gltf" id="45_2f3m6"]
+[ext_resource type="PackedScene" uid="uid://ehxe1mm6ra12" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/plate_stack.gltf" id="46_rqyx3"]
+[ext_resource type="PackedScene" uid="uid://d2g53uu32bqn8" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/rubble_half.gltf" id="47_u7ly4"]
+[ext_resource type="PackedScene" uid="uid://dknmxepwxmpd5" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/rubble_large.gltf" id="48_1xp2p"]
+[ext_resource type="PackedScene" uid="uid://dtasmk7ybe2sd" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/shelf_large.gltf" id="49_07j03"]
+[ext_resource type="PackedScene" uid="uid://deh6t1pbrrc3y" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/shelf_small.gltf" id="50_aup2w"]
+[ext_resource type="PackedScene" uid="uid://b18i4wkx505t3" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/shelf_small_candles.gltf" id="51_gip7y"]
+[ext_resource type="PackedScene" uid="uid://bffhjunrd6pu6" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/shelves.gltf" id="52_xjdpw"]
+[ext_resource type="PackedScene" uid="uid://bihfwgrfyta33" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs.gltf" id="53_c0ou0"]
+[ext_resource type="PackedScene" uid="uid://41gak4l4h7h6" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_long.gltf" id="54_4q6du"]
+[ext_resource type="PackedScene" uid="uid://dnofmhcwrddmi" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_long_modular_center.gltf" id="55_o6x5i"]
+[ext_resource type="PackedScene" uid="uid://cxy7y1ev3olog" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_long_modular_left.gltf" id="56_reu3t"]
+[ext_resource type="PackedScene" uid="uid://ctaflkviara8n" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_long_modular_right.gltf" id="57_q0hnk"]
+[ext_resource type="PackedScene" uid="uid://cffq6423w82qg" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_modular_center.gltf" id="58_mg3hx"]
+[ext_resource type="PackedScene" uid="uid://cwffehk0ucvog" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_modular_left.gltf" id="59_q1m80"]
+[ext_resource type="PackedScene" uid="uid://ddce6i11wyqgq" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_modular_right.gltf" id="60_1kg40"]
+[ext_resource type="PackedScene" uid="uid://d1frhegx7ago3" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_narrow.gltf" id="61_r5q0u"]
+[ext_resource type="PackedScene" uid="uid://cbjjc847x7fer" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_walled.gltf" id="62_ls4ug"]
+[ext_resource type="PackedScene" uid="uid://0y36005ncf7i" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_wall_left.gltf" id="63_fcm0p"]
+[ext_resource type="PackedScene" uid="uid://buc0k1y8mfl1v" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_wall_right.gltf" id="64_p726n"]
+[ext_resource type="PackedScene" uid="uid://ydscaca6mqlq" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_wide.gltf" id="65_r10h5"]
+[ext_resource type="PackedScene" uid="uid://bvtrum2cwrijt" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_wood.gltf" id="66_oags8"]
+[ext_resource type="PackedScene" uid="uid://cmesiealvyopx" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stairs_wood_decorated.gltf" id="67_7xfbm"]
+[ext_resource type="PackedScene" uid="uid://doyhi4k4hl2ta" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/stool.gltf" id="68_1kns2"]
+[ext_resource type="PackedScene" uid="uid://btw2gcfrsxyy1" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/sword_shield.gltf" id="69_aykgq"]
+[ext_resource type="PackedScene" uid="uid://cq0fx2olsk5lc" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/sword_shield_broken.gltf" id="70_vwl61"]
+[ext_resource type="PackedScene" uid="uid://cpwri2udtx1s4" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/sword_shield_gold.gltf" id="71_l4vqw"]
+[ext_resource type="PackedScene" uid="uid://exqkmg8f068p" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_long.gltf" id="72_47dd5"]
+[ext_resource type="PackedScene" uid="uid://cjfr8gikrxd55" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_long_broken.gltf" id="73_23sq2"]
+[ext_resource type="PackedScene" uid="uid://j62vlw836o3q" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_long_decorated_A.gltf" id="74_7uqai"]
+[ext_resource type="PackedScene" uid="uid://dphodbyfyryju" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_long_decorated_C.gltf" id="75_ai0ai"]
+[ext_resource type="PackedScene" uid="uid://cb3y4nmqyl31i" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_long_tablecloth.gltf" id="76_wuire"]
+[ext_resource type="PackedScene" uid="uid://dd22dnerj6l87" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_long_tablecloth_decorated_A.gltf" id="77_ireke"]
+[ext_resource type="PackedScene" uid="uid://b0ypmfo1r3b7r" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_medium.gltf" id="78_rq8i7"]
+[ext_resource type="PackedScene" uid="uid://crrhqgjordqgj" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_medium_broken.gltf" id="79_g16u1"]
+[ext_resource type="PackedScene" uid="uid://hrhkmapeeeos" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_medium_decorated_A.gltf" id="80_tutsx"]
+[ext_resource type="PackedScene" uid="uid://h0nqymg5bx36" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_medium_tablecloth.gltf" id="81_o6m0b"]
+[ext_resource type="PackedScene" uid="uid://cliq3t7vi3rbj" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_medium_tablecloth_decorated_B.gltf" id="82_52iw2"]
+[ext_resource type="PackedScene" uid="uid://cdo8tv4x4aogo" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_small.gltf" id="83_crauw"]
+[ext_resource type="PackedScene" uid="uid://dhflynfbln61i" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_small_decorated_A.gltf" id="84_fg3bo"]
+[ext_resource type="PackedScene" uid="uid://bx2f24b37pctt" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_small_decorated_B.gltf" id="85_5helm"]
+[ext_resource type="PackedScene" uid="uid://bvpcrvnkkf8rq" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/torch.gltf" id="86_w05kq"]
+[ext_resource type="PackedScene" uid="uid://5ovxgluj7ei0" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/torch_lit.gltf" id="87_nyusb"]
+[ext_resource type="PackedScene" uid="uid://b81t50roj3j8h" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/torch_mounted.gltf" id="88_m42ig"]
+[ext_resource type="PackedScene" uid="uid://bamqxq8788c77" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/trunk_large_A.gltf" id="89_6ksrr"]
+[ext_resource type="PackedScene" uid="uid://21vvl8fwf8ix" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/trunk_large_B.gltf" id="90_jp7uf"]
+[ext_resource type="PackedScene" uid="uid://c22i5bf50insh" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/trunk_large_C.gltf" id="91_ps2jr"]
+[ext_resource type="PackedScene" uid="uid://c31l7hp48jmse" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/trunk_medium_A.gltf" id="92_xv22w"]
+[ext_resource type="PackedScene" uid="uid://bq2tngab2aa71" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/trunk_medium_B.gltf" id="93_3sfwh"]
+[ext_resource type="PackedScene" uid="uid://c4l3man8xqxas" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/trunk_medium_C.gltf" id="94_nh0t6"]
+[ext_resource type="PackedScene" uid="uid://b7q8p10jlbe5f" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/trunk_small_A.gltf" id="95_wwyok"]
+[ext_resource type="PackedScene" uid="uid://b1pe8odelj7n1" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/trunk_small_B.gltf" id="96_kosoe"]
+[ext_resource type="PackedScene" uid="uid://bnnhojw25mahx" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/trunk_small_C.gltf" id="97_now7g"]
+[ext_resource type="PackedScene" uid="uid://dpcbnmmaaobiy" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall.gltf" id="98_wedyc"]
+[ext_resource type="PackedScene" uid="uid://df8bmyq1c2er6" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_arched.gltf" id="99_ww2b4"]
+[ext_resource type="PackedScene" uid="uid://jsiyfq123hw6" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_archedwindow_gated.gltf" id="100_xto8q"]
+[ext_resource type="PackedScene" uid="uid://uk2hspt2flb7" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_archedwindow_gated_scaffold.gltf" id="101_wp2xa"]
+[ext_resource type="PackedScene" uid="uid://d30pw8pwikdmo" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_archedwindow_open.gltf" id="102_oshc1"]
+[ext_resource type="PackedScene" uid="uid://c4awas2cth0i6" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_broken.gltf" id="103_05nt7"]
+[ext_resource type="PackedScene" uid="uid://ccxc7qrscta0s" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_corner.gltf" id="104_xtxdy"]
+[ext_resource type="PackedScene" uid="uid://b88mcqhyboq4u" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_corner_gated.gltf" id="105_41mjl"]
+[ext_resource type="PackedScene" uid="uid://dfrv0n4blnudy" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_corner_scaffold.gltf" id="106_23fnp"]
+[ext_resource type="PackedScene" uid="uid://r1jjapnx6gys" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_corner_small.gltf" id="107_830id"]
+[ext_resource type="PackedScene" uid="uid://cxr1uy3o4emsy" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_cracked.gltf" id="108_5ivo7"]
+[ext_resource type="PackedScene" uid="uid://d2if5tcvyydr3" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_crossing.gltf" id="109_p3fqp"]
+[ext_resource type="PackedScene" uid="uid://deudn3ci4b1jx" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_doorway.gltf" id="110_8tmej"]
+[ext_resource type="PackedScene" uid="uid://bjlb6uh85auw4" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_doorway_scaffold.gltf" id="111_ejpkh"]
+[ext_resource type="PackedScene" uid="uid://d1a056o35hrqe" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_doorway_sides.gltf" id="112_1o2ls"]
+[ext_resource type="PackedScene" uid="uid://btuitcfu20ulq" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_doorway_Tsplit.gltf" id="113_nalx6"]
+[ext_resource type="PackedScene" uid="uid://bbkvngxhtm8ql" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_endcap.gltf" id="114_j8l7j"]
+[ext_resource type="PackedScene" uid="uid://brpn040av351q" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_gated.gltf" id="115_sn6kw"]
+[ext_resource type="PackedScene" uid="uid://bnpxknc2upeqr" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_half.gltf" id="116_2i4cg"]
+[ext_resource type="PackedScene" uid="uid://djbld20f3kt67" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_half_endcap.gltf" id="117_ua5if"]
+[ext_resource type="PackedScene" uid="uid://dp5lhvfq4oepc" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_half_endcap_sloped.gltf" id="118_fokme"]
+[ext_resource type="PackedScene" uid="uid://buyrojryffwft" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_open_scaffold.gltf" id="119_h4u12"]
+[ext_resource type="PackedScene" uid="uid://imy8i8uvu8be" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_pillar.gltf" id="120_3h273"]
+[ext_resource type="PackedScene" uid="uid://u2l2ifui75js" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_scaffold.gltf" id="121_0l3bl"]
+[ext_resource type="PackedScene" uid="uid://bt3cv4fyqkqld" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_shelves.gltf" id="122_wot6e"]
+[ext_resource type="PackedScene" uid="uid://bvdj10oko84jr" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_sloped.gltf" id="123_f1mpt"]
+[ext_resource type="PackedScene" uid="uid://db8um0slyf1sp" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_Tsplit.gltf" id="124_swsuf"]
+[ext_resource type="PackedScene" uid="uid://ck2e0wh8y4bil" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_Tsplit_sloped.gltf" id="125_bnxab"]
+[ext_resource type="PackedScene" uid="uid://cws5opwtiw6gs" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_window_closed.gltf" id="126_nsa85"]
+[ext_resource type="PackedScene" uid="uid://betei2j37h3wy" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_window_closed_scaffold.gltf" id="127_3a3ok"]
+[ext_resource type="PackedScene" uid="uid://d1kioopehu1t7" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_window_open.gltf" id="128_xd0oe"]
+[ext_resource type="PackedScene" uid="uid://c6ei6m2hjwut4" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/wall_window_open_scaffold.gltf" id="129_y2uls"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8n7s8"]
+resource_name = "texture"
+albedo_texture = ExtResource("1_whmml")
+roughness = 0.45
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ortj7"]
+_surfaces = [{
+"aabb": AABB(-2, -0.1, -1.99999, 4, 0.208606, 4),
+"format": 34359742465,
+"index_count": 312,
+"index_data": PackedByteArray("BwAFAAYABwAEAAUAAgAFAAMAAgAGAAUAAQAGAAIAAQAHAAYAAAAHAAEAAAAEAAcAAwAEAAAAAwAFAAQACAAJAAoACQARAAoACgAQAAgADwAOABAADAAQAA4ADAAPAAsACAAQAA0ACgASAA8ADwASAAsADwAQAAoAEQASAAoADgAPAAwADQAQAAwAEwAUABUAFAAcABUAFQAbABMAGgAZABsAFwAbABkAFwAaABYAEwAbABgAFQAdABoAGgAdABYAGgAbABUAHAAdABUAGQAaABcAGAAbABcAHgAfACAAHwAmACAAIAAlAB4AIgAlACQAIgAkACEAHgAlACMAIAAnACQAJAAnACEAJAAlACAAJgAnACAAIwAlACIAKAApACoAKQAxACoAKgAwACgALwAuADAALAAwAC4ALAAvACsAKAAwAC0AKgAyAC8ALwAyACsALwAwACoAMQAyACoALgAvACwALQAwACwAMwA0ADUANAA7ADUANQA6ADMANwA6ADkANwA5ADYAMwA6ADgANQA8ADkAOQA8ADYAOQA6ADUAOwA8ADUAOAA6ADcAPQA+AD8APgBEAD8APwBDAD0AQQBDAEIAQQBCAEAAPwBFAEIAQgBFAEAAQgBDAD8ARABFAD8APQBDAEEARgBHAEgARwBNAEgASABMAEYASgBMAEsASgBLAEkASABOAEsASwBOAEkASwBMAEgATQBOAEgARgBMAEoATwBQAFEAUABYAFEAUQBXAE8AVgBVAFcAUwBXAFUAUwBWAFIATwBXAFQAUQBZAFYAVgBZAFIAVgBXAFEAWABZAFEAVQBWAFMAVABXAFMA"),
+"name": "texture",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 90,
+"vertex_data": PackedByteArray("/v//v8zMzL00AABAAQAAQMzMzL00AABAAQAAQMzMzL2X//+//P//v8zMzL2Z//+//v//vwrXozw0AABA/P//vwrXozyZ//+/AQAAQArXozyX//+/AQAAQArXozw0AABAbpOYPwAAAABgSpW/dsd2PwAAAAAJaIm/WCt/PwHArj0YIJi/CpqBPwAAAAACccC/TuydPwAAAABtYr+/2UOkPwAAAABBTKK/2p2QP+ps3j2p1La/7AdyP1ryrz0g0r6//D+bP+ls3j2mmKC//2ZcPwAAAAD+n56/U7VZPwAAAAD0TbC/VLG4vwAAAADMpoi/qLqgvwAAAAB6Yn2/uRmmvyeYjz3KEG6/rM6rvwAAAABGIiG/+HjRvwAAAAAbGES/qCXKvwAAAADsYoG/19W8vy2GtT2wmU2/LZ2uv+CLkD3N+jG/zt68vyuGtT0K0XS/vqqTvwAAAADCsle/RZGavwAAAABq7jO/+BPMPgAAAADHLKs+Q0DnPgAAAAC117c+5xn1Prd/cD2117c+B/TkPgAAAACy1Po+/Me1PgAAAABNF/A+Klq0PgAAAADwSr0+RtPdPtNkWz37F+Q+VAPEPlQOmT3wSr0+8hkIPwAAAAC7P8g+rm4GPwAAAADVVOY+v8dqvwAAAABaDJe/lGWGvwAAAAAobpW/j8mIvzcHiz189pu/yt+CvwAAAABXh7u/fVJZvwAAAACWqLe/o49VvwAAAACADKC/4SJwvz31sD2eV7K/EtGJv/H6iz36K7u/viNkvzz1sD2TrJ+/UsuVvwAAAABe86K/2PWUvwAAAABECLG/Rf+vPwAAAAD11ck/nj6pPwAAAACuFs0/Xg2nP7d/cD3FxM8/XqWcPwAAAABHCsI/8TCmPwAAAADAnLo/OT+wPwAAAAB5YMI/iSyiP9NkWz2RQsQ/mMStP1QOmT1BaMU/apafPwAAAAByatI/gEuaPwAAAAAPAs0/a8VTPwAAAAD0FZi/8RxMPwAAAABgQo+/h0ZCP/9wHT3atpC/jfwrPwAAAABKeJi/vP07PwAAAAD1iaG/BeIzP/9wHT1Xkpi/nKJHP/9wHT0HwZm/Qdc3PwAAAAB37Ii/AW8rPwAAAACaQY2/lQo/vwAAAADI0Jw/D7NGvwAAAABcpKU/eYlQv/9wHT3iL6Q/c9NmvwAAAABybpw/RNJWvwAAAADHXJM/++1ev/9wHT1lVJw/ZC1Lv/9wHT21JZs/v/havwAAAABF+qs//2BnvwAAAAAipac/aWehPwAAAAChlKI/P8eXPwAAAACxsbA/8jmRPzcHiz12W64/bnV5PwAAAABNopU/SeeNPwAAAAAuBoc/WEOhPwAAAAAQq5Q/gLOKPz31sD3nMZM/BiJxP/H6iz2QM5s/auScPzz1sD2Cg5o/64mDPwAAAADp5LM/2ntyPwAAAACgQKo/")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_ckaah"]
+resource_name = "floor_dirt_large_floor_dirt_large"
+_surfaces = [{
+"aabb": AABB(-2, -0.1, -1.99999, 4, 0.208606, 4),
+"attribute_data": PackedByteArray("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"),
+"format": 34359742487,
+"index_count": 312,
+"index_data": PackedByteArray("EQAMAA4AEQAJAAwABAANAAcABAAPAA0AAwAQAAUAAwATABAAAQASAAIAAQAKABIABgAIAAAABgALAAgAFQAXABsAFgArABoAGQAnABQAIwAhACYAHgApACIAHgAlAB0AFQAoAB8AGAAsACMAJAAtABwAIwAmABgAKgAsABgAIgAlAB4AIAApAB4ALwAwADIAMAA9ADIAMQA6AC4AOAA2ADoANAA7ADcANAA5ADMALwA7ADUAMQA+ADgAOQA/ADMAOAA6ADEAPAA+ADEANwA5ADQANQA7ADQAQQBCAEUAQgBUAEUAQwBOAEAASABSAEsASABNAEYAQQBRAEoARABVAEwATQBWAEYATABPAEQAUwBVAEQASQBQAEcAWABZAFwAWQBsAFwAWwBoAFcAZABiAGcAXwBqAGMAXwBmAF4AWABpAGAAWgBtAGQAZQBuAF0AZABnAFoAawBtAFoAYwBmAF8AYQBqAF8AcABxAHQAcQCDAHQAcwB+AG8AdgB/AHoAdgB8AHUAcACBAHkAcgCEAHsAfACFAHUAewB9AHIAggCEAHIAeACAAHcAiACJAIsAiQCWAIsAigCSAIcAjQCTAI8AjQCRAIwAigCXAJAAkQCYAIwAkACSAIoAlQCXAIoAhgCUAI4AmwCcAJ4AnACpAJ4AnQClAJoAoACmAKIAoACkAJ8AnQCqAKMApACrAJ8AowClAJ0AqACqAJ0AmQCnAKEArQCuALEArgDBALEAsAC9AKwAuQC3ALwAtAC+ALgAtAC7ALMArQC/ALYArwDCALkAugDDALIAuQC8AK8AwADCAK8AuAC7ALQAtQC+ALQA"),
+"material": SubResource("StandardMaterial3D_8n7s8"),
+"name": "texture",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 196,
+"vertex_data": PackedByteArray("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Qdc3PwAAAAB37Ii/AW8rPwAAAACaQY2/AW8rPwAAAACaQY2/lQo/vwAAAADI0Jw/lQo/vwAAAADI0Jw/lQo/vwAAAADI0Jw/D7NGvwAAAABcpKU/eYlQv/9wHT3iL6Q/eYlQv/9wHT3iL6Q/c9NmvwAAAABybpw/RNJWvwAAAADHXJM/RNJWvwAAAADHXJM/++1ev/9wHT1lVJw/++1ev/9wHT1lVJw/++1ev/9wHT1lVJw/ZC1Lv/9wHT21JZs/ZC1Lv/9wHT21JZs/ZC1Lv/9wHT21JZs/v/havwAAAABF+qs/v/havwAAAABF+qs//2BnvwAAAAAipac//2BnvwAAAAAipac/aWehPwAAAAChlKI/aWehPwAAAAChlKI/P8eXPwAAAACxsbA/8jmRPzcHiz12W64/8jmRPzcHiz12W64/8jmRPzcHiz12W64/bnV5PwAAAABNopU/bnV5PwAAAABNopU/SeeNPwAAAAAuBoc/WEOhPwAAAAAQq5Q/WEOhPwAAAAAQq5Q/gLOKPz31sD3nMZM/gLOKPz31sD3nMZM/BiJxP/H6iz2QM5s/BiJxP/H6iz2QM5s/BiJxP/H6iz2QM5s/auScPzz1sD2Cg5o/auScPzz1sD2Cg5o/auScPzz1sD2Cg5o/auScPzz1sD2Cg5o/64mDPwAAAADp5LM/64mDPwAAAADp5LM/2ntyPwAAAACgQKo/2ntyPwAAAACgQKo/AAD/f////7//f/9/////P/9//3////8/////f////7//////////v////3////+/AAD/f////7//////////vwAA/3////+//3///////7//f/9/////PwAA/3////+//3///////7//////////v/9///////+//////////7////9/////v/9///////+//3//f////z////9/////v8WcIqxyLPc9xZwirC1Vb1H6Uv+2EBnUYg6UrbrEIfgzRVtQzVYgKVpWkuq3xyK5QEVbUM1FFRNhVpLqt94fZjROGn0sgD9tu2HtD/wNCkrGVM4a2ggO95iEtEec7Fg1TlnSY7wAAIr0jXAq6QAASuv0yFDipRQMmF9ertcGGT5cThp9LIA/bbvw24P2TRRPrDlzd+9KIcpFP6H3pscwaT0/ofemQlQgUS3Nm8SZAB3xclCrxI0X/2dyUKvElx0aZZFNOMbzGjJpThp9LIA/bbuauk//q/ELPZq6T//+3u9jiclq33HHaUDOs67jUMeGRs6zruOPwbFD3YQwvC38U7tpVxTGso3Yt4w9wNqfYBvJpmxl3O6DEbembGXczIaJt9mDZtA9saNO2YNm0AzZwbd7U3Tv3t/aNHtTdO/5bXXMh6ny1R2jtkiHqfLVVbUITdWgBMoNm+FP1aAEymPqpqOaFmnvQ/Y2T5oWae9yzFFlLPBXIuzSrTqY/TflZNq3RnCjU8smuG9RmP035YnWOUldiRq3Y/6ut/MmcaSAg/+/+mhUtxrZmcrzJnGkgIP/v0QT6tBF2H1qcoXwy6mofK5yhfDLC7/ATXKF8Msq/4i5PR+y6lL7qlBAePbZaPRiO/MmcaSAg/+/PR+y6kfR2GdAePbZyavNtr69Zrv7nnNTF/FZIGa9uVFUqQW7rJuYVlSpBbtt4yWg7JSRq1Agvz7slJGr200wUm1wza21B5ouqV+H3wsZ8lpsaPGoeBrBVGxo8ahzBOhR3BojJV83VrsP74TvDQmozC/O4NRdDueUvq1SnNdR/U1az362AAC4hIhvPeoAAI+PdMkR3Q0VOpSsXILaLhjPX9waIyVfN1a7Tt7V7A0T/6excqvwOBZURjaaLKiIJ0k9NposqOpNIFGKypO/pgAd9+1L1s75Gght8FBXmwQYDWFiSuDJbhvNbNwaIyVfN1a71MXrk1tXUkTUxeuTfG+8WtmlcXBaM9g6HlyLywg7vVJ3tB2Cgzz3RXe0HYI6PztIQjG8zr9PVr8lNzrozUMZyRfj0dQAAOHbF+PR1AAA4dvW48+YHYk4Vw5FDtyPKzCpDkUO3Gg3fE4ORQ7ciE2qvyRWP+47SJc8dMS+neRbPEIkVj/ucxYFsBfj0dQAAOHbdMS+nRx6K1tnWaKz0Sp0XGioqXEjQPhRtk1lvqowl1+2TWW+1XD5r0zeOtYAAKajNrFFvT5e3z82sUW9hk+mNICqTrRnRhU9lJHBzqJHyEWUkcHOrEVYRacvFsTlXjG/JT0P6Y9Kv8lM3jrWAACmo/xITdt2NHCv/EhN23pF/0f8SE3bBVjLwISgVucMZfA4hKBW58UiccxM3jrWAACmo8Zp88nsN/tPbZ9JrthLQUssXg7IdTw5UyxeDsgSftmwTN461gAApqM2sUW9Pl7fPzaxRb2GT6Y0gKpOtGdGFT2UkcHOokfIRZSRwc6sRVhFpy8WxOVeMb8lPQ/pj0q/yUzeOtYAAKaj/EhN23Y0cK/8SE3bekX/R/xITdsFWMvAhKBW5wxl8DiEoFbnxSJxzEzeOtYAAKajxmnzyew3+09tn0mu2EtBSyxeDsh1PDlTLF4OyBJ+2bAfvc6qT1vMPh+9zqrQf+pWTqVjqcU3iTxVbbDWIj0JTGGgSKcJR0dLYaBIpyozD0KnHkJTq3JZujwOtMvJP7fD1sNI/7MQp6/e1hXcAAB02qbbQqXjjU5QlHmg6QAAW9KZPb73oBgHrd9sw9K6M+ZMpx5CU6tyWbpdHvHWpzr/tjZ59u3oTw1FdMKhqRlhPD0a0BTiiwDo13TCoan0gXFVZGLGwiIfAVYWjSCgEDEtTfRiVL/rH+ZVpx5CU6tyWbo=")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_ortj7")
+
+[sub_resource type="ConcavePolygonShape3D" id="ConcavePolygonShape3D_14i44"]
+data = PackedVector3Array(2, 0.02, 2, -2, 0.02, -2, 2, 0.02, -2, 2, 0.02, 2, -2, 0.02, 2, -2, 0.02, -2, 2, -0.1, -2, -2, 0.02, -2, -2, -0.1, -2, 2, -0.1, -2, 2, 0.02, -2, -2, 0.02, -2, 2, -0.1, 2, 2, 0.02, -2, 2, -0.1, -2, 2, -0.1, 2, 2, 0.02, 2, 2, 0.02, -2, -2, -0.1, 2, 2, 0.02, 2, 2, -0.1, 2, -2, -0.1, 2, -2, 0.02, 2, 2, 0.02, 2, -2, -0.1, -2, -2, 0.02, 2, -2, -0.1, 2, -2, -0.1, -2, -2, 0.02, -2, -2, 0.02, 2, 1.192, 0, -1.1663, 0.964, 0, -1.0735, 0.9968, 0.0853, -1.1885, 0.964, 0, -1.0735, 0.8609, 0, -1.2393, 0.9968, 0.0853, -1.1885, 0.9968, 0.0853, -1.1885, 1.2129, 0.1086, -1.2547, 1.192, 0, -1.1663, 0.9454, 0.0859, -1.4908, 1.1298, 0.1086, -1.4284, 1.2129, 0.1086, -1.2547, 1.2338, 0, -1.4952, 1.2129, 0.1086, -1.2547, 1.1298, 0.1086, -1.4284, 1.2338, 0, -1.4952, 0.9454, 0.0859, -1.4908, 1.0125, 0, -1.5034, 1.192, 0, -1.1663, 1.2129, 0.1086, -1.2547, 1.2833, 0, -1.268, 0.9968, 0.0853, -1.1885, 0.8504, 0, -1.3774, 0.9454, 0.0859, -1.4908, 0.9454, 0.0859, -1.4908, 0.8504, 0, -1.3774, 1.0125, 0, -1.5034, 0.9454, 0.0859, -1.4908, 1.2129, 0.1086, -1.2547, 0.9968, 0.0853, -1.1885, 0.8609, 0, -1.2393, 0.8504, 0, -1.3774, 0.9968, 0.0853, -1.1885, 1.1298, 0.1086, -1.4284, 0.9454, 0.0859, -1.4908, 1.2338, 0, -1.4952, 1.2833, 0, -1.268, 1.2129, 0.1086, -1.2547, 1.2338, 0, -1.4952, -1.4429, 0, -1.0676, -1.2557, 0, -0.9898, -1.2977, 0.0701, -0.9299, -1.2557, 0, -0.9898, -1.1536, 0, -0.8426, -1.2977, 0.0701, -0.9299, -1.2977, 0.0701, -0.9299, -1.4755, 0.0886, -0.9563, -1.4429, 0, -1.0676, -1.3642, 0.0706, -0.6952, -1.4753, 0.0886, -0.8031, -1.4755, 0.0886, -0.9563, -1.6365, 0, -0.766, -1.4755, 0.0886, -0.9563, -1.4753, 0.0886, -0.8031, -1.6365, 0, -0.766, -1.3642, 0.0706, -0.6952, -1.3422, 0, -0.6294, -1.4429, 0, -1.0676, -1.4755, 0.0886, -0.9563, -1.5793, 0, -1.0108, -1.2977, 0.0701, -0.9299, -1.2076, 0, -0.7029, -1.3642, 0.0706, -0.6952, -1.3642, 0.0706, -0.6952, -1.2076, 0, -0.7029, -1.3422, 0, -0.6294, -1.3642, 0.0706, -0.6952, -1.4755, 0.0886, -0.9563, -1.2977, 0.0701, -0.9299, -1.1536, 0, -0.8426, -1.2076, 0, -0.7029, -1.2977, 0.0701, -0.9299, -1.4753, 0.0886, -0.8031, -1.3642, 0.0706, -0.6952, -1.6365, 0, -0.766, -1.5793, 0, -1.0108, -1.4755, 0.0886, -0.9563, -1.6365, 0, -0.766, 0.3986, 0, 0.3343, 0.4517, 0, 0.3591, 0.4787, 0.0587, 0.3591, 0.4517, 0, 0.3591, 0.5316, 0, 0.3911, 0.4787, 0.0587, 0.3591, 0.4787, 0.0587, 0.3591, 0.3828, 0.0747, 0.3697, 0.3986, 0, 0.3343, 0.355, 0, 0.4689, 0.3828, 0.0747, 0.3697, 0.4333, 0.0536, 0.4455, 0.355, 0, 0.4689, 0.4333, 0.0536, 0.4455, 0.4472, 0, 0.4899, 0.3986, 0, 0.3343, 0.3828, 0.0747, 0.3697, 0.3523, 0, 0.3697, 0.4787, 0.0587, 0.3591, 0.5251, 0, 0.4499, 0.4333, 0.0536, 0.4455, 0.4333, 0.0536, 0.4455, 0.5251, 0, 0.4499, 0.4472, 0, 0.4899, 0.4333, 0.0536, 0.4455, 0.3828, 0.0747, 0.3697, 0.4787, 0.0587, 0.3591, 0.5316, 0, 0.3911, 0.5251, 0, 0.4499, 0.4787, 0.0587, 0.3591, 0.3523, 0, 0.3697, 0.3828, 0.0747, 0.3697, 0.355, 0, 0.4689, -0.9171, 0, -1.1801, -1.05, 0, -1.1674, -1.0687, 0.0679, -1.2185, -1.05, 0, -1.1674, -1.1703, 0, -1.2731, -1.0687, 0.0679, -1.2185, -1.0687, 0.0679, -1.2185, -0.8912, 0.0864, -1.2475, -0.9171, 0, -1.1801, -1.0767, 0.0683, -1.4623, -0.938, 0.0864, -1.3933, -0.8912, 0.0864, -1.2475, -0.8489, 0, -1.4348, -0.8912, 0.0864, -1.2475, -0.938, 0.0864, -1.3933, -0.8489, 0, -1.4348, -1.0767, 0.0683, -1.4623, -1.0225, 0, -1.4651, -0.9171, 0, -1.1801, -0.8912, 0.0864, -1.2475, -0.8342, 0, -1.2504, -1.0687, 0.0679, -1.2185, -1.1638, 0, -1.3831, -1.0767, 0.0683, -1.4623, -1.0767, 0.0683, -1.4623, -1.1638, 0, -1.3831, -1.0225, 0, -1.4651, -1.0767, 0.0683, -1.4623, -0.8912, 0.0864, -1.2475, -1.0687, 0.0679, -1.2185, -1.1703, 0, -1.2731, -1.1638, 0, -1.3831, -1.0687, 0.0679, -1.2185, -0.938, 0.0864, -1.3933, -1.0767, 0.0683, -1.4623, -0.8489, 0, -1.4348, -0.8342, 0, -1.2504, -0.8912, 0.0864, -1.2475, -0.8489, 0, -1.4348, 1.375, 0, 1.5768, 1.3222, 0, 1.6023, 1.3051, 0.0587, 1.6232, 1.3222, 0, 1.6023, 1.2468, 0, 1.6439, 1.3051, 0.0587, 1.6232, 1.3051, 0.0587, 1.6232, 1.3576, 0.0747, 1.5422, 1.375, 0, 1.5768, 1.2984, 0, 1.4579, 1.3576, 0.0747, 1.5422, 1.267, 0.0536, 1.5333, 1.2984, 0, 1.4579, 1.267, 0.0536, 1.5333, 1.2238, 0, 1.5159, 1.375, 0, 1.5768, 1.3576, 0.0747, 1.5422, 1.3769, 0, 1.5186, 1.3051, 0.0587, 1.6232, 1.2054, 0, 1.6016, 1.267, 0.0536, 1.5333, 1.267, 0.0536, 1.5333, 1.2054, 0, 1.6016, 1.2238, 0, 1.5159, 1.267, 0.0536, 1.5333, 1.3576, 0.0747, 1.5422, 1.3051, 0.0587, 1.6232, 1.2468, 0, 1.6439, 1.2054, 0, 1.6016, 1.3051, 0.0587, 1.6232, 1.3769, 0, 1.5186, 1.3576, 0.0747, 1.5422, 1.2984, 0, 1.4579, 0.8272, 0, -1.1882, 0.7973, 0, -1.1192, 0.7589, 0.0384, -1.1306, 0.7973, 0, -1.1192, 0.7181, 0, -1.0697, 0.7589, 0.0384, -1.1306, 0.7589, 0.0384, -1.1306, 0.7798, 0.0384, -1.2012, 0.8272, 0, -1.1882, 0.7343, 0, -1.262, 0.7798, 0.0384, -1.2012, 0.7027, 0.0384, -1.192, 0.7343, 0, -1.262, 0.7027, 0.0384, -1.192, 0.6718, 0, -1.1912, 0.7589, 0.0384, -1.1306, 0.6697, 0, -1.1036, 0.7027, 0.0384, -1.192, 0.7027, 0.0384, -1.192, 0.6697, 0, -1.1036, 0.6718, 0, -1.1912, 0.7027, 0.0384, -1.192, 0.7798, 0.0384, -1.2012, 0.7589, 0.0384, -1.1306, 0.7181, 0, -1.0697, 0.6697, 0, -1.1036, 0.7589, 0.0384, -1.1306, 0.8272, 0, -1.1882, 0.7798, 0.0384, -1.2012, 0.7343, 0, -1.262, -0.7463, 0, 1.2251, -0.7762, 0, 1.2941, -0.8146, 0.0384, 1.2827, -0.7762, 0, 1.2941, -0.8554, 0, 1.3436, -0.8146, 0.0384, 1.2827, -0.8146, 0.0384, 1.2827, -0.7937, 0.0384, 1.2121, -0.7463, 0, 1.2251, -0.8391, 0, 1.1513, -0.7937, 0.0384, 1.2121, -0.8708, 0.0384, 1.2213, -0.8391, 0, 1.1513, -0.8708, 0.0384, 1.2213, -0.9017, 0, 1.2221, -0.8146, 0.0384, 1.2827, -0.9038, 0, 1.3097, -0.8708, 0.0384, 1.2213, -0.8708, 0.0384, 1.2213, -0.9038, 0, 1.3097, -0.9017, 0, 1.2221, -0.8708, 0.0384, 1.2213, -0.7937, 0.0384, 1.2121, -0.8146, 0.0384, 1.2827, -0.8554, 0, 1.3436, -0.9038, 0, 1.3097, -0.8146, 0.0384, 1.2827, -0.7463, 0, 1.2251, -0.7937, 0.0384, 1.2121, -0.8391, 0, 1.1513, 1.261, 0, 1.2702, 1.1858, 0, 1.3804, 1.1346, 0.0679, 1.3622, 1.1858, 0, 1.3804, 1.0276, 0, 1.4054, 1.1346, 0.0679, 1.3622, 1.1346, 0.0679, 1.3622, 1.2257, 0.0864, 1.2071, 1.261, 0, 1.2702, 0.9419, 0.0683, 1.2125, 1.0836, 0.0864, 1.15, 1.2257, 0.0864, 1.2071, 1.1086, 0, 1.0549, 1.2257, 0.0864, 1.2071, 1.0836, 0.0864, 1.15, 1.1086, 0, 1.0549, 0.9419, 0.0683, 1.2125, 0.9744, 0, 1.169, 1.261, 0, 1.2702, 1.2257, 0.0864, 1.2071, 1.2599, 0, 1.1615, 1.1346, 0.0679, 1.3622, 0.9472, 0, 1.3301, 0.9419, 0.0683, 1.2125, 0.9419, 0.0683, 1.2125, 0.9472, 0, 1.3301, 0.9744, 0, 1.169, 0.9419, 0.0683, 1.2125, 1.2257, 0.0864, 1.2071, 1.1346, 0.0679, 1.3622, 1.0276, 0, 1.4054, 0.9472, 0, 1.3301, 1.1346, 0.0679, 1.3622, 1.0836, 0.0864, 1.15, 0.9419, 0.0683, 1.2125, 1.1086, 0, 1.0549, 1.2599, 0, 1.1615, 1.2257, 0.0864, 1.2071, 1.1086, 0, 1.0549)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ehcom"]
+resource_name = "texture"
+albedo_texture = ExtResource("1_whmml")
+roughness = 0.45
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_wyk1j"]
+_surfaces = [{
+"aabb": AABB(-0.750012, 0, -0.75, 1.5, 4, 1.5),
+"format": 34359742465,
+"index_count": 408,
+"index_data": PackedByteArray("AAAOAAwAAAAqAA4AKwAGAAIAKwAIAAYACwADACQACwAPAAMABQAKAAkABQAHAAoABwAIAAoABwAGAAgACwAQAA8ACwANABAADQAOABAADQAMAA4ACQABAAUACQAEAAEAGgAZABcAGgAbABkAFgARABIAFgAUABEAHQAbADsAHQAZABsAFgA2AB4AFgASADYAFAATABEAFAAVABMAGAA8ABwAGAAyADwAHAAXABgAHAAaABcAHwATABUAHwA1ABMAAQAVAAUAAQAfABUABwAVABQABwAFABUABgAUABYABgAHABQAAgAWAB4AAgAGABYABAAcADwABAAJABwACQAaABwACQAKABoACgAbABoACgAIABsAKwAbAAgAKwA7ABsADgAyABgADgAqADIAEAAYABcAEAAOABgADwAXABkADwAQABcAAwAZAB0AAwAPABkAAAATADUAAAAMABMADAARABMADAANABEADQASABEADQALABIACwA2ABIACwAkADYAMQBBAEgAMQAmAEEAAAApACoAAAAhACkALQAiACMALQAsACIAQQAuAEIAQQAmAC4ABAAjAAEABAAtACMAJAAuACYAJAADAC4AQwAnAEQAQwAvACcALwACACcALwArAAIAIAApACEAIAAoACkAOAAhADcAOAAgACEAQAA3AD8AQAA4ADcAMgA9ADwAMgAzAD0ARQA5AEYARQAwADkAQAAjACIAQAA/ACMAPQAsAC0APQA+ACwAOgBEACcAOgBHAEQAHgAxADoAHgA2ADEAMAA7ADkAMAAdADsAHwA3ADUAHwA/ADcANAApACgANAAzACkARwAxAEgARwA6ADEAMwA+AD0AMwA0AD4AMABCAC4AMABFAEIARgAvAEMARgA5AC8AIwAfAAEAIwA/AB8AJwAeADoAJwACAB4ALQA8AD0ALQAEADwALwA7ACsALwA5ADsAKQAyACoAKQAzADIALgAdADAALgADAB0AIQA1ADcAIQAAADUAJgA2ACQAJgAxADYAJQBBAEIAJQBDAEQAJQBFAEYAJQBHAEgAJQBEAEcAJQBCAEUAJQBGAEMAJQBIAEEA"),
+"name": "texture",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 73,
+"vertex_data": PackedByteArray("QHmNvgAAAD9DeQ2/QHmNvgAAAD9EeQ0/QHmNvs3MTEBEeQ0/Q3mNPs3MTEBDeQ2/Q3mNPgAAAD9EeQ0/QHmNvgAA4D9EeQ0/QHmNvpqZ+T9EeQ0/Pg6qvs3M7D+KXf4+Q3mNPpqZ+T9EeQ0/Q3mNPgAA4D9EeQ0/Pw6qPs3M7D+IXf4+QHmNvpqZ+T9DeQ2/QHmNvgAA4D9DeQ2/Pg6qvs3M7D+IXf6+Q3mNPgAA4D9DeQ2/Q3mNPpqZ+T9DeQ2/QA6qPs3M7D+HXf6+G1/+vs3M7D/UD6q+DHoNv5qZ+T/Weo2+DHoNvwAA4D/Weo2+HF/+vs3M7D+rDKo+DXoNvwAA4D+ud40+DXoNv5qZ+T+ud40+9Fv+Ps3M7D/UD6q+engNPwAA4D/Yeo2+engNP5qZ+T/Yeo2+9lv+Ps3M7D+pDKo+engNP5qZ+T+rd40+engNPwAA4D+rd40+engNP8zMTEDYeo2+DXoNv8zMTECud40+DXoNvwIAAD+ud40+QHmNvgAAAAD//z+/QHmNvgAAgD7//z+/QHmNvgAAAAAAAEA/QHmNvgAAgD4AAEA/QHmNvs3MTEBDeQ2/NVT1tgAAgEBDmZ22QHmNvs3MXED//z+/QHmNvs3MXEAAAEA/Q3mNPgAAAAD//z+/Q3mNPgAAgD7//z+/Q3mNPgAAAD9DeQ2/Q3mNPs3MTEBEeQ0/Q3mNPgAAAAAAAEA/Q3mNPgAAgD4AAEA/Q3mNPs3MXED//z+/Q3mNPs3MXEAAAEA/Nv8/P8zMXEDYeo2+yQBAv8zMXEDWeo2+engNPwIAAD/Yeo2+Nv8/PwQAgD7Yeo2+Nv8/PwAAADTYeo2+DHoNvwIAAD/Weo2+DHoNv8zMTEDWeo2+yQBAvwQAgD7Weo2+yQBAvwAAADTWeo2+Nv8/P8zMXECrd40+ygBAv8zMXECud40+engNP8zMTECrd40+engNPwIAAD+rd40+Nv8/PwQAgD6rd40+Nv8/PwAAADSrd40+ygBAvwQAgD6ud40+ygBAvwAAADSud40+QHmNvgAAgED//z+/Q3mNPgAAgED//z+/Q3mNPgAAgEAAAEA/QHmNvgAAgEAAAEA/Nv8/P///f0DYeo2+Nv8/P///f0Crd40+ygBAv///f0Cud40+yQBAv///f0DWeo2+")
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_eocfq"]
+resource_name = "pillar_pillar"
+_surfaces = [{
+"aabb": AABB(-0.750012, 0, -0.75, 1.5, 4, 1.5),
+"attribute_data": PackedByteArray("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"),
+"format": 34359742487,
+"index_count": 408,
+"index_data": PackedByteArray("AgAwACoAAgCJADAAjQAXAAoAjQAdABcAJgAOAHYAJgAyAA4AFAAjACAAFAAaACMAHAAfACUAHAAZAB8AKAA3ADQAKAAuADcALAAvADUALAApAC8AIQAGABUAIQASAAYAVQBSAEwAVQBYAFIASQA6AD0ASQBDADoAXgBWAMcAXgBQAFYARwC1AGIARwA7ALUAQQA+ADgAQQBEAD4ATgDLAFoATgCnAMsAWQBKAE0AWQBTAEoAZgA/AEUAZgCxAD8ABwBGABYABwBnAEYAGwBGAEIAGwAWAEYAGABCAEgAGAAbAEIACwBIAGMACwAYAEgAEwBbAMwAEwAiAFsAIgBUAFsAIgAkAFQAJABXAFQAJAAeAFcAjgBXAB4AjgDIAFcAMQCoAE8AMQCKAKgANgBPAEsANgAxAE8AMwBLAFEAMwA2AEsADwBRAF8ADwAzAFEAAwBAALIAAwArAEAAKwA5AEAAKwAtADkALQA8ADkALQAnADwAJwC2ADwAJwB3ALYAogDaAPAAogB5ANoAAQCDAIcAAQBrAIMAkwBvAHMAkwCPAG8A2wCVAN0A2wB6AJUAEABxAAUAEACRAHEAdQCXAHwAdQAMAJcA4AB+AOQA4ACZAH4AmwAJAIAAmwCLAAkAaQCFAG0AaQCBAIUAvABsALoAvABoAGwA1wC5ANUA1wC7ALkApgDOAMoApgCqAM4A5wC+AOoA5wCeAL4A2AByAG4A2ADWAHIAzwCQAJQAzwDRAJAAwgDjAH0AwgDtAOMAYACjAMMAYACzAKMAoADGAMAAoABdAMYAZAC3AK8AZADTALcArQCGAIIArQCrAIYA7AChAO8A7ADBAKEArADSANAArACuANIAnQDeAJYAnQDmAN4A6QCaAOEA6QC9AJoAcABlAAQAcADUAGUAfwBhAMQAfwAIAGEAkgDJAM0AkgARAMkAnADFAIwAnAC/AMUAhAClAIgAhACpAKUAmABcAJ8AmAANAFwAagCwALgAagAAALAAewC0AHQAewCkALQAeADZANwAeADfAOIAeADlAOgAeADrAO4AeADiAOsAeADcAOUAeADoAN8AeADuANkA"),
+"material": SubResource("StandardMaterial3D_ehcom"),
+"name": "texture",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 241,
+"vertex_data": PackedByteArray("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Q3mNPs3MXED//z+/Q3mNPs3MXED//z+/Q3mNPs3MXED//z+/Q3mNPs3MXEAAAEA/Q3mNPs3MXEAAAEA/Q3mNPs3MXEAAAEA/Q3mNPs3MXEAAAEA/Nv8/P8zMXEDYeo2+Nv8/P8zMXEDYeo2+Nv8/P8zMXEDYeo2+Nv8/P8zMXEDYeo2+yQBAv8zMXEDWeo2+yQBAv8zMXEDWeo2+yQBAv8zMXEDWeo2+yQBAv8zMXEDWeo2+engNPwIAAD/Yeo2+engNPwIAAD/Yeo2+engNPwIAAD/Yeo2+engNPwIAAD/Yeo2+Nv8/PwQAgD7Yeo2+Nv8/PwQAgD7Yeo2+Nv8/PwQAgD7Yeo2+Nv8/PwQAgD7Yeo2+Nv8/PwAAADTYeo2+Nv8/PwAAADTYeo2+DHoNvwIAAD/Weo2+DHoNvwIAAD/Weo2+DHoNvwIAAD/Weo2+DHoNvwIAAD/Weo2+DHoNv8zMTEDWeo2+DHoNv8zMTEDWeo2+DHoNv8zMTEDWeo2+DHoNv8zMTEDWeo2+yQBAvwQAgD7Weo2+yQBAvwQAgD7Weo2+yQBAvwQAgD7Weo2+yQBAvwQAgD7Weo2+yQBAvwAAADTWeo2+yQBAvwAAADTWeo2+Nv8/P8zMXECrd40+Nv8/P8zMXECrd40+Nv8/P8zMXECrd40+Nv8/P8zMXECrd40+ygBAv8zMXECud40+ygBAv8zMXECud40+ygBAv8zMXECud40+ygBAv8zMXECud40+engNP8zMTECrd40+engNP8zMTECrd40+engNP8zMTECrd40+engNP8zMTECrd40+engNPwIAAD+rd40+engNPwIAAD+rd40+engNPwIAAD+rd40+engNPwIAAD+rd40+Nv8/PwQAgD6rd40+Nv8/PwQAgD6rd40+Nv8/PwQAgD6rd40+Nv8/PwQAgD6rd40+Nv8/PwAAADSrd40+Nv8/PwAAADSrd40+ygBAvwQAgD6ud40+ygBAvwQAgD6ud40+ygBAvwQAgD6ud40+ygBAvwQAgD6ud40+ygBAvwAAADSud40+ygBAvwAAADSud40+QHmNvgAAgED//z+/QHmNvgAAgED//z+/QHmNvgAAgED//z+/Q3mNPgAAgED//z+/Q3mNPgAAgED//z+/Q3mNPgAAgED//z+/Q3mNPgAAgEAAAEA/Q3mNPgAAgEAAAEA/Q3mNPgAAgEAAAEA/QHmNvgAAgEAAAEA/QHmNvgAAgEAAAEA/QHmNvgAAgEAAAEA/Nv8/P///f0DYeo2+Nv8/P///f0DYeo2+Nv8/P///f0DYeo2+Nv8/P///f0Crd40+Nv8/P///f0Crd40+Nv8/P///f0Crd40+ygBAv///f0Cud40+ygBAv///f0Cud40+ygBAv///f0Cud40+yQBAv///f0DWeo2+yQBAv///f0DWeo2+yQBAv///f0DWeo2+OSQc0v7/ACCGx///////P/////////8/AAD/v/7//18cUjmk/7//v/9/d7j///+//3//f////7//P/9//7//vxxSxVv/v/+//3+HR////7//f/9/////v/8//3//v/+/hscAAP///z/F2+It/7//P/////////8/////v/+//z//f3e4////v+KtOaT+///f/3//f////7//v/9//v//3/9/2q3///+//3//f////7//P/9//7//v/9//3////+//z//f/+//7//fyRS////v/9/2q3///+//z//f/+//7//fyRS////v/9//3////+/AMD/f////9//fyRS////v/9/2q3///+//3//f////78AwP9/////3/9/2q3///+/AMD/f////p//fyRS////v/////////8/AAAAwP//ACDaLQAA////PyTS//////8//////////z8AAP4/////XyTS//////8/AAAAwP//ACDaLQAA////PyTS//////8//////////z/+//+//7//P/////////8//v//P/+//z/aLQAA////PyTS//////8/////v/+//z/aLQAA////P9ot2q3///+/AAAAwP//ACDbLSRS////vwAA/3////+/AAAAwP//ACDbLSRS////v9ot2q3///+/AAD/f////78AAP4/////X9ot2q3///+//z//f/+//7/bLSRS////v9ot2q3///+/AAD/f////7//P/9//7//vwAA/3////+//z//f/+//7/bLSRS////vyPS2q3///+/////v/+//z8k0iRS////vyPS2q3///+/////f////7/+//+//7//P////3////+//v//P/+//z8k0iRS////vyPS2q3///+/AMD/f////p8k0iRS////v////3////+/AMD/f////p8k0iRS////vyPS2q3///+/////f////78AwP9/////38Xb4i3/v/8/hseHR////7////9/////v////7//v/8/eDiHR////78cUsVb/7//vwAA/3////+//z//f/+//794OHe4////vxxSOaT/v/+/AAD/f////7//P/9//7//vwAA/7/+//9f/////////z85JBzS/v8AIIbH//////8/AAD/v/7//1//////////P/8//3//v/+//3//f////78cUjmk/7//v/9/d7j///+//z//f/+//7//f/9/////vzkk4i3+//9fhscAAP///z//////////PwAA/7/+/wAg/3///////78AAP+//v8AIP////////8/OSTiLf7//1+GxwAA////P/8//3//v/+//3//f////78cUsVb/7//v/9/h0f///+//////////z////+//7//P4bH//////8/xdsc0v+//z//////////P////7//v/8/hsf//////z/F2xzS/7//P/////////8/////v/+//z//f4dH////v+KtxVv+//+f/3//f////7//v/9//v//n/9//3////+//7//f/7//9//f3e4////v+KtOaT+///f/3//f////7//v/9//v//3/////////8/////v/+//z+GxwAA////P8Xb4i3/v/8//3//f////7//v/9//v//n/9/h0f///+/4q3FW/7//5////+//7//P////3////+/xdviLf+//z+Gx4dH////vwAA/3////+/AAD/v/7/ACB4OIdH////vzkk4i3+/wAgxdsc0v+//z+Gx3e4////v////3////+/////v/+//z/F2xzS/7//P4bHd7j///+/////v/+//z////9/////v////7//v/8/////f////794OHe4////vzkkHNL+//9fAAD/f////78AAP+//v//X3g4h0f///+/OSTiLf7/ACAAAP9/////vwAA/7/+/wAgeDh3uP///785JBzS/v//XwAA/3////+/AAD/v/7//18AAP9/////vwAA/7/+//9f/7//f/7//5////9/////v+KtxVv+///fhseHR////78AAP9/////v/8//3//v/+/eDiHR////78cUsVb/7//v+KtxVv+///fhseHR////7////9/////v/+//3/+//+f4q05pP7//5+Gx3e4////v////3////+//7//f/7//9/irTmk/v//n4bHd7j///+//7//f/7//9////9/////v/+//3/+///f////f////794OHe4////vxxSOaT/v/+/AAD/f////7//P/9//7//vwAA/3////+//z//f/+//7//f///////PwAA/7/+/wAg/////////z//f/7/////P/////////8/////v/+//z//f///////v/9//3////+//7//f/7//5//f///////v/8//3//v/+//3//f////7//f/7/////P////7//v/8/////f////7//f/7/////v/+//3/+//+f////f////7//f/7/////vwAA/3////+//z//f/+//7//f/7/////PwAA/3////+/AAD/v/7/ACA=")
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_wyk1j")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5sype"]
+points = PackedVector3Array(-0.750012, 0, -0.276331, -0.276343, 0, -0.75, -0.750012, 0, 0.276184, -0.750012, 3.99961, -0.276331, 0.276172, 0, -0.75, -0.276343, 4, -0.75, -0.276343, 0, 0.75, -0.750012, 3.99961, 0.276184, 0.749988, 0, -0.276331, 0.276172, 4, -0.75, -0.276343, 4, 0.75, 0.276172, 0, 0.75, 0.749988, 0, 0.276184, 0.749988, 3.99961, -0.276331, 0.276172, 4, 0.75, 0.749988, 3.99961, 0.276184)
+
+[node name="Tiles" type="Node3D"]
+
+[node name="floor_dirt_large2" type="Node3D" parent="."]
+visible = false
+
+[node name="floor_dirt_large" type="MeshInstance3D" parent="floor_dirt_large2"]
+mesh = SubResource("ArrayMesh_ckaah")
+skeleton = NodePath("")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="floor_dirt_large2"]
+shape = SubResource("ConcavePolygonShape3D_14i44")
+
+[node name="floor_dirt_large_rocky2" parent="." instance=ExtResource("2_c6jyx")]
+visible = false
+
+[node name="floor_dirt_small_A2" parent="." instance=ExtResource("3_uyi2o")]
+visible = false
+
+[node name="floor_dirt_small_B2" parent="." instance=ExtResource("4_03jg8")]
+visible = false
+
+[node name="floor_dirt_small_C2" parent="." instance=ExtResource("5_he38f")]
+visible = false
+
+[node name="floor_dirt_small_corner2" parent="." instance=ExtResource("6_gwet3")]
+visible = false
+
+[node name="floor_dirt_small_D2" parent="." instance=ExtResource("7_6lrfs")]
+visible = false
+
+[node name="floor_dirt_small_weeds2" parent="." instance=ExtResource("8_6fwtd")]
+visible = false
+
+[node name="floor_foundation_allsides2" parent="." instance=ExtResource("9_c4ecy")]
+visible = false
+
+[node name="floor_foundation_corner2" parent="." instance=ExtResource("10_ksyay")]
+visible = false
+
+[node name="floor_foundation_diagonal_corner2" parent="." instance=ExtResource("11_mnrwb")]
+visible = false
+
+[node name="floor_foundation_front2" parent="." instance=ExtResource("12_d15er")]
+visible = false
+
+[node name="floor_foundation_front_and_back2" parent="." instance=ExtResource("13_b2nvs")]
+visible = false
+
+[node name="floor_foundation_front_and_sides2" parent="." instance=ExtResource("14_xrcfr")]
+visible = false
+
+[node name="floor_tile_big_grate2" parent="." instance=ExtResource("15_m5my5")]
+visible = false
+
+[node name="floor_tile_big_grate_open2" parent="." instance=ExtResource("16_talep")]
+visible = false
+
+[node name="floor_tile_big_spikes2" parent="." instance=ExtResource("17_4umpu")]
+visible = false
+
+[node name="floor_tile_extralarge_grates2" parent="." instance=ExtResource("18_sv61g")]
+visible = false
+
+[node name="floor_tile_extralarge_grates_open2" parent="." instance=ExtResource("19_ln6yv")]
+visible = false
+
+[node name="floor_tile_grate2" parent="." instance=ExtResource("20_d522i")]
+visible = false
+
+[node name="floor_tile_grate_open2" parent="." instance=ExtResource("21_wc5vv")]
+visible = false
+
+[node name="floor_tile_large2" parent="." instance=ExtResource("22_s3718")]
+visible = false
+
+[node name="floor_tile_large_rocks2" parent="." instance=ExtResource("23_e78sv")]
+visible = false
+
+[node name="floor_tile_small2" parent="." instance=ExtResource("24_m5xka")]
+visible = false
+
+[node name="floor_tile_small_broken_A2" parent="." instance=ExtResource("25_twxcd")]
+visible = false
+
+[node name="floor_tile_small_broken_B2" parent="." instance=ExtResource("26_yrno8")]
+visible = false
+
+[node name="floor_tile_small_corner2" parent="." instance=ExtResource("27_r4lsc")]
+visible = false
+
+[node name="floor_tile_small_decorated2" parent="." instance=ExtResource("28_05cjd")]
+visible = false
+
+[node name="floor_tile_small_weeds_A2" parent="." instance=ExtResource("29_w6icq")]
+visible = false
+
+[node name="floor_tile_small_weeds_B2" parent="." instance=ExtResource("30_fvrjf")]
+visible = false
+
+[node name="floor_wood_large2" parent="." instance=ExtResource("31_p1dju")]
+visible = false
+
+[node name="floor_wood_large_dark2" parent="." instance=ExtResource("32_4urbv")]
+visible = false
+
+[node name="floor_wood_small2" parent="." instance=ExtResource("33_n0m68")]
+visible = false
+
+[node name="floor_wood_small_dark2" parent="." instance=ExtResource("34_u4jk7")]
+visible = false
+
+[node name="keg2" parent="." instance=ExtResource("35_5ykp8")]
+visible = false
+
+[node name="keg_decorated2" parent="." instance=ExtResource("36_8n48g")]
+visible = false
+
+[node name="key2" parent="." instance=ExtResource("37_xiicu")]
+visible = false
+
+[node name="keyring2" parent="." instance=ExtResource("38_apy1a")]
+visible = false
+
+[node name="keyring_hanging2" parent="." instance=ExtResource("39_20o87")]
+visible = false
+
+[node name="pillar2" type="Node3D" parent="."]
+visible = false
+
+[node name="pillar" type="MeshInstance3D" parent="pillar2"]
+mesh = SubResource("ArrayMesh_eocfq")
+skeleton = NodePath("")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="pillar2/pillar"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="pillar2/pillar/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_5sype")
+
+[node name="pillar_decorated2" parent="." instance=ExtResource("41_q4tbc")]
+visible = false
+
+[node name="plate2" parent="." instance=ExtResource("42_ft7go")]
+visible = false
+
+[node name="plate_food_A2" parent="." instance=ExtResource("43_md24y")]
+visible = false
+
+[node name="plate_food_B2" parent="." instance=ExtResource("44_iodx4")]
+visible = false
+
+[node name="plate_small2" parent="." instance=ExtResource("45_2f3m6")]
+visible = false
+
+[node name="plate_stack2" parent="." instance=ExtResource("46_rqyx3")]
+visible = false
+
+[node name="rubble_half2" parent="." instance=ExtResource("47_u7ly4")]
+visible = false
+
+[node name="rubble_large2" parent="." instance=ExtResource("48_1xp2p")]
+visible = false
+
+[node name="shelf_large2" parent="." instance=ExtResource("49_07j03")]
+visible = false
+
+[node name="shelf_small2" parent="." instance=ExtResource("50_aup2w")]
+visible = false
+
+[node name="shelf_small_candles2" parent="." instance=ExtResource("51_gip7y")]
+visible = false
+
+[node name="shelves2" parent="." instance=ExtResource("52_xjdpw")]
+visible = false
+
+[node name="stairs2" parent="." instance=ExtResource("53_c0ou0")]
+visible = false
+
+[node name="stairs_long2" parent="." instance=ExtResource("54_4q6du")]
+visible = false
+
+[node name="stairs_long_modular_center2" parent="." instance=ExtResource("55_o6x5i")]
+visible = false
+
+[node name="stairs_long_modular_left2" parent="." instance=ExtResource("56_reu3t")]
+visible = false
+
+[node name="stairs_long_modular_right2" parent="." instance=ExtResource("57_q0hnk")]
+visible = false
+
+[node name="stairs_modular_center2" parent="." instance=ExtResource("58_mg3hx")]
+visible = false
+
+[node name="stairs_modular_left2" parent="." instance=ExtResource("59_q1m80")]
+visible = false
+
+[node name="stairs_modular_right2" parent="." instance=ExtResource("60_1kg40")]
+visible = false
+
+[node name="stairs_narrow2" parent="." instance=ExtResource("61_r5q0u")]
+visible = false
+
+[node name="stairs_walled2" parent="." instance=ExtResource("62_ls4ug")]
+visible = false
+
+[node name="stairs_wall_left2" parent="." instance=ExtResource("63_fcm0p")]
+visible = false
+
+[node name="stairs_wall_right2" parent="." instance=ExtResource("64_p726n")]
+visible = false
+
+[node name="stairs_wide2" parent="." instance=ExtResource("65_r10h5")]
+visible = false
+
+[node name="stairs_wood2" parent="." instance=ExtResource("66_oags8")]
+visible = false
+
+[node name="stairs_wood_decorated2" parent="." instance=ExtResource("67_7xfbm")]
+visible = false
+
+[node name="stool2" parent="." instance=ExtResource("68_1kns2")]
+visible = false
+
+[node name="sword_shield2" parent="." instance=ExtResource("69_aykgq")]
+visible = false
+
+[node name="sword_shield_broken2" parent="." instance=ExtResource("70_vwl61")]
+visible = false
+
+[node name="sword_shield_gold2" parent="." instance=ExtResource("71_l4vqw")]
+visible = false
+
+[node name="table_long2" parent="." instance=ExtResource("72_47dd5")]
+visible = false
+
+[node name="table_long_broken2" parent="." instance=ExtResource("73_23sq2")]
+visible = false
+
+[node name="table_long_decorated_A2" parent="." instance=ExtResource("74_7uqai")]
+visible = false
+
+[node name="table_long_decorated_C2" parent="." instance=ExtResource("75_ai0ai")]
+visible = false
+
+[node name="table_long_tablecloth2" parent="." instance=ExtResource("76_wuire")]
+visible = false
+
+[node name="table_long_tablecloth_decorated_A2" parent="." instance=ExtResource("77_ireke")]
+visible = false
+
+[node name="table_medium2" parent="." instance=ExtResource("78_rq8i7")]
+visible = false
+
+[node name="table_medium_broken2" parent="." instance=ExtResource("79_g16u1")]
+visible = false
+
+[node name="table_medium_decorated_A2" parent="." instance=ExtResource("80_tutsx")]
+visible = false
+
+[node name="table_medium_tablecloth2" parent="." instance=ExtResource("81_o6m0b")]
+visible = false
+
+[node name="table_medium_tablecloth_decorated_B2" parent="." instance=ExtResource("82_52iw2")]
+visible = false
+
+[node name="table_small2" parent="." instance=ExtResource("83_crauw")]
+visible = false
+
+[node name="table_small_decorated_A2" parent="." instance=ExtResource("84_fg3bo")]
+visible = false
+
+[node name="table_small_decorated_B2" parent="." instance=ExtResource("85_5helm")]
+visible = false
+
+[node name="torch2" parent="." instance=ExtResource("86_w05kq")]
+visible = false
+
+[node name="torch_lit2" parent="." instance=ExtResource("87_nyusb")]
+visible = false
+
+[node name="torch_mounted2" parent="." instance=ExtResource("88_m42ig")]
+visible = false
+
+[node name="trunk_large_A2" parent="." instance=ExtResource("89_6ksrr")]
+visible = false
+
+[node name="trunk_large_B2" parent="." instance=ExtResource("90_jp7uf")]
+visible = false
+
+[node name="trunk_large_C2" parent="." instance=ExtResource("91_ps2jr")]
+visible = false
+
+[node name="trunk_medium_A2" parent="." instance=ExtResource("92_xv22w")]
+visible = false
+
+[node name="trunk_medium_B2" parent="." instance=ExtResource("93_3sfwh")]
+visible = false
+
+[node name="trunk_medium_C2" parent="." instance=ExtResource("94_nh0t6")]
+visible = false
+
+[node name="trunk_small_A2" parent="." instance=ExtResource("95_wwyok")]
+visible = false
+
+[node name="trunk_small_B2" parent="." instance=ExtResource("96_kosoe")]
+visible = false
+
+[node name="trunk_small_C2" parent="." instance=ExtResource("97_now7g")]
+visible = false
+
+[node name="wall2" parent="." instance=ExtResource("98_wedyc")]
+visible = false
+
+[node name="wall_arched2" parent="." instance=ExtResource("99_ww2b4")]
+visible = false
+
+[node name="wall_archedwindow_gated2" parent="." instance=ExtResource("100_xto8q")]
+visible = false
+
+[node name="wall_archedwindow_gated_scaffold2" parent="." instance=ExtResource("101_wp2xa")]
+visible = false
+
+[node name="wall_archedwindow_open2" parent="." instance=ExtResource("102_oshc1")]
+visible = false
+
+[node name="wall_broken2" parent="." instance=ExtResource("103_05nt7")]
+visible = false
+
+[node name="wall_corner2" parent="." instance=ExtResource("104_xtxdy")]
+visible = false
+
+[node name="wall_corner_gated2" parent="." instance=ExtResource("105_41mjl")]
+visible = false
+
+[node name="wall_corner_scaffold2" parent="." instance=ExtResource("106_23fnp")]
+visible = false
+
+[node name="wall_corner_small2" parent="." instance=ExtResource("107_830id")]
+visible = false
+
+[node name="wall_cracked2" parent="." instance=ExtResource("108_5ivo7")]
+visible = false
+
+[node name="wall_crossing2" parent="." instance=ExtResource("109_p3fqp")]
+visible = false
+
+[node name="wall_doorway2" parent="." instance=ExtResource("110_8tmej")]
+visible = false
+
+[node name="wall_doorway_scaffold2" parent="." instance=ExtResource("111_ejpkh")]
+visible = false
+
+[node name="wall_doorway_sides2" parent="." instance=ExtResource("112_1o2ls")]
+visible = false
+
+[node name="wall_doorway_Tsplit2" parent="." instance=ExtResource("113_nalx6")]
+visible = false
+
+[node name="wall_endcap2" parent="." instance=ExtResource("114_j8l7j")]
+visible = false
+
+[node name="wall_gated2" parent="." instance=ExtResource("115_sn6kw")]
+visible = false
+
+[node name="wall_half2" parent="." instance=ExtResource("116_2i4cg")]
+visible = false
+
+[node name="wall_half_endcap2" parent="." instance=ExtResource("117_ua5if")]
+visible = false
+
+[node name="wall_half_endcap_sloped2" parent="." instance=ExtResource("118_fokme")]
+visible = false
+
+[node name="wall_open_scaffold2" parent="." instance=ExtResource("119_h4u12")]
+visible = false
+
+[node name="wall_pillar2" parent="." instance=ExtResource("120_3h273")]
+visible = false
+
+[node name="wall_scaffold2" parent="." instance=ExtResource("121_0l3bl")]
+visible = false
+
+[node name="wall_shelves2" parent="." instance=ExtResource("122_wot6e")]
+visible = false
+
+[node name="wall_sloped2" parent="." instance=ExtResource("123_f1mpt")]
+visible = false
+
+[node name="wall_Tsplit2" parent="." instance=ExtResource("124_swsuf")]
+visible = false
+
+[node name="wall_Tsplit_sloped2" parent="." instance=ExtResource("125_bnxab")]
+visible = false
+
+[node name="wall_window_closed2" parent="." instance=ExtResource("126_nsa85")]
+visible = false
+
+[node name="wall_window_closed_scaffold2" parent="." instance=ExtResource("127_3a3ok")]
+visible = false
+
+[node name="wall_window_open2" parent="." instance=ExtResource("128_xd0oe")]
+visible = false
+
+[node name="wall_window_open_scaffold2" parent="." instance=ExtResource("129_y2uls")]
+visible = false
