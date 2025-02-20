@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/Levels/test_dungeon.gd" id="1_g155d"]
 [ext_resource type="MeshLibrary" uid="uid://5x51gbr435bp" path="res://Tileset/tiles.tres" id="1_jrf0d"]
 [ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="2_82sre"]
-[ext_resource type="PackedScene" uid="uid://dxcmlu5im4msx" path="res://ACM_GameDevSpring2025/test/Scenes/Characters/Hazards/evil_cube.tscn" id="3_ckahd"]
+[ext_resource type="PackedScene" uid="uid://dxcmlu5im4msx" path="res://Scenes/Characters/Hazards/evil_cube.tscn" id="3_ckahd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k3ddj"]
 

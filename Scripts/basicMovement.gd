@@ -1,5 +1,5 @@
 extends CharacterBody3D
-class_name Player2
+class_name PlayerCharacter
 
 @export_group("Movement")
 @export var speed = 5.0
@@ -9,6 +9,9 @@ class_name Player2
 @export_group("Friction")
 @export_range(0,1) var FRICTION: float = 1
 var base_friction_multiplier = 10
+
+@export_group("Stats")
+@export_range(0,100) var health : int = 100
 
 @export_group("Camera")
 #@export var mouse_sensitivity = 0.0015
@@ -36,12 +39,14 @@ var rayEnd = Vector3()
 @onready var anim_tree = $AnimationTree
 @onready var anim_state : AnimationNodeStateMachinePlayback = $AnimationTree.get("parameters/AnimationNodeStateMachine/playback")
 @onready var camera = $CameraPivot/Camera3D
+@onready var healthbar = $PlayerUi/HealthBar
 
 var attacking = false
 var blocking = false
 
 func _ready():
 	anim_tree.animation_finished.connect(_on_animation_finished)
+	healthbar.init_health(health)
 	set_camera()
 
 # Movement is HEAVILY modified code from KidsCanCode
@@ -92,7 +97,7 @@ func get_move_input(delta):
 		vl = velocity * model.transform.basis * 2
 	
 	# Change movement animation speed
-	if anim_state.get_current_node() == "IWR":
+	if anim_state and anim_state.get_current_node() == "IWR":
 		anim_tree.set("parameters/TimeScale/scale", speed / speed_threshold)
 	else:  anim_tree.set("parameters/TimeScale/scale", 1)
 	anim_tree.set("parameters/AnimationNodeStateMachine/IWR/blend_position", Vector2(vl.x, -vl.z) / speed)
@@ -143,6 +148,10 @@ func change_anim_parameters():
 		anim_tree.set("parameters/AnimationNodeStateMachine/conditions/grounded", false)
 	# Check if player is still on floor (before next frame)
 	last_floor = is_on_floor()
+
+func take_damage(damage):
+	healthbar._set_health(health - damage)
+	health -= damage
 
 func _on_animation_finished(_anim):
 	if attacking: 

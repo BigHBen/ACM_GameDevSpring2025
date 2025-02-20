@@ -1,3 +1,5 @@
+PlayerCharacter
+CharacterBody3D
 Node3D
 GridMap
 MeshInstance3D
@@ -10,6 +12,3 @@ CheckButton
 HSeparator
 VBoxContainer
 Panel
-HSlider
-CanvasLayer
-ColorRect

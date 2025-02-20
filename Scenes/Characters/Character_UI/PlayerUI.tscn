@@ -1,0 +1,86 @@
+[gd_scene load_steps=8 format=3 uid="uid://ckstcle8h8g1f"]
+
+[ext_resource type="Texture2D" uid="uid://dec45t4ti1i1o" path="res://Scenes/Characters/Character_UI/PlaceHolderCircle.png" id="1_p8dyf"]
+[ext_resource type="PackedScene" uid="uid://nsjluf8e1piw" path="res://Scenes/Characters/Character_UI/health_bar.tscn" id="2_ew8yr"]
+[ext_resource type="FontFile" uid="uid://hxqlvug5a3dn" path="res://Assets/Fonts/Sagewold-Regular.ttf" id="4_70alr"]
+[ext_resource type="Texture2D" uid="uid://bvsjj4mutwpxx" path="res://Assets/UI_Assets/Potion.png" id="5_p7aqn"]
+[ext_resource type="Texture2D" uid="uid://bqxnxaapy31pt" path="res://Assets/UI_Assets/Coins.png" id="6_vl2xv"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_peqn2"]
+bg_color = Color(0.458824, 0.458824, 0.458824, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b0833"]
+bg_color = Color(0.458405, 0.458405, 0.458405, 1)
+
+[node name="PlayerUi" type="CanvasLayer"]
+
+[node name="PlayerPortraitBorder" type="Sprite2D" parent="."]
+self_modulate = Color(0.458405, 0.458405, 0.458405, 1)
+z_index = 2
+position = Vector2(123, 120)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("1_p8dyf")
+
+[node name="HealthBar" parent="." instance=ExtResource("2_ew8yr")]
+offset_left = 187.0
+offset_top = 62.0
+offset_right = 687.0
+offset_bottom = 89.0
+
+[node name="Potions" type="Panel" parent="."]
+offset_left = 233.0
+offset_top = 112.0
+offset_right = 320.0
+offset_bottom = 152.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_peqn2")
+
+[node name="Label" type="Label" parent="Potions"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 1.0
+offset_right = 86.0
+offset_bottom = 39.0
+theme_override_fonts/font = ExtResource("4_70alr")
+theme_override_font_sizes/font_size = 25
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="Potions"]
+position = Vector2(24, 21)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("5_p7aqn")
+
+[node name="Coins" type="Panel" parent="."]
+offset_left = 350.0
+offset_top = 112.0
+offset_right = 500.0
+offset_bottom = 152.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_b0833")
+
+[node name="Label" type="Label" parent="Coins"]
+layout_mode = 0
+offset_left = 41.0
+offset_top = 1.0
+offset_right = 150.0
+offset_bottom = 39.0
+theme_override_fonts/font = ExtResource("4_70alr")
+theme_override_font_sizes/font_size = 25
+text = "10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="Coins"]
+position = Vector2(23, 21)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("6_vl2xv")
+
+[node name="PlayerName" type="Label" parent="."]
+offset_left = 193.0
+offset_top = 18.0
+offset_right = 409.0
+offset_bottom = 67.0
+theme_override_fonts/font = ExtResource("4_70alr")
+theme_override_font_sizes/font_size = 40
+text = "Player"
+vertical_alignment = 2

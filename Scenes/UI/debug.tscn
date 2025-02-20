@@ -17,8 +17,13 @@ script = ExtResource("1_wcwh1")
 [node name="Panel" type="Panel" parent="."]
 clip_contents = true
 layout_mode = 1
-offset_right = 390.0
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -195.0
+offset_right = 195.0
 offset_bottom = 100.0
+grow_horizontal = 2
 mouse_filter = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
@@ -37,6 +42,7 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_t786h")
 layout_direction = 3
 layout_mode = 2
 focus_mode = 0
+button_pressed = true
 text = "Show FPS
 "
 flat = true
