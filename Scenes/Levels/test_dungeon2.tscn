@@ -1,0 +1,82 @@
+[gd_scene load_steps=11 format=3 uid="uid://bfus4uk4so1fb"]
+
+[ext_resource type="Script" path="res://Scenes/Levels/test_dungeon.gd" id="1_0kxev"]
+[ext_resource type="MeshLibrary" uid="uid://5x51gbr435bp" path="res://Tileset/tiles.tres" id="2_ltgw4"]
+[ext_resource type="Script" path="res://Scenes/Levels/grid_map.gd" id="3_alac8"]
+[ext_resource type="MeshLibrary" uid="uid://bcckmnv4y4pi7" path="res://Scenes/Terrain/test_tiles.tres" id="4_ogpmp"]
+[ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://UI_Work/test/Scenes/Characters/knight2.tscn" id="5_m6mnb"]
+[ext_resource type="PackedScene" uid="uid://dxcmlu5im4msx" path="res://Scenes/Characters/Hazards/evil_cube.tscn" id="6_frvph"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k3ddj"]
+
+[sub_resource type="Sky" id="Sky_q5pke"]
+sky_material = SubResource("ProceduralSkyMaterial_k3ddj")
+
+[sub_resource type="Environment" id="Environment_v4rco"]
+background_mode = 1
+sky = SubResource("Sky_q5pke")
+ambient_light_source = 2
+ambient_light_color = Color(0.176419, 0.176419, 0.176419, 1)
+ambient_light_energy = 1.05
+reflected_light_source = 2
+tonemap_mode = 2
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.0
+volumetric_fog_emission_energy = 0.0
+volumetric_fog_gi_inject = 0.23
+
+[sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_wm67e"]
+
+[node name="test_dungeon" type="Node3D"]
+script = ExtResource("1_0kxev")
+
+[node name="Hazards" type="Node3D" parent="."]
+
+[node name="Environment" type="Node3D" parent="."]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Environment"]
+environment = SubResource("Environment_v4rco")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
+visible = false
+light_energy = 0.484
+light_volumetric_fog_energy = 0.0
+
+[node name="Lights" type="Node3D" parent="Environment"]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Environment/Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)
+light_color = Color(0.996078, 0.980392, 0.847059, 1)
+light_energy = 10.0
+shadow_enabled = true
+omni_range = 10.0
+
+[node name="WorldBorder" type="StaticBody3D" parent="Environment"]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Environment/WorldBorder"]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
+shape = SubResource("WorldBoundaryShape3D_wm67e")
+
+[node name="GridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("2_ltgw4")
+cell_size = Vector3(1, 1, 1)
+script = ExtResource("3_alac8")
+start = true
+border_size = 50
+fill_height = 1
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="GridMap2" type="GridMap" parent="."]
+mesh_library = ExtResource("4_ogpmp")
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="Knight" parent="." instance=ExtResource("5_m6mnb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.82537, 0)
+
+[node name="EvilCube" parent="." instance=ExtResource("6_frvph")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.84838, 1.59283, -24.5054)
+
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49, 0, -49)
