@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bnpxknc2upeqr"
+uid="uid://c7e2fs3k0gyk1"
 path="res://.godot/imported/wall_half.gltf-1ea0763d7ecb37df959438e711ac1a45.scn"
 
 [deps]
@@ -31,13 +31,6 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={
-"nodes": {
-"PATH:wall_half": {
-"generate/physics": true,
-"physics/shape_type": 1
-}
-}
-}
+_subresources={}
 gltf/naming_version=1
 gltf/embedded_image_handling=1

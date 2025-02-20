@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://xbf7o02hajf5"
+uid="uid://sgy3y23rkr1l"
 path="res://.godot/imported/floor_wood_small.gltf-ae0e243d09cc6106be10a57ee0f6f818.scn"
 
 [deps]
@@ -31,13 +31,6 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={
-"nodes": {
-"PATH:floor_wood_small": {
-"generate/physics": true,
-"physics/shape_type": 1
-}
-}
-}
+_subresources={}
 gltf/naming_version=1
 gltf/embedded_image_handling=1

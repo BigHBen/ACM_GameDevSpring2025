@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bt3cv4fyqkqld"
+uid="uid://cc602dqpvvekq"
 path="res://.godot/imported/wall_shelves.gltf-4ea41d06d57daafa4674943e6be0d5e5.scn"
 
 [deps]
@@ -31,13 +31,6 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={
-"nodes": {
-"PATH:wall_shelves": {
-"generate/physics": true,
-"physics/shape_type": 1
-}
-}
-}
+_subresources={}
 gltf/naming_version=1
 gltf/embedded_image_handling=1

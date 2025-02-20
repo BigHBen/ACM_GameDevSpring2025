@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://c4awas2cth0i6"
+uid="uid://dcmdhbvm2yfg"
 path="res://.godot/imported/wall_broken.gltf-1d36522a0b107a45865dfd20af2affa5.scn"
 
 [deps]
@@ -31,13 +31,6 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={
-"nodes": {
-"PATH:wall_broken": {
-"generate/physics": true,
-"physics/shape_type": 1
-}
-}
-}
+_subresources={}
 gltf/naming_version=1
 gltf/embedded_image_handling=1

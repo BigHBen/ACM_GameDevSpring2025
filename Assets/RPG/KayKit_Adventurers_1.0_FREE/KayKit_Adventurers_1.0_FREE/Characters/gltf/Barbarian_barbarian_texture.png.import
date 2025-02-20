@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://byxl0itx6ewk"
+uid="uid://dpwev22x7sul4"
 path.s3tc="res://.godot/imported/Barbarian_barbarian_texture.png-61c888bfab0fc7e6132586df8ac62b51.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "267533c91145eeae53d251a78b53814c"
 }
 
 [deps]

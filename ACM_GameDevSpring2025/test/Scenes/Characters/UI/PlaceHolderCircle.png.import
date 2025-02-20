@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dec45t4ti1i1o"
-path="res://.godot/imported/PlaceHolderCircle.png-ed2bb36a0bb25a6e406cd0b5c7a60ca6.ctex"
+path="res://.godot/imported/PlaceHolderCircle.png-f59a0458b4be82287a450f69fbb32071.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Characters/UI/PlaceHolderCircle.png"
-dest_files=["res://.godot/imported/PlaceHolderCircle.png-ed2bb36a0bb25a6e406cd0b5c7a60ca6.ctex"]
+source_file="res://ACM_GameDevSpring2025/test/Scenes/Characters/UI/PlaceHolderCircle.png"
+dest_files=["res://.godot/imported/PlaceHolderCircle.png-f59a0458b4be82287a450f69fbb32071.ctex"]
 
 [params]
 

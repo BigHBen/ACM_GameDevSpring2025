@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://deudn3ci4b1jx"
+uid="uid://rocs0s4u48qv"
 path="res://.godot/imported/wall_doorway.gltf-c467ecafe1e0e7c1a25c03a28d53fe4b.scn"
 
 [deps]
@@ -31,12 +31,6 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={
-"nodes": {
-"PATH:wall_doorway": {
-"physics/shape_type": 1
-}
-}
-}
+_subresources={}
 gltf/naming_version=1
 gltf/embedded_image_handling=1

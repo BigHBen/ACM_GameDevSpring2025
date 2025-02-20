@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://bj3cybsa80tvp"
+uid="uid://djjc3t3ouibmf"
 path="res://.godot/imported/floor_foundation_front_and_sides.gltf-0a4faff212bd77f504acfa1f10a0e16e.scn"
 
 [deps]
@@ -31,13 +31,6 @@ animation/trimming=false
 animation/remove_immutable_tracks=true
 animation/import_rest_as_RESET=false
 import_script/path=""
-_subresources={
-"nodes": {
-"PATH:floor_foundation_front_and_sides": {
-"generate/physics": true,
-"physics/shape_type": 1
-}
-}
-}
+_subresources={}
 gltf/naming_version=1
 gltf/embedded_image_handling=1

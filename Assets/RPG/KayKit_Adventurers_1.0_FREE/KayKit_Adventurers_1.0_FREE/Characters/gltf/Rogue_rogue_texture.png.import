@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ub508rygnkt5"
+uid="uid://7vsvts21xlmn"
 path.s3tc="res://.godot/imported/Rogue_rogue_texture.png-43ab6d5944c3258fab741659a0b824f1.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "5b6fbb4d6c67e8c66dd2dffbb40f8812"
 }
 
 [deps]

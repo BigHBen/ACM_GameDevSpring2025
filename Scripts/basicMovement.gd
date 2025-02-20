@@ -1,5 +1,5 @@
 extends CharacterBody3D
-class_name Player
+class_name Player2
 
 @export_group("Movement")
 @export var speed = 5.0

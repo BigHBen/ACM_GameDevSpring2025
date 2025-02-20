@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b6rg6pc6o1qyr"
+uid="uid://cj6lvl0tf0llb"
 path.s3tc="res://.godot/imported/Knight_knight_texture.png-558de24f39fcb44c7490df2347c881cd.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "af4707185c3e9844f7ed166c1a2e24f8"
 }
 
 [deps]
