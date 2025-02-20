@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://Scenes/Levels/test_dungeon.gd" id="1_g155d"]
 [ext_resource type="MeshLibrary" uid="uid://5x51gbr435bp" path="res://Tileset/tiles.tres" id="1_jrf0d"]
 [ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="2_82sre"]
+[ext_resource type="PackedScene" uid="uid://dxcmlu5im4msx" path="res://Scenes/Characters/Hazards/evil_cube.tscn" id="3_ckahd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k3ddj"]
 
@@ -23,6 +24,8 @@ volumetric_fog_enabled = true
 
 [node name="test_dungeon" type="Node3D"]
 script = ExtResource("1_g155d")
+
+[node name="Hazards" type="Node3D" parent="."]
 
 [node name="Environment" type="Node3D" parent="."]
 
@@ -49,3 +52,7 @@ metadata/_editor_floor_ = Vector3(0, 0, 0)
 
 [node name="Knight" parent="." instance=ExtResource("2_82sre")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.82537, 0)
+
+[node name="EvilCube" parent="." instance=ExtResource("3_ckahd")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.84838, 1.59283, -24.5054)
