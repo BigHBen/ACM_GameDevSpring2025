@@ -1,0 +1,45 @@
+[gd_scene load_steps=9 format=3 uid="uid://cdfwja13wk7k3"]
+
+[ext_resource type="Texture2D" uid="uid://c563yv7lrc3nt" path="res://Assets/UI_Assets/HealthBar/HealthBarOutline.PNG" id="1_hyvx4"]
+[ext_resource type="Texture2D" uid="uid://coi5lgxsoyje" path="res://Assets/UI_Assets/HealthBar/HealthBarFill.PNG" id="2_tvxbj"]
+[ext_resource type="Script" path="res://Scripts/player_health.gd" id="3_3uvyo"]
+[ext_resource type="Texture2D" uid="uid://mdks1t0o33ae" path="res://Assets/UI_Assets/HealthBar/DamageBarBackground.PNG" id="3_yr56m"]
+[ext_resource type="Texture2D" uid="uid://cfl5j3mxn42kk" path="res://Assets/UI_Assets/HealthBar/DamageBarFill.PNG" id="4_7k0qx"]
+[ext_resource type="Texture2D" uid="uid://mybfg5dwxghw" path="res://Assets/UI_Assets/AdrenalineBar/AdrenalineBarBackgroud.PNG" id="5_5p6v4"]
+[ext_resource type="Texture2D" uid="uid://b84s8co0t0ybk" path="res://Assets/UI_Assets/AdrenalineBar/AdrenalineBarOutline.PNG" id="6_blpwx"]
+[ext_resource type="Texture2D" uid="uid://dhjs773bmla2g" path="res://Assets/UI_Assets/AdrenalineBar/AdrenalineBarFill.PNG" id="7_nt8ky"]
+
+[node name="Player_Health" type="TextureProgressBar"]
+z_index = 1
+offset_right = 40.0
+offset_bottom = 40.0
+value = 50.0
+texture_over = ExtResource("1_hyvx4")
+texture_progress = ExtResource("2_tvxbj")
+script = ExtResource("3_3uvyo")
+
+[node name="Damage_Bar" type="TextureProgressBar" parent="."]
+z_as_relative = false
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+step = 0.01
+value = 60.0
+texture_under = ExtResource("3_yr56m")
+texture_progress = ExtResource("4_7k0qx")
+
+[node name="Adrenaline_Bar" type="TextureProgressBar" parent="."]
+visible = false
+layout_mode = 0
+offset_top = -139.0
+offset_right = 1475.0
+offset_bottom = 217.0
+value = 100.0
+texture_under = ExtResource("5_5p6v4")
+texture_over = ExtResource("6_blpwx")
+texture_progress = ExtResource("7_nt8ky")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.8
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

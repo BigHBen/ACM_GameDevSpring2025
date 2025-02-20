@@ -23,7 +23,7 @@ var rayEnd = Vector3()
 @onready var anim_tree = $AnimationTree
 @onready var anim_state = $AnimationTree.get("parameters/playback")
 @onready var camera = $CameraPivot/Camera3D
-@onready var healthbar = $PlayerUi/HealthBar
+@onready var healthbar : TextureProgressBar = $PlayerUi/Control/Player_Health
 
 
 func _ready() -> void:
