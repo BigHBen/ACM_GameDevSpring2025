@@ -1,12 +1,17 @@
 extends CharacterBody3D
 class_name Player
 
+@export_category("Movement Stats")
 @export var speed = 5.0
 @export var acceleration = 4.0
 @export var jump_speed = 8.0
 @export var mouse_sensitivity = 0.0015
 @export var rotation_speed = 8.0
+@export_category("Player Stats")
 @export var health = 100
+@export var moneyAmount = 10
+@export var potionAmount = 5
+
 
 var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var jumping = false
@@ -19,15 +24,20 @@ var rayOrigin = Vector3()
 var rayEnd = Vector3()
 
 
-@onready var model = $Rig
-@onready var anim_tree = $AnimationTree
+@onready var model : Node3D = $Rig
+@onready var anim_tree : AnimationTree = $AnimationTree
 @onready var anim_state = $AnimationTree.get("parameters/playback")
-@onready var camera = $CameraPivot/Camera3D
+@onready var camera : Camera3D = $CameraPivot/Camera3D
 @onready var healthbar : TextureProgressBar = $PlayerUi/Control/Player_Health
+@onready var money : Label = $PlayerUi/Control/Coins/Label
+@onready var potions : Label = $PlayerUi/Control/Potions/Label
+
 
 
 func _ready() -> void:
 	healthbar.init_health(health)
+	money.text = str(moneyAmount)
+	potions.text = str(potionAmount)
 # Movement is HEAVILY modified code from KidsCanCode
 # https://www.youtube.com/@Kidscancode/featured
 
@@ -81,3 +91,7 @@ func _unhandled_input(event):
 func take_damage(damage):
 	healthbar._set_health(health - damage)
 	health -= damage
+
+func update_ui():
+	money.text = str(moneyAmount)
+	potions.text = str(potionAmount)

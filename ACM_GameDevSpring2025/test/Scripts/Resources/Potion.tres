@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BaseItem" load_steps=3 format=3 uid="uid://cf2sgjde75dwq"]
+
+[ext_resource type="ArrayMesh" uid="uid://biiw7y7uud02i" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/obj/bottle_C_green.obj" id="1_fhewf"]
+[ext_resource type="Script" path="res://Scripts/Resources/BaseItem.gd" id="1_oramw"]
+
+[resource]
+script = ExtResource("1_oramw")
+value = 1
+mesh = ExtResource("1_fhewf")
+type = 1

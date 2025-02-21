@@ -25,6 +25,7 @@ surface_material_override/0 = SubResource("StandardMaterial3D_h1w53")
 
 [node name="HitBox" type="Area3D" parent="."]
 script = ExtResource("1_ijaqi")
+damage = 20
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
 shape = SubResource("BoxShape3D_0h3nw")
