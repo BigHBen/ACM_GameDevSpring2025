@@ -83,10 +83,25 @@ func get_move_input(delta):
 	anim_tree.set("parameters/IWR/blend_position", Vector2(vl.x, -vl.z) / speed)
 	velocity.y = vy
 
+var cooldown = false
 func _unhandled_input(event):
 	if event.is_action_pressed("attack"):
 		anim_state.travel(attacks.pick_random())
-
+	if event.is_action_pressed("use_item") and potionAmount > 0 and cooldown == false:
+		var cooldown_timer = get_tree().create_timer(2.0)
+		cooldown = true
+		cooldown_timer.timeout.connect(self._on_timeout)
+		$"Rig/Skeleton3D/1H_Sword/Potion".visible = true
+		$"Rig/Skeleton3D/1H_Sword/1H_Sword".visible = false
+		anim_state.travel("Use_Item")
+		potionAmount -= 1
+		update_ui()
+		take_damage(-10)
+		await get_tree().create_timer(1.5).timeout
+		$"Rig/Skeleton3D/1H_Sword/Potion".visible = false
+		$"Rig/Skeleton3D/1H_Sword/1H_Sword".visible = true
+func _on_timeout():
+	cooldown = false
 
 func take_damage(damage):
 	healthbar._set_health(health - damage)
