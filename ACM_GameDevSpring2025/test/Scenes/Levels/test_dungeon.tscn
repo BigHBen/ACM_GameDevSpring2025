@@ -58,3 +58,7 @@ item_type = ExtResource("5_2pms4")
 [node name="Item2" parent="." instance=ExtResource("4_jfh83")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.43739, 1.05, -4.9492)
 item_type = ExtResource("6_kt75k")
+
+[node name="Item3" parent="." instance=ExtResource("4_jfh83")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.16159, 1.05, -0.946349)
+item_type = ExtResource("6_kt75k")

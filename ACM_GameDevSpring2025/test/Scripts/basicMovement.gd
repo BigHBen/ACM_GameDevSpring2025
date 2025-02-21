@@ -1,6 +1,8 @@
 extends CharacterBody3D
 class_name Player
 
+# I will tidy this up this later
+
 @export_category("Movement Stats")
 @export var speed = 5.0
 @export var acceleration = 4.0
@@ -9,6 +11,7 @@ class_name Player
 @export var rotation_speed = 8.0
 @export_category("Player Stats")
 @export var health = 100
+var max_health = health
 @export var moneyAmount = 10
 @export var potionAmount = 5
 
@@ -108,7 +111,10 @@ func _on_timeout():
 
 func take_damage(damage):
 	healthbar._set_health(health - damage)
-	health -= damage
+	if (health - damage) > max_health:
+		health = max_health
+	else:
+		health -= damage
 
 func update_ui():
 	money.text = str(moneyAmount)
