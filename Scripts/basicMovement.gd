@@ -38,7 +38,8 @@ var rayEnd = Vector3()
 @onready var anim_player = $AnimationPlayer
 @onready var anim_tree = $AnimationTree
 @onready var anim_state : AnimationNodeStateMachinePlayback = $AnimationTree.get("parameters/AnimationNodeStateMachine/playback")
-@onready var camera = $CameraPivot/Camera3D
+@onready var camera = $CameraPivot/SpringArm3D/Camera3D
+@onready var spring_arm : SpringArm3D = $CameraPivot/SpringArm3D
 @onready var healthbar = $PlayerUi/HealthBar
 
 var attacking = false
@@ -135,8 +136,9 @@ func can_move():
 	return !(blocking)
 
 func set_camera():
-	camera.position.y = 12.5
-
+	spring_arm.position.y = 12.5
+	spring_arm.position.z = -4
+	
 func change_anim_parameters():
 	if is_on_floor() and not last_floor:
 		jumping = false

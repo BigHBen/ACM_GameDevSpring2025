@@ -18,16 +18,16 @@ albedo_color = Color(0.611765, 0, 0, 1)
 
 [node name="tiles2" type="Node3D"]
 
-[node name="shade" type="MeshInstance3D" parent="."]
+[node name="wall1_grey" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_5j5os")
 
-[node name="StaticBody3D" type="StaticBody3D" parent="shade"]
+[node name="StaticBody3D" type="StaticBody3D" parent="wall1_grey"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="shade/StaticBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="wall1_grey/StaticBody3D"]
 shape = SubResource("ConvexPolygonShape3D_2f24d")
 
 [node name="bordertile" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0)
 mesh = SubResource("BoxMesh_qtnld")
-skeleton = NodePath("../shade")
+skeleton = NodePath("../wall1_grey")
 surface_material_override/0 = SubResource("StandardMaterial3D_r86ny")

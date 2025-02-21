@@ -1,11 +1,11 @@
 [gd_scene load_steps=11 format=3 uid="uid://bfus4uk4so1fb"]
 
-[ext_resource type="Script" path="res://Scenes/Levels/test_dungeon.gd" id="1_0kxev"]
-[ext_resource type="MeshLibrary" uid="uid://5x51gbr435bp" path="res://Tileset/tiles.tres" id="2_ltgw4"]
-[ext_resource type="Script" path="res://Scenes/Levels/grid_map.gd" id="3_alac8"]
-[ext_resource type="MeshLibrary" uid="uid://bcckmnv4y4pi7" path="res://Scenes/Terrain/test_tiles.tres" id="4_ogpmp"]
-[ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="5_m6mnb"]
-[ext_resource type="PackedScene" uid="uid://dxcmlu5im4msx" path="res://Scenes/Characters/Hazards/evil_cube.tscn" id="6_frvph"]
+[ext_resource type="Script" path="res://Scenes/Levels/test_dungeon.gd" id="1_ey3en"]
+[ext_resource type="PackedScene" uid="uid://b0lhuuaetl7ga" path="res://Scenes/Terrain/Dungeon_Generation/Custom/gen_map_custom.tscn" id="2_7onqn"]
+[ext_resource type="MeshLibrary" uid="uid://5x51gbr435bp" path="res://Tileset/tiles.tres" id="2_xe7fd"]
+[ext_resource type="PackedScene" uid="uid://bfxdlah1qyj45" path="res://Scenes/Terrain/Dungeon_Generation/Custom/wall_grid_map.tscn" id="3_56l6u"]
+[ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="4_qgx5i"]
+[ext_resource type="PackedScene" uid="uid://dxcmlu5im4msx" path="res://Scenes/Characters/Hazards/evil_cube.tscn" id="5_5is4c"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k3ddj"]
 
@@ -14,10 +14,11 @@ sky_material = SubResource("ProceduralSkyMaterial_k3ddj")
 
 [sub_resource type="Environment" id="Environment_v4rco"]
 background_mode = 1
+background_color = Color(1, 1, 1, 1)
 sky = SubResource("Sky_q5pke")
 ambient_light_source = 2
 ambient_light_color = Color(0.176419, 0.176419, 0.176419, 1)
-ambient_light_energy = 1.05
+ambient_light_energy = 5.54
 reflected_light_source = 2
 tonemap_mode = 2
 volumetric_fog_enabled = true
@@ -27,8 +28,8 @@ volumetric_fog_gi_inject = 0.23
 
 [sub_resource type="WorldBoundaryShape3D" id="WorldBoundaryShape3D_wm67e"]
 
-[node name="test_dungeon" type="Node3D"]
-script = ExtResource("1_0kxev")
+[node name="dunGen_test" type="Node3D"]
+script = ExtResource("1_ey3en")
 
 [node name="Hazards" type="Node3D" parent="."]
 
@@ -43,6 +44,7 @@ light_energy = 0.484
 light_volumetric_fog_energy = 0.0
 
 [node name="Lights" type="Node3D" parent="Environment"]
+visible = false
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Environment/Lights"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 7, 0)
@@ -59,24 +61,30 @@ collision_mask = 0
 transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
 shape = SubResource("WorldBoundaryShape3D_wm67e")
 
-[node name="GridMap" type="GridMap" parent="."]
-mesh_library = ExtResource("2_ltgw4")
-cell_size = Vector3(1, 1, 1)
-script = ExtResource("3_alac8")
+[node name="GenMapCustom" parent="." node_paths=PackedStringArray("final_gridmap") instance=ExtResource("2_7onqn")]
+final_gridmap = NodePath("../FinalGridMap")
+mesh_lib = ExtResource("2_xe7fd")
+floor_mesh_idx = 30
+wall_mesh_idx = 97
+hallway_mesh_idx = 30
+
+[node name="FinalGridMap" type="GridMap" parent="."]
+mesh_library = ExtResource("2_xe7fd")
+
+[node name="WallGridMap" parent="." instance=ExtResource("3_56l6u")]
 start = true
-border_size = 50
-fill_height = 1
-metadata/_editor_floor_ = Vector3(0, 0, 0)
+clear_fill = true
+metadata/_editor_floor_ = Vector3(0, -1, 0)
 
-[node name="GridMap2" type="GridMap" parent="."]
-mesh_library = ExtResource("4_ogpmp")
-metadata/_editor_floor_ = Vector3(0, 0, 0)
-
-[node name="Knight" parent="." instance=ExtResource("5_m6mnb")]
+[node name="Knight" parent="." instance=ExtResource("4_qgx5i")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.82537, 0)
 
-[node name="EvilCube" parent="." instance=ExtResource("6_frvph")]
+[node name="EvilCube" parent="." instance=ExtResource("5_5is4c")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.84838, 1.59283, -24.5054)
 
 [node name="Node3D" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -49, 0, -49)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.681998, 0.731354, 0, -0.731354, 0.681998, -0.38, 28.38, 9.275)
+current = true
