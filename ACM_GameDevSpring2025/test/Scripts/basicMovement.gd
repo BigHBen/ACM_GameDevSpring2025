@@ -71,6 +71,8 @@ func _physics_process(delta):
 	velocity.y += -gravity * delta
 	get_move_input(delta)
 	move_and_slide()
+	if health <= 0:
+		anim_state.travel("Death_A")
 
 
 func get_move_input(delta):
@@ -100,6 +102,7 @@ func _unhandled_input(event):
 		await get_tree().create_timer(1.5).timeout
 		$"Rig/Skeleton3D/1H_Sword/Potion".visible = false
 		$"Rig/Skeleton3D/1H_Sword/1H_Sword".visible = true
+
 func _on_timeout():
 	cooldown = false
 
