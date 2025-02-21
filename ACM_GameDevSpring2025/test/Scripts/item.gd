@@ -13,7 +13,7 @@ func _init() -> void:
 func _ready() -> void:
 	item_mesh.mesh = item_type.mesh
 
-func _process() -> void:
+func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		if needs_update:
 			item_mesh.mesh = item_type.mesh
