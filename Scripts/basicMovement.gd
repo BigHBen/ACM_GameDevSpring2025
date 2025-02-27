@@ -158,3 +158,13 @@ func take_damage(damage):
 func _on_animation_finished(_anim):
 	if attacking: 
 		attacking = false
+
+
+func _on_interact_body_entered(body: Node3D) -> void:
+	if body.is_in_group("NPC"):
+		print("Talk to ",body.name,"?")
+		$PlayerUi/Control/Interact.visible = true
+
+func _on_interact_body_exited(body: Node3D) -> void:
+	if body.is_in_group("NPC"):
+		$PlayerUi/Control/Interact.visible = false

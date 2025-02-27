@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://dxcmlu5im4msx"]
+
+[ext_resource type="Script" path="res://Scenes/Characters/Hazards/evil_cube.gd" id="1_3dsqp"]
+[ext_resource type="Script" path="res://Scripts/hitbox.gd" id="1_ijaqi"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_j20re"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_gduop"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h1w53"]
+albedo_color = Color(1, 0.17894, 0.33732, 1)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_0h3nw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_fpdfi"]
+
+[sub_resource type="Curve3D" id="Curve3D_io0d6"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, 10, 0, 0),
+"tilts": PackedFloat32Array(0)
+}
+point_count = 1
+
+[node name="EvilCube" type="CharacterBody3D"]
+script = ExtResource("1_3dsqp")
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_j20re")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+mesh = SubResource("BoxMesh_gduop")
+skeleton = NodePath("")
+surface_material_override/0 = SubResource("StandardMaterial3D_h1w53")
+
+[node name="HitBox" type="Area3D" parent="."]
+script = ExtResource("1_ijaqi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+shape = SubResource("BoxShape3D_0h3nw")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_fpdfi")
+
+[node name="Path3D" type="Path3D" parent="."]
+curve = SubResource("Curve3D_io0d6")
+
+[node name="PathFollow3D" type="PathFollow3D" parent="Path3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.05392, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.518728, 0.854939, 0, -0.854939, 0.518728, -0.692314, 3.83344, 3.77219)

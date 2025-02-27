@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://0udrovh0uwjn"]
 
 [ext_resource type="Script" path="res://Scenes/game.gd" id="1_nw1mo"]
-[ext_resource type="PackedScene" uid="uid://glmmqlidn4d" path="res://Scenes/Levels/test_dungeon.tscn" id="2_4ql88"]
+[ext_resource type="PackedScene" uid="uid://glmmqlidn4d" path="res://Scenes/Levels/test_dungeon.tscn" id="2_wbq3d"]
 [ext_resource type="PackedScene" uid="uid://dnxbomjfrdbl1" path="res://Scenes/UI/pause_menu.tscn" id="2_yxgdt"]
 [ext_resource type="Shader" path="res://Shaders/blur_effect.gdshader" id="4_hcraj"]
 [ext_resource type="Script" path="res://Scenes/UI/stats_display.gd" id="5_8hb7y"]
@@ -18,8 +18,7 @@ font = ExtResource("5_wmtf2")
 process_mode = 3
 script = ExtResource("1_nw1mo")
 
-[node name="test_dungeon" parent="." instance=ExtResource("2_4ql88")]
-process_mode = 1
+[node name="test_dungeon" parent="." instance=ExtResource("2_wbq3d")]
 
 [node name="UI" type="CanvasLayer" parent="."]
 

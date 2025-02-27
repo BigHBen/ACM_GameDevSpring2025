@@ -1,0 +1,3 @@
+2/24 
+- Fixed DunGen Scene
+- Use test_dungeon2.tscn or dun_gen.tscn for testing

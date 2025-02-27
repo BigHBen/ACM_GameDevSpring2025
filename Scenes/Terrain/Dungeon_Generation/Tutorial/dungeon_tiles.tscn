@@ -1,13 +1,20 @@
-[gd_scene load_steps=10 format=3 uid="uid://dmugl8ms7k32j"]
+[gd_scene load_steps=15 format=3 uid="uid://dmugl8ms7k32j"]
 
 [ext_resource type="Shader" path="res://Shaders/outline.gdshader" id="1_nbg2h"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_c2d7s"]
+albedo_color = Color(0.1107, 0.160583, 0.41, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_eay0i"]
+material = SubResource("StandardMaterial3D_c2d7s")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jrupw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vku22"]
 next_pass = SubResource("ShaderMaterial_jrupw")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_0labg"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kxq6u"]
 render_priority = 0
@@ -19,12 +26,22 @@ shader_parameter/outline_color = Color(0, 1, 0, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xxalf"]
 next_pass = SubResource("ShaderMaterial_kxq6u")
+albedo_color = Color(1, 0.955667, 0.62, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tmtr4"]
 albedo_color = Color(0, 0, 1, 1)
 
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_cusmj"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
+
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_a7xcd"]
 albedo_color = Color(1, 1, 0, 1)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_gks20"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_5df8k"]
+points = PackedVector3Array(0.5, 0.5, 0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, -0.5, 0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5, 0.5, -0.5, -0.5, -0.5)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1fdbv"]
 albedo_color = Color(1, 0, 0, 1)
@@ -34,6 +51,11 @@ albedo_color = Color(1, 0, 0, 1)
 [node name="RoomTile" type="MeshInstance3D" parent="."]
 mesh = SubResource("BoxMesh_eay0i")
 surface_material_override/0 = SubResource("StandardMaterial3D_vku22")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="RoomTile"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="RoomTile/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_0labg")
 
 [node name="RoomTile_Highlight" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.5, 0, 0)
@@ -45,10 +67,29 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0)
 mesh = SubResource("BoxMesh_eay0i")
 surface_material_override/0 = SubResource("StandardMaterial3D_tmtr4")
 
+[node name="StaticBody3D" type="StaticBody3D" parent="HallwayTile"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HallwayTile/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_cusmj")
+
 [node name="DoorTile" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 0)
 mesh = SubResource("BoxMesh_eay0i")
 surface_material_override/0 = SubResource("StandardMaterial3D_a7xcd")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="DoorTile"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="DoorTile/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_gks20")
+
+[node name="WallTile" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3, 0, 0)
+mesh = SubResource("BoxMesh_eay0i")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="WallTile"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="WallTile/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_5df8k")
 
 [node name="BorderTile" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.5, 0, 0)

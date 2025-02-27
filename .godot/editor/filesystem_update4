@@ -1,0 +1,14 @@
+res://Scenes/Levels/test_dungeon_2.tscn
+res://Tileset/tiles.tres
+res://Scenes/Terrain/wall_gen_tiles.tres
+res://Resources/knight_state.tres
+res://Shaders/blur_effect.gdshader
+res://Shaders/outline.gdshader
+res://Scenes/Terrain/Dungeon_Generation/Tutorial/dungeon_tiles_resized.tres
+res://Tileset/tiles2.tres
+res://Shaders/darkness.gdshader
+res://Shaders/darkness2.gdshader
+res://Shaders/darkness3.gdshader
+res://Scenes/Terrain/Dungeon_Generation/Tutorial/dun_gen.gd
+res://Scenes/game_manager.tscn
+res://Scenes/Characters/NPCs/npc_1.gd

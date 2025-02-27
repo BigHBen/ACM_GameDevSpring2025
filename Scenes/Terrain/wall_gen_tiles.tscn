@@ -14,7 +14,7 @@ points = PackedVector3Array(1.5, 1.5, 1.5, 1.5, 1.5, -1.5, -1.5, 1.5, 1.5, 1.5, 
 size = Vector3(2, 2, 2)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r86ny"]
-albedo_color = Color(0.611765, 0, 0, 1)
+albedo_color = Color(0.766302, 0.712723, 0.224021, 1)
 
 [node name="tiles2" type="Node3D"]
 

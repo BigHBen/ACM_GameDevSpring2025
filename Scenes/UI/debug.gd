@@ -41,7 +41,7 @@ func get_target_player():
 func find_characters_in_level(node):
 	var level = node.get_child(0)
 	# Assume current scene is Level if root isn't GameManager
-	if level is not Level: level = get_tree().current_scene 
+	if !level.is_in_group("Level"): level = get_tree().current_scene 
 	var players = []
 	for child in level.get_children():
 		if child is CharacterBody3D:
