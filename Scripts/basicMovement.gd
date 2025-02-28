@@ -152,6 +152,9 @@ func change_anim_parameters():
 func take_damage(damage):
 	healthbar._set_health(health - damage)
 	health -= damage
+	if health == 0:
+		
+		get_tree().quit()
 
 func _on_animation_finished(_anim):
 	if attacking: 

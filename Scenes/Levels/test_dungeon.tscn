@@ -9,12 +9,12 @@
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_k3ddj"]
 
-[sub_resource type="Sky" id="Sky_q5pke"]
+[sub_resource type="Sky" id="Sky_p103u"]
 sky_material = SubResource("ProceduralSkyMaterial_k3ddj")
 
 [sub_resource type="Environment" id="Environment_v4rco"]
 background_mode = 1
-sky = SubResource("Sky_q5pke")
+sky = SubResource("Sky_p103u")
 ambient_light_source = 2
 ambient_light_color = Color(0.176419, 0.176419, 0.176419, 1)
 reflected_light_source = 2
@@ -37,7 +37,6 @@ script = ExtResource("1_g155d")
 environment = SubResource("Environment_v4rco")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Environment"]
-visible = false
 light_energy = 0.484
 light_volumetric_fog_energy = 0.0
 
@@ -68,7 +67,7 @@ start = true
 clear_fill = true
 border_size = 24
 fill_height = 8
-metadata/_editor_floor_ = Vector3(0, 0, 0)
+metadata/_editor_floor_ = Vector3(0, -3, 0)
 
 [node name="GridMap2" type="GridMap" parent="."]
 mesh_library = ExtResource("4_seikk")

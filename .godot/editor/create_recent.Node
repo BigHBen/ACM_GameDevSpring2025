@@ -1,7 +1,9 @@
-RayCast3D
+GridMap
+StaticBody3D
 CollisionShape3D
-Area3D
 Node3D
+RayCast3D
+Area3D
 MeshInstance3D
 ColorRect
 CanvasLayer
@@ -9,7 +11,4 @@ OmniLight3D
 SpotLight3D
 PlayerCharacter
 CharacterBody3D
-GridMap
 WorldEnvironment
-Label
-Control

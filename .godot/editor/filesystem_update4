@@ -1,0 +1,13 @@
+res://Scenes/Levels/level_1.tscn
+res://Resources/knight_state.tres
+res://Tileset/tiles.tres
+res://Shaders/blur_effect.gdshader
+res://Scenes/Terrain/test_tiles.tres
+res://Shaders/darkness.gdshader
+res://Shaders/outline.gdshader
+res://Shaders/darkness2.gdshader
+res://Shaders/darkness3.gdshader
+res://Scenes/game_manager.tscn
+res://Scenes/Levels/test_dungeon.tscn
+res://Scenes/Terrain/tiles.tscn
+res://Scenes/Terrain/tiles_2.tscn
