@@ -18,7 +18,9 @@ font = ExtResource("5_wmtf2")
 process_mode = 3
 script = ExtResource("1_nw1mo")
 
-[node name="test_dungeon" parent="." instance=ExtResource("2_wbq3d")]
+[node name="test_dungeon" parent="." groups=["Level"] instance=ExtResource("2_wbq3d")]
+process_mode = 1
+metadata/_edit_group_ = true
 
 [node name="UI" type="CanvasLayer" parent="."]
 

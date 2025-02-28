@@ -1,3 +1,7 @@
+RayCast3D
+Timer
+CollisionShape3D
+MeshInstance3D
 GridMap
 DunGen
 Node3D
@@ -7,8 +11,5 @@ Marker3D
 Path3D
 PathFollow3D
 Camera3D
-CollisionShape3D
 CharacterBody3D
 Button
-Area3D
-SpringArm3D

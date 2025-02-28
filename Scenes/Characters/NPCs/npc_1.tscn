@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://klstgmqmxrk1" path="res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/NPC1.glb" id="1_4g070"]
 [ext_resource type="Script" path="res://Scenes/Characters/NPCs/npc_1.gd" id="2_wv6c1"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_k3jte"]
+[sub_resource type="SphereShape3D" id="SphereShape3D_8xxtj"]
 radius = 3.0
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3xc2y"]
@@ -87,10 +87,20 @@ autoplay = "Idle"
 [node name="Area3D" type="Area3D" parent="." index="2"]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
-shape = SubResource("SphereShape3D_k3jte")
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("SphereShape3D_8xxtj")
+
+[node name="Scan" type="Timer" parent="Area3D" index="1"]
+wait_time = 0.25
+autostart = true
 
 [node name="Physics" type="CollisionShape3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 shape = SubResource("CapsuleShape3D_3xc2y")
 
+[node name="ScanRaycast" type="RayCast3D" parent="." index="4"]
+target_position = Vector3(0, 1, -25)
+debug_shape_custom_color = Color(1, 0, 0, 1)
+
 [connection signal="body_entered" from="Area3D" to="." method="_on_chatzone_entered"]
+[connection signal="timeout" from="Area3D/Scan" to="." method="_on_scan_timeout"]
