@@ -5,6 +5,7 @@ class_name WallGridSpawner
 
 @export var start : bool = false : set = set_start
 @export var clear_fill : bool = false : set = set_clear
+@export var keep : bool = false
 
 @export_category("Parameters")
 @export var dun_gen : DunGen
@@ -46,7 +47,7 @@ func set_start(val:bool)->void:
 # Clear wall tiles
 func set_clear(val:bool)->void:
 	clear_fill = val
-	if Engine.is_editor_hint():
+	if Engine.is_editor_hint() and clear_fill:
 		self.clear()
 		clear_fill = false
 
@@ -54,22 +55,28 @@ func set_clear(val:bool)->void:
 # Tiles inside border are scanned for wall spawning
 func set_border_size(val : int) -> void:
 	border_size = val
-	if Engine.is_editor_hint():
+	if Engine.is_editor_hint() and !keep:
 		#center_x = int(border_size / 2)
 		#center_z = int(border_size / 2)
 		visualize_border()
 
 func visualize_border():
 	self.clear()
-	if source_gridmap: 
-		var center = (border_size / 2) * cell_size.x + 9
-		self.position = Vector3(center, 0, center)
-	for i in range(-border_size, border_size + 2):
+	if dun_gen and source_gridmap: 
+		var center = (border_size / 2) * cell_size.x
+		self.position = Vector3(center,0,center)
+	for i in range(-border_size, border_size + 1):
 		self.set_cell_item(Vector3i(i, 0, -border_size), self.get_tile_index(TileType.BORDER))  # Bottom
 		self.set_cell_item(Vector3i(i, 0, border_size + 1), self.get_tile_index(TileType.BORDER))  # Top
 		self.set_cell_item(Vector3i(-border_size, 0, i), self.get_tile_index(TileType.BORDER))  # Left
 		self.set_cell_item(Vector3i(border_size + 1, 0, i), self.get_tile_index(TileType.BORDER))  # Right
 
+func clear_border(node : GridMap):
+	for i in range(-border_size, border_size + 1):
+		node.set_cell_item(Vector3i(i, 0, -border_size), -1)  # Bottom
+		node.set_cell_item(Vector3i(i, 0, border_size + 1), -1)  # Top
+		node.set_cell_item(Vector3i(-border_size, 0, i), -1)  # Left
+		node.set_cell_item(Vector3i(border_size + 1, 0, i), -1)  # Right
 #func visualize_border_centered():
 		#self.clear()
 		#for i in range(-border_size, border_size + 1):
@@ -94,14 +101,29 @@ func iterate_grid_cells():
 	#for x in range(-border_size + 1, border_size): # If centered
 		#for z in range(-border_size + 1, border_size):
 	# Set all empty tiles from source gridmap to wall
-	for x in range(-border_size+10, border_size * 2): # If not centered
-		for z in range(-border_size+10, border_size * 2):
+	var adjustment1 = 0
+	var adjustment2 = 1
+	
+	var border_start = -border_size+adjustment1
+	var border_end = border_size*adjustment2
+	if dun_gen: 
+		adjustment1 = 0
+		var offset_x = border_size/2 # Change this to match the actual offset in X
+		var offset_z = border_size/2
+		border_start = -border_size + offset_x
+		border_end = border_size + offset_z
+	for x in range(border_start, border_end): # If not centered
+		for z in range(border_start, border_end):
 			#@warning_ignore("narrowing_conversion")
 			#var self_position_i = Vector3i(self.position.x, self.position.y, self.position.z)
 			var pos = Vector3i(x, 0, z)
 			if dun_gen:
 				if source_gridmap.get_cell_item(pos) == dun_gen.get_tile_index(dun_gen.TileType.BORDER):
 					source_gridmap.set_cell_item(pos,-1)
+				if source_gridmap.get_cell_item(pos) == -1: # if empty tile
+					self.set_cell_item(pos, 0)
+					positions.append(pos)
+			else:
 				if source_gridmap.get_cell_item(pos) == -1: # if empty tile
 					self.set_cell_item(pos, 0)
 					positions.append(pos)

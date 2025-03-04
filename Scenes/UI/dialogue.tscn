@@ -1,0 +1,82 @@
+[gd_scene load_steps=5 format=3 uid="uid://c07qpbybbbp40"]
+
+[ext_resource type="Script" path="res://dialogue_player.gd" id="1_cxgqx"]
+[ext_resource type="JSON" path="res://Resources/npc_dialogue.json" id="2_bsms5"]
+[ext_resource type="Texture2D" uid="uid://darhoyweh32yl" path="res://Assets/UI_Assets/dialogue_box.png" id="2_pl15f"]
+[ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="3_u3308"]
+
+[node name="Dialogue" type="CanvasLayer"]
+script = ExtResource("1_cxgqx")
+d_file = ExtResource("2_bsms5")
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+offset_left = 219.0
+offset_top = 680.0
+offset_right = 1719.0
+offset_bottom = 1009.0
+texture = ExtResource("2_pl15f")
+region_rect = Rect2(0, 0, 32, 32)
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="Name" type="RichTextLabel" parent="NinePatchRect"]
+layout_mode = 0
+offset_left = 21.0
+offset_top = 19.0
+offset_right = 1474.0
+offset_bottom = 71.0
+theme_override_fonts/normal_font = ExtResource("3_u3308")
+theme_override_font_sizes/normal_font_size = 40
+text = "Name"
+
+[node name="Chatbox" type="RichTextLabel" parent="NinePatchRect"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 82.0
+offset_right = 1471.0
+offset_bottom = 310.0
+theme_override_constants/line_separation = 2
+theme_override_fonts/normal_font = ExtResource("3_u3308")
+theme_override_font_sizes/normal_font_size = 40
+text = "Chatting"
+
+[node name="ChatEndDelay" type="Timer" parent="."]
+one_shot = true
+
+[node name="PlayerResponse" type="Control" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = -512.0
+offset_right = -472.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerResponse"]
+layout_mode = 0
+offset_left = 1273.0
+offset_top = 940.0
+offset_right = 1613.0
+offset_bottom = 980.0
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="Accept" type="Button" parent="PlayerResponse/HBoxContainer"]
+layout_mode = 2
+focus_neighbor_left = NodePath(".")
+focus_neighbor_right = NodePath("../Reject")
+theme_override_fonts/font = ExtResource("3_u3308")
+theme_override_font_sizes/font_size = 35
+text = "ACCEPT"
+flat = true
+
+[node name="Reject" type="Button" parent="PlayerResponse/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_u3308")
+theme_override_font_sizes/font_size = 35
+text = "REJECT
+"
+flat = true
+
+[connection signal="timeout" from="ChatEndDelay" to="." method="_on_chat_timer_timeout"]

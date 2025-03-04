@@ -9,4 +9,6 @@ func _ready() -> void:
 	pass
 
 func _physics_process(delta: float) -> void:
-	pass
+	if get_parent() is PathFollow3D:
+		var p : PathFollow3D = get_parent()
+		p.progress += SPEED * delta

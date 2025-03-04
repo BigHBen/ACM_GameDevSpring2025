@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://phrn6ufk40eb"]
+[gd_scene load_steps=6 format=3 uid="uid://phrn6ufk40eb"]
 
 [ext_resource type="PackedScene" uid="uid://klstgmqmxrk1" path="res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/NPC1.glb" id="1_4g070"]
 [ext_resource type="Script" path="res://Scenes/Characters/NPCs/npc_1.gd" id="2_wv6c1"]
+[ext_resource type="PackedScene" uid="uid://c07qpbybbbp40" path="res://Scenes/UI/dialogue.tscn" id="3_eoejf"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_8xxtj"]
 radius = 3.0
@@ -9,8 +10,9 @@ radius = 3.0
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3xc2y"]
 height = 2.4
 
-[node name="NPC1" groups=["NPC"] instance=ExtResource("1_4g070")]
+[node name="NPC1" node_paths=PackedStringArray("dialogue") groups=["NPC"] instance=ExtResource("1_4g070")]
 script = ExtResource("2_wv6c1")
+dialogue = NodePath("Dialogue")
 
 [node name="Skeleton3D" parent="Rig" index="0"]
 bones/4/rotation = Quaternion(-0.514122, -0.485468, -0.485468, 0.514122)
@@ -101,6 +103,9 @@ shape = SubResource("CapsuleShape3D_3xc2y")
 [node name="ScanRaycast" type="RayCast3D" parent="." index="4"]
 target_position = Vector3(0, 1, -25)
 debug_shape_custom_color = Color(1, 0, 0, 1)
+
+[node name="Dialogue" parent="." index="5" instance=ExtResource("3_eoejf")]
+layer = 0
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_chatzone_entered"]
 [connection signal="timeout" from="Area3D/Scan" to="." method="_on_scan_timeout"]

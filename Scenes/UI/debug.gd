@@ -23,7 +23,8 @@ func _ready() -> void:
 	if get_target_player() != null:
 		load_properties()
 	else: 
-		printerr("Current scene is not GameManager.. ")
+		#printerr("Debug (Autoload): Current scene is not GameManager.. ")
+		pass
 	
 	fps_toggle.toggled.connect(_on_fps_show_toggle)
 
@@ -31,10 +32,11 @@ func _ready() -> void:
 func get_target_player():
 	var scene_root = get_tree().current_scene
 	
-	for character in find_characters_in_level(scene_root):
-		if character.is_in_group("Player"):
-			target_player = character
-			return character
+	if scene_root.get_child_count() > 0:
+		for character in find_characters_in_level(scene_root):
+			if character.is_in_group("Player"):
+				target_player = character
+				return character
 	return null
 
 # Returns all characterbodies from current level

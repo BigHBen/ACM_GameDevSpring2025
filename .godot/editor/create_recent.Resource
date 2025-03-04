@@ -1,2 +1,4 @@
+JSON
+GDScript
 Shader
 ShaderMaterial

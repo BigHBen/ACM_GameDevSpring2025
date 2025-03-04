@@ -1,0 +1,16 @@
+{
+	"quest_dialogue": [
+		{"name": "Wizard Apprentice", "text": "WHATS GOOD BRUV"},
+		{"name": "Wizard Apprentice", "text": "I lost something of mine ... could you help me find it?", "accept": "Sure!", "reject": "Not yet..", "quest": {"part" : 1}},
+		{"name": "Wizard Apprentice", "text": "", "accepted": "Oh that's GREAT! I'll wait here while you look", "rejected": "That's okay! Thanks though.."}
+	],
+	"return_dialogue": [
+		{"name": "Wizard Apprentice", "text": "Did you find it?", "quest_progress": "in_progress"},
+		{"name": "Wizard Apprentice", "text": "Keep looking!", "quest_progress": "in_progress"},
+		{"name": "Wizard Apprentice", "text": "You found it! Thank you so much!", "quest_progress": "completed"},
+		{"name": "Wizard Apprentice", "text": "Here's something for your trouble, you earned it!", "quest_progress": "completed"}
+	],
+	"chat": [
+		{"name": "Wizard Apprentice", "text": "How's it going?"},
+	],
+}

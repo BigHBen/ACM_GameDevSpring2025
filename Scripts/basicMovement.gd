@@ -45,6 +45,10 @@ var rayEnd = Vector3()
 var attacking = false
 var blocking = false
 
+# Item/ Currency Variables
+var moneyAmount : int = 0
+var potionAmount : int = 1
+
 func _ready():
 	anim_tree.animation_finished.connect(_on_animation_finished)
 	healthbar.init_health(health)
@@ -79,6 +83,7 @@ func _physics_process(delta):
 	get_move_input(delta)
 	move_and_slide()
 	change_anim_parameters()
+	update_ui()
 	
 
 func get_move_input(delta):
@@ -159,12 +164,6 @@ func _on_animation_finished(_anim):
 	if attacking: 
 		attacking = false
 
-
-func _on_interact_body_entered(body: Node3D) -> void:
-	if body.is_in_group("NPC"):
-		print("Talk to ",body.name,"?")
-		$PlayerUi/Control/Interact.visible = true
-
-func _on_interact_body_exited(body: Node3D) -> void:
-	if body.is_in_group("NPC"):
-		$PlayerUi/Control/Interact.visible = false
+func update_ui() -> void:
+	$PlayerUi/Coins/Label.text = str(moneyAmount)
+	$PlayerUi/Potions/Label.text = str(potionAmount)

@@ -93,7 +93,7 @@ func set_border_size(val : int) -> void:
 	if Engine.is_editor_hint():
 		if grid_map: visualize_border()
 		if mesh_customizer: mesh_customizer.border_size = val
-		if wallgrid_spawner: wallgrid_spawner.border_size = val - 10
+		if wallgrid_spawner: wallgrid_spawner.border_size = val# - 10
 
 func visualize_border():
 	if grid_map: grid_map.clear()
