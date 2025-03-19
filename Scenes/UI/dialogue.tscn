@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://dialogue_player.gd" id="1_cxgqx"]
 [ext_resource type="JSON" path="res://Resources/npc_dialogue.json" id="2_bsms5"]
-[ext_resource type="Texture2D" uid="uid://darhoyweh32yl" path="res://Assets/UI_Assets/dialogue_box.png" id="2_pl15f"]
+[ext_resource type="Texture2D" uid="uid://bs5ja4heekj83" path="res://Assets/UI_Assets/dialogue_box2.png" id="3_2c1go"]
 [ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="3_u3308"]
 
 [node name="Dialogue" type="CanvasLayer"]
@@ -10,11 +10,11 @@ script = ExtResource("1_cxgqx")
 d_file = ExtResource("2_bsms5")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
-offset_left = 219.0
-offset_top = 680.0
-offset_right = 1719.0
-offset_bottom = 1009.0
-texture = ExtResource("2_pl15f")
+offset_left = 384.0
+offset_top = 715.0
+offset_right = 1554.0
+offset_bottom = 974.0
+texture = ExtResource("3_2c1go")
 region_rect = Rect2(0, 0, 32, 32)
 patch_margin_left = 5
 patch_margin_top = 5
@@ -25,7 +25,7 @@ patch_margin_bottom = 5
 layout_mode = 0
 offset_left = 21.0
 offset_top = 19.0
-offset_right = 1474.0
+offset_right = 1144.0
 offset_bottom = 71.0
 theme_override_fonts/normal_font = ExtResource("3_u3308")
 theme_override_font_sizes/normal_font_size = 40
@@ -35,8 +35,8 @@ text = "Name"
 layout_mode = 0
 offset_left = 30.0
 offset_top = 82.0
-offset_right = 1471.0
-offset_bottom = 310.0
+offset_right = 1144.0
+offset_bottom = 225.0
 theme_override_constants/line_separation = 2
 theme_override_fonts/normal_font = ExtResource("3_u3308")
 theme_override_font_sizes/normal_font_size = 40
@@ -56,9 +56,9 @@ offset_bottom = 40.0
 [node name="HBoxContainer" type="HBoxContainer" parent="PlayerResponse"]
 layout_mode = 0
 offset_left = 1273.0
-offset_top = 940.0
-offset_right = 1613.0
-offset_bottom = 980.0
+offset_top = 916.0
+offset_right = 1629.0
+offset_bottom = 956.0
 theme_override_constants/separation = 20
 alignment = 1
 

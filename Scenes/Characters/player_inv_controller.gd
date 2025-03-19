@@ -1,0 +1,41 @@
+class_name PlayerInventoryController
+extends Node3D
+
+@onready var player = $".."
+@onready var interactions_node : Area3D = $"../Interact"
+# Autoload Inventory scene
+@onready var inventory : Inventory = get_node("/root/PlayerInventory")
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	inventory.inventory_toggle.connect(inventory_window_toggled)
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(_delta: float) -> void:
+	pass
+
+func collect(item : BaseItem):
+	inventory.add_item(item,player)
+
+func inventory_window_toggled():
+	if inventory_close_conditions(): inventory.window.visible = false
+
+func open_inventory():
+	inventory.toggle_window(true)
+
+func close_inventory():
+	inventory.toggle_window(false)
+
+func inventory_close_conditions():
+	return interactions_node.detected_npc
+
+func get_baseitem_as_dict(item : BaseItem) -> Dictionary:
+	var dict = {}
+	var script = item.get_script()
+	for prop in script.get_script_property_list():
+		if prop.usage & PROPERTY_USAGE_STORAGE:
+			var prop_name = prop.name
+			var prop_value = item.get(prop_name)
+			dict[prop_name] = prop_value
+	return dict

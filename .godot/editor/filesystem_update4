@@ -7,9 +7,8 @@ res://Shaders/darkness.gdshader
 res://Shaders/outline.gdshader
 res://Shaders/darkness2.gdshader
 res://Shaders/darkness3.gdshader
-res://Scenes/Characters/knight.tscn
 res://Scenes/UI/Inventory/inventory.tscn
-res://Scenes/UI/Inventory/inventory.gd
-res://Scenes/UI/debug.gd
 res://Scenes/UI/Inventory/inventory_slot.tscn
-res://Scenes/UI/Inventory/inventory_slot.gd
+res://UI_Work/ItemsWork/ItemsWork/item.tscn
+res://Scenes/Levels/test_dungeon.tscn
+res://Scenes/Characters/NPCs/npc_1.gd

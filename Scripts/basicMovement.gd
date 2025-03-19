@@ -42,6 +42,12 @@ var rayEnd = Vector3()
 @onready var spring_arm : SpringArm3D = $CameraPivot/SpringArm3D
 @onready var healthbar = $PlayerUi/HealthBar
 
+# Effects
+@onready var p_effects : Node3D = $EffectsManager
+
+# Inventory Controller node
+@onready var p_inv_controller : Node3D = $InventoryController
+
 var attacking = false
 var blocking = false
 

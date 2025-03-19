@@ -2,6 +2,7 @@ extends Control
 
 @export var game_manager : GameManager
 @onready var debug_menu = get_node_or_null("/root/Debug")
+@onready var inventory_menu = get_node("/root/PlayerInventory")
 @onready var resume_button = $VBoxContainer/ResumeButton
 @onready var exit_button = $VBoxContainer/ExitButton
 
@@ -48,6 +49,10 @@ func _on_game_paused(is_paused):
 		#if game_manager.get_child(0).is_in_group("Level"):
 			#var level =  game_manager.get_child(0)
 			#level.group_toggle_ui("NPC",false)
+		
+		# Close inventory if open
+		if inventory_menu.window.visible: inventory_menu.window.visible = false
+		
 	else: 
 		hide()
 		tween_shader_property("lod",0.0, 0.25)

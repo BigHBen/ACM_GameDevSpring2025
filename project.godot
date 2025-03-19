@@ -19,6 +19,7 @@ config/icon="res://acm_logo.svg"
 
 Debug="*res://Scenes/UI/debug.tscn"
 QuestManager="*res://Resources/quest_manager.gd"
+PlayerInventory="*res://Scenes/UI/Inventory/inventory.tscn"
 
 [debug]
 

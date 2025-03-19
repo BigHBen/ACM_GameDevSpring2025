@@ -6,6 +6,9 @@ extends CharacterBody3D
 # Autoload Questmanager scene
 @onready var quest_manager : QuestManager = get_node("/root/QuestManager")
 
+# Autoload Inventory scene
+@onready var player_inventory : Inventory = get_node("/root/PlayerInventory")
+
 @export_group("Dialogue")
 @export var dialogue : NPCDialogue
 
@@ -16,6 +19,12 @@ extends CharacterBody3D
 # Quests!
 @export_group("Quests")
 @export var npc_quest : Quest
+@export var npc_quest_item : BaseItem = preload("res://UI_Work/ItemsWork/ItemsWork/QuestItem.tres")
+var base_item_mesh = preload("res://UI_Work/ItemsWork/ItemsWork/item.tscn")
+var quest_item_mesh : Mesh = preload("res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/obj/bottle_A_brown.obj")
+var quest_item_icon : CompressedTexture2D = preload("res://Assets/UI_Assets/Potion.png")
+var quest_reward : BaseItem = preload("res://UI_Work/ItemsWork/ItemsWork/SpecialPotion.tres")
+
 
 #Visibility/Raycasts
 var prev_raycast_endpoint := Vector2.ZERO
@@ -103,20 +112,81 @@ func load_quest():
 	npc_quest.description = "The Wizard Apprentice needs help finding their sauce bottle!"
 	npc_quest.is_completed = false
 	npc_quest.objectives = ["Look around dungeon for a brown sauce bottle"]
-	npc_quest.rewards = quest_manager.load_reward("Coin")
+	npc_quest.desired_item = npc_quest_item
+	npc_quest.desired_item_quantity = 1
+	
+	# Configure reward (Speed Potion)
+	var potion_type = "Speed_Potion"
+	var quest_reward_dict = quest_manager.load_reward(potion_type)
+	quest_reward.value = quest_reward_dict["quantity"]
+	quest_reward.icon = load(quest_reward_dict["ref"])
+	quest_reward.info = quest_reward_dict["info"]
+	quest_reward.special_potion_type = "speed"
+	npc_quest.rewards[quest_reward_dict["name"]] = quest_reward
+	
+	# Configure desired QuestItem (BaseItem resource)
+	npc_quest_item.value = 1
+	npc_quest_item.mesh = quest_item_mesh
+	npc_quest_item.icon = quest_item_icon
+	npc_quest_item.info = "A bottle of mysterious sauce"
+
 
 func interact(talk):
 	if talk:
 		if dialogue:
-			dialogue.start()
+			if quest_manager.has_quest(npc_quest.id): 
+				quest_check()
+				dialogue.start()
+			else: dialogue.start()
 		else: printerr("Make sure to assign Dialogue!")
 	else: dialogue.d_active = false
 
+# Check for npc quest item in player inventory
+# Finish quest if player has desired amount of quest item
+func quest_check():
+	if npc_quest == null: return
+	if target:
+		print("Looking for %s..." % [npc_quest.desired_item.info.to_lower()])
+		var detected_q_items : int = player_inventory.get_number_of_item(npc_quest.desired_item)
+		if detected_q_items == npc_quest.desired_item_quantity:
+			npc_quest_finish()
+
+
+func npc_quest_finish():
+	quest_manager.quest_finish(npc_quest.id)
+	
+	# Reward animation
+	
+	if target:
+		var start_pos = self.position
+		var end_pos = target.position 
+		
+		var quest_reward_mesh = quest_reward.instantiate()
+		quest_reward.position = start_pos
+
 func _on_quest_accepted():
+	if target: npc_quest.player = target
 	quest_manager.accept_quest(npc_quest)
+	
+	# Spawn Quest Item 
+	# Pick a random Marker3D child from level
+	# Place Item Mesh at Marker3D position
+	var level = get_parent() if get_parent().is_in_group("Level") else null
+	var level_items : Node = level.get_node_or_null("Items")
+	var markers : Array = []
+	var random_marker
+	for child in level_items.get_children():
+		if child is Marker3D: markers.append(child)
+	if markers.size() > 0:
+		random_marker = markers[randi() % markers.size()]
+	
+	var quest_item = base_item_mesh.instantiate()
+	quest_item.item_type = npc_quest_item
+	quest_item.position = random_marker.position
+	level_items.add_child(quest_item)
 
 func _on_quest_rejected():
-	print("quest rejected")
+	print("quest rejected") # Do nothing
 
 func _on_chat_over():
 	pass

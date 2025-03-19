@@ -1,4 +1,5 @@
 @tool
+class_name BaseItem_Mesh
 extends Area3D
 
 @export var item_type: BaseItem
@@ -13,6 +14,7 @@ func _init() -> void:
 func _ready() -> void:
 	if item_type != null:
 		item_mesh.mesh = item_type.mesh
+		item_spawn_animation()
 	else:
 		print("No type given to an item!w")
 
@@ -22,6 +24,13 @@ func _process(_delta: float) -> void:
 			item_mesh.mesh = item_type.mesh
 			needs_update = false
 
+func item_spawn_animation():
+	self.scale = Vector3.ONE/8
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(self, "scale", Vector3.ONE, 0.5)
+	
 func _on_body_entered(area: PlayerCharacter) -> void:
 	if area == null:
 		return

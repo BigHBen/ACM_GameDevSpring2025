@@ -1,4 +1,5 @@
 [
 	{"name": "Coin", "quantity": 1, "ref": ""},
+	{"name": "Speed_Potion", "quantity": 1, "info": "Freakin fast mode", "ref": "res://Assets/UI_Assets/Speed_Potion.png"},
 	{"name": "Armor", "quantity": 1, "ref": ""}
 ]
