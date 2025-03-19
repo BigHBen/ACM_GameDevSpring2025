@@ -7,10 +7,16 @@ var quantity : int
 @onready var slot_options = $Options
 @onready var inventory : Inventory = get_node("/root/PlayerInventory")
 
+var slot_options_hovering : bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	self.pressed.connect(_on_pressed)
-
+	if slot_options.get_child_count() == 2:
+		slot_options.mouse_entered.connect(_on_slotoptions_hovered)
+		slot_options.mouse_exited.connect(_on_slotoptions_hovered_exit)
+		slot_options.get_children()[0].pressed.connect(_on_pressed)
+		slot_options.get_children()[1].pressed.connect(remove_item)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -42,9 +48,9 @@ func remove_item_animation():
 	await tween.finished
 
 func set_item_options(new_item : BaseItem):
-	if new_item.usable: pass
+	if new_item.usable: slot_options.get_child(0).disabled = false
 	else: slot_options.get_child(0).disabled = true
-	if new_item.removeable: pass
+	if new_item.player_removable: slot_options.get_child(1).disabled = false
 	else: slot_options.get_child(1).disabled = true
 
 func add_item():
@@ -55,14 +61,25 @@ func remove_item():
 	quantity -= 1
 	update_quantity_text()
 	if quantity == 0: 
+		inventory.color_flash(self,Color.RED, 0.5)
 		await remove_item_animation()
 		set_item(null)
 	if slot_options.visible: toggle_slot_options(false)
+	
 
 func update_quantity_text():
 	if quantity <= 1: quantity_text.text = ""
 	else: quantity_text.text = str(quantity)
+
+func _on_slotoptions_hovered():
+	slot_options_hovering = true
+
+# If not hovering over item options vbox, set boolean
+func _on_slotoptions_hovered_exit():
+	slot_options_hovering = false
 	
+	# If not hovering over slot either, hide slot options
+	if self.mouse_exited: toggle_slot_options(false)
 
 func _on_gui_input(event):
 	if event is InputEventMouseButton and event.pressed:
@@ -80,3 +97,4 @@ func _on_pressed():
 	if item.usable:
 		var remove_after_use = item.use(inventory.player_ref)
 		if remove_after_use: remove_item()
+		inventory.color_flash(self,Color.GREEN, 0.5)

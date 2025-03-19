@@ -1,6 +1,14 @@
 class_name BaseItem extends Resource
 
 enum ITEM_TYPE {COIN, POTION, SPECIAL_POTION, KEY, QUEST_ITEM}
+var item_type_map = [
+	0,  # COIN
+	1,  # POTION
+	2,  # SPECIAL_POTION
+	3,  # KEY
+	4,  # QUEST_ITEM
+]
+const ITEM_TYPE_NAMES := ["COIN", "POTION", "SPECIAL_POTION", "KEY", "QUEST_ITEM"]
 
 @export var value : int
 @export var mesh : Mesh
@@ -8,9 +16,11 @@ enum ITEM_TYPE {COIN, POTION, SPECIAL_POTION, KEY, QUEST_ITEM}
 @export var icon : CompressedTexture2D
 @export var usable : bool
 @export var removeable : bool
+@export var player_removable : bool
 @export var info : String
+@export var max_stack_size : int
 
-var special_potion_type : String
+var special_name_type : String
 
 func add_value(player: PlayerCharacter):
 	match type:
@@ -28,5 +38,8 @@ func add_value(player: PlayerCharacter):
 func use(player: PlayerCharacter):
 	match type:
 		ITEM_TYPE.SPECIAL_POTION:
-			player.p_effects.load_potion(special_potion_type)
+			player.p_effects.load_effect_item(special_name_type)
 			return true
+
+func get_item_type_name() -> String:
+	return ITEM_TYPE_NAMES[type]

@@ -18,6 +18,7 @@ var slots : Array[InventorySlot]
 @onready var grid_container : GridContainer = $Panel/InventorySlots
 
 var inventory_slot = preload("res://Scenes/UI/Inventory/inventory_slot.tscn")
+var hovered_slot : InventorySlot
 
 # Reference to player
 var player_ref : PlayerCharacter
@@ -80,7 +81,8 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("inventory"): #E
 		toggle_window(!window.visible)
 
-func on_give_player_item (item : BaseItem, amount : int):
+# Add item directly to inventory via script
+func on_give_player_item (_item : BaseItem, _amount : int):
 	pass
 
 func add_item(item : BaseItem, from):
@@ -95,13 +97,18 @@ func add_item(item : BaseItem, from):
 
 func remove_item(item : BaseItem):
 	var slot = get_slot_to_remove(item)
-	if slot == null or slot.item == item: return
+	if slot == null or slot.item != item: return
+	color_flash(slot,Color.RED, 0.25)
 	slot.remove_item()
 
 func get_slot_to_add(item : BaseItem) -> InventorySlot:
 	for slot in slots:
-		if slot.item == item and slot.quantity < item.max_stack_size:
-			return slot
+		if slot.item and item.type:
+			match slot.item.type:
+				item.ITEM_TYPE.SPECIAL_POTION: 
+					if slot.item.type and slot.item.special_name_type == item.special_name_type:
+						return slot
+				_: if slot.item.type == item.type: return slot
 	for slot in slots:
 		if slot.item == null:
 			return slot
@@ -119,11 +126,21 @@ func get_number_of_item(item : BaseItem) -> int:
 		if slot.item == item: total += slot.quantity
 	return total
 
+func color_flash(slot : InventorySlot, color : Color, duration: float):
+	var _cur_modulate = slot.modulate
+	slot.modulate = color
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(slot, "modulate", Color.WHITE, duration)
+
 func _on_slot_hovered(slot : InventorySlot):
 	var slot_item = slot.item
+	hovered_slot = slot
 	if slot_item == null: return
 	info_text.text = slot_item.info
 
 func _on_slot_hover_exit(slot : InventorySlot):
-	slot.toggle_slot_options(false)
+	if hovered_slot.slot_options.mouse_entered: pass
+	else: slot.toggle_slot_options(false)
 	info_text.text = "Info"

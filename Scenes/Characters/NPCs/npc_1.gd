@@ -24,7 +24,7 @@ var base_item_mesh = preload("res://UI_Work/ItemsWork/ItemsWork/item.tscn")
 var quest_item_mesh : Mesh = preload("res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/obj/bottle_A_brown.obj")
 var quest_item_icon : CompressedTexture2D = preload("res://Assets/UI_Assets/Potion.png")
 var quest_reward : BaseItem = preload("res://UI_Work/ItemsWork/ItemsWork/SpecialPotion.tres")
-
+var npc_quest_over : bool = false
 
 #Visibility/Raycasts
 var prev_raycast_endpoint := Vector2.ZERO
@@ -121,11 +121,13 @@ func load_quest():
 	quest_reward.value = quest_reward_dict["quantity"]
 	quest_reward.icon = load(quest_reward_dict["ref"])
 	quest_reward.info = quest_reward_dict["info"]
-	quest_reward.special_potion_type = "speed"
+	quest_reward.max_stack_size = quest_reward_dict["max"]
+	quest_reward.special_name_type = "speed"
 	npc_quest.rewards[quest_reward_dict["name"]] = quest_reward
 	
 	# Configure desired QuestItem (BaseItem resource)
 	npc_quest_item.value = 1
+	npc_quest_item.max_stack_size = 1
 	npc_quest_item.mesh = quest_item_mesh
 	npc_quest_item.icon = quest_item_icon
 	npc_quest_item.info = "A bottle of mysterious sauce"
@@ -149,20 +151,36 @@ func quest_check():
 		print("Looking for %s..." % [npc_quest.desired_item.info.to_lower()])
 		var detected_q_items : int = player_inventory.get_number_of_item(npc_quest.desired_item)
 		if detected_q_items == npc_quest.desired_item_quantity:
-			npc_quest_finish()
+			player_inventory.remove_item(npc_quest.desired_item)
+			quest_manager.quest_finish(npc_quest.id)
 
 
 func npc_quest_finish():
 	quest_manager.quest_finish(npc_quest.id)
-	
+	quest_manager.give_rewards(npc_quest.player,npc_quest.rewards)
+
+func npc_quest_reward():
 	# Reward animation
-	
-	if target:
+	if target and !npc_quest_over:
+		var level = get_parent() if get_parent().is_in_group("Level") else null
+		var _level_items : Node = level.get_node_or_null("Items")
+		
 		var start_pos = self.position
 		var end_pos = target.position 
 		
-		var quest_reward_mesh = quest_reward.instantiate()
-		quest_reward.position = start_pos
+		var quest_reward_mesh = base_item_mesh.instantiate()
+		quest_reward_mesh.item_type = quest_reward
+		quest_reward_mesh.position = start_pos
+		level.add_child(quest_reward_mesh)
+		
+		var tween = create_tween()
+		tween.set_trans(Tween.TRANS_LINEAR)
+		tween.set_ease(Tween.EASE_IN_OUT)
+		tween.tween_property(quest_reward_mesh, "position", end_pos, 1.0)
+		await tween.finished
+		if quest_reward_mesh: quest_reward_mesh.queue_free()
+		
+		npc_quest_over = true
 
 func _on_quest_accepted():
 	if target: npc_quest.player = target
@@ -178,7 +196,8 @@ func _on_quest_accepted():
 	for child in level_items.get_children():
 		if child is Marker3D: markers.append(child)
 	if markers.size() > 0:
-		random_marker = markers[randi() % markers.size()]
+		#random_marker = markers[randi() % markers.size()]
+		random_marker = markers[1]
 	
 	var quest_item = base_item_mesh.instantiate()
 	quest_item.item_type = npc_quest_item
@@ -189,7 +208,7 @@ func _on_quest_rejected():
 	print("quest rejected") # Do nothing
 
 func _on_chat_over():
-	pass
+	if npc_quest.is_completed: npc_quest_reward()
 
 func _on_chatzone_entered(body):
 	if body.is_in_group("Player"):

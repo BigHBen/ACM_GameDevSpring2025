@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://UI_Work/ItemsWork/ItemsWork/item.gd" id="1_vf4ug"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_68d0f"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_s63xw"]
 
 [node name="Item" type="Area3D"]
 collision_layer = 0
@@ -11,7 +11,7 @@ script = ExtResource("1_vf4ug")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0.35, 0)
-shape = SubResource("BoxShape3D_68d0f")
+shape = SubResource("BoxShape3D_s63xw")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 

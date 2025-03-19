@@ -544,6 +544,11 @@ cache/0/14/0/glyphs/268435545/offset = Vector2(-1, -12)
 cache/0/14/0/glyphs/268435545/size = Vector2(16, 14)
 cache/0/14/0/glyphs/268435545/uv_rect = Rect2(91, 17, 16, 14)
 cache/0/14/0/glyphs/268435545/texture_idx = 0
+cache/0/14/0/glyphs/2/advance = Vector2(4, 13)
+cache/0/14/0/glyphs/2/offset = Vector2(0, 0)
+cache/0/14/0/glyphs/2/size = Vector2(0, 0)
+cache/0/14/0/glyphs/2/uv_rect = Rect2(0, 0, 0, 0)
+cache/0/14/0/glyphs/2/texture_idx = -1
 cache/0/25/0/ascent = 21.0
 cache/0/25/0/descent = 3.0
 cache/0/25/0/underline_position = 3.125
@@ -586,6 +591,7 @@ cache/0/25/0/glyphs/3/texture_idx = -1
 custom_minimum_size = Vector2(100, 100)
 offset_right = 8.0
 offset_bottom = 8.0
+mouse_filter = 1
 script = ExtResource("1_bixgc")
 
 [node name="TextureRect" type="TextureRect" parent="."]
@@ -620,6 +626,7 @@ offset_left = 59.0
 offset_top = 67.0
 offset_right = 139.0
 offset_bottom = 111.0
+mouse_filter = 0
 theme_override_constants/separation = 0
 alignment = 1
 

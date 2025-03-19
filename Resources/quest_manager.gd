@@ -17,7 +17,7 @@ func quest_finish(quest_id: int):
 		completed_quests[quest_id] = quest
 		active_quests.erase(quest_id)
 		print("Completed quest: ", quest.title)
-		give_rewards(quest.player,quest.rewards)
+		#give_rewards(quest.player,quest.rewards)
 
 func give_rewards(to: PlayerCharacter, rewards: Dictionary):
 	for reward in rewards.values():
