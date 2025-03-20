@@ -6,6 +6,12 @@ extends Node3D
 # Autoload Inventory scene
 @onready var inventory : Inventory = get_node("/root/PlayerInventory")
 
+# Autoload Quest Manager Scene
+@onready var quest_man : QuestManager = get_node("/root/QuestManager")
+
+# Autoload Quest Menu Scene
+@onready var quest_pop : QuestPopMenu = get_node("/root/QuestPopupMenu")
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	inventory.inventory_toggle.connect(inventory_window_toggled)
@@ -17,6 +23,7 @@ func _process(_delta: float) -> void:
 
 func collect(item : BaseItem):
 	inventory.add_item(item,player)
+	if item.ITEM_TYPE.QUEST_ITEM: quest_man.quest_check(item)
 
 func inventory_window_toggled():
 	if inventory_close_conditions(): inventory.window.visible = false

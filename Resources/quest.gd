@@ -11,3 +11,4 @@ class_name Quest
 @export var rewards: Dictionary
 
 var player: PlayerCharacter
+var progress : int = 0

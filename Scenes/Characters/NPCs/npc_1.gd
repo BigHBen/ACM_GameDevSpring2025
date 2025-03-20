@@ -6,6 +6,9 @@ extends CharacterBody3D
 # Autoload Questmanager scene
 @onready var quest_manager : QuestManager = get_node("/root/QuestManager")
 
+# Autoload Quest PopuMenu scene
+@onready var quests_popup : QuestPopMenu = get_node("/root/QuestPopupMenu")
+
 # Autoload Inventory scene
 @onready var player_inventory : Inventory = get_node("/root/PlayerInventory")
 
@@ -208,7 +211,14 @@ func _on_quest_rejected():
 	print("quest rejected") # Do nothing
 
 func _on_chat_over():
-	if npc_quest.is_completed: npc_quest_reward()
+	if npc_quest.is_completed:
+		npc_quest_reward()
+		if quests_popup.window.visible: 
+			await get_tree().create_timer(2.0).timeout
+			quests_popup.toggle_quest_menu(false)
+		
+	elif quest_manager.has_quest(npc_quest.id):
+		if !quests_popup.window.visible: quests_popup.toggle_quest_menu(true)
 
 func _on_chatzone_entered(body):
 	if body.is_in_group("Player"):

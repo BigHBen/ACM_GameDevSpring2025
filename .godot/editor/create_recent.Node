@@ -1,7 +1,10 @@
+RichTextLabel
+HBoxContainer
+CheckBox
+VBoxContainer
 BaseItem_Mesh
 Node3D
 Button
-VBoxContainer
 Panel
 Marker3D
 Label
@@ -10,6 +13,3 @@ GridContainer
 Control
 Area3D
 GridMap
-HBoxContainer
-CheckButton
-Timer

@@ -35,11 +35,12 @@ func add_value(player: PlayerCharacter):
 		ITEM_TYPE.QUEST_ITEM:
 			player.p_inv_controller.collect(self)
 
-func use(player: PlayerCharacter):
+func use(player: PlayerCharacter) -> bool:
 	match type:
 		ITEM_TYPE.SPECIAL_POTION:
 			player.p_effects.load_effect_item(special_name_type)
 			return true
+	return false
 
 func get_item_type_name() -> String:
 	return ITEM_TYPE_NAMES[type]

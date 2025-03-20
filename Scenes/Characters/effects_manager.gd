@@ -6,9 +6,9 @@ enum EffectType { BUFF, DEBUFF, STATUS}
 var active_effects = []
 
 var effect_types = {
-	EffectType.BUFF : {"speed": speed_boost},
-	EffectType.DEBUFF : {"slow": slow_debuff},
-	EffectType.STATUS : {"freeze": freeze_status}
+	EffectType.BUFF : {"speed": speed_boost.get_method()},
+	EffectType.DEBUFF : {"slow": slow_debuff.get_method()},
+	EffectType.STATUS : {"freeze": freeze_status.get_method()}
 }
 var effect_types_names := ["BUFF", "DEBUFF", "STATUS"]
 
@@ -16,10 +16,13 @@ func _ready() -> void:
 	pass # Replace with function body.
 
 func load_effect_item(type:String):
-	var effect_type_arr = find_effect_dict(type)
+	var e_type_arr = find_effect_dict(type)
 	
-	if effect_type_arr.size() > 0: pass
+	if e_type_arr.size() > 0: 
+		start_effect(e_type_arr[0], e_type_arr[1])
+		return true
 	else: printerr("Item Used has no EffectType")
+	return false
 
 func find_effect_dict(type:String) -> Array:
 	var key_to_find = type
@@ -29,21 +32,25 @@ func find_effect_dict(type:String) -> Array:
 		
 		if key_to_find in effects_dict:
 			dict[key_to_find] = effects_dict[key_to_find]
-			print("PlayerEffectsManager: EffectType: ", effect_types_names[effect_type], \
-			" | Key:", key_to_find, " | Func:", effects_dict[key_to_find])
-			return [key_to_find, effects_dict[key_to_find]]
+			#print("PlayerEffectsManager: EffectType: ", effect_types_names[effect_type], \
+			#" | Key:", key_to_find, " | Func:", effects_dict[key_to_find])
+			return [effect_type, key_to_find, effects_dict[key_to_find]]
 	return []
 	
 func start_effect(type: EffectType, e_name: String):
 	if e_name in effect_types[type]:
 		var effect_function = effect_types[type][e_name]
-		print(effect_function)
+		match effect_function:
+			"speed_boost": speed_boost()
+			"slow_debuff": slow_debuff()
+			"freeze_status": freeze_status()
+
 
 func speed_boost():
-	pass
+	print("Blitz em")
 
 func slow_debuff():
-	pass
+	print("Slow player speed for duration")
 
 func freeze_status():
-	pass
+	print("Freeze player for duration")
