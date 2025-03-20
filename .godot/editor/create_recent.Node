@@ -1,3 +1,6 @@
+MeshInstance3D
+BoneAttachment3D
+CharacterBody3D
 RichTextLabel
 HBoxContainer
 CheckBox
@@ -10,6 +13,3 @@ Marker3D
 Label
 TextureRect
 GridContainer
-Control
-Area3D
-GridMap

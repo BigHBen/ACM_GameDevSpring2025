@@ -1,3 +1,5 @@
+res://Resources
+res://Scenes/Characters/Hazards/Enemies
 res://Scenes/UI/Quests
 res://Scenes/Characters
 res://UI_Work/ItemsWork/ItemsWork
@@ -5,7 +7,6 @@ res://Scenes/UI/Inventory
 res://Scripts
 res://Tileset
 C:/Users/HDBEN/Documents/GitHub/ACM_GameDevSpring2025/Resources
-res://Resources
 res://Scenes/UI
 res://Scenes/Terrain/Dungeon_Generation/Tutorial
 res://Scenes/Terrain

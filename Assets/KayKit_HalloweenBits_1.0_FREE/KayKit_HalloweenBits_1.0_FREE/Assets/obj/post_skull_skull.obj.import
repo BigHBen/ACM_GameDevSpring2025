@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://decndrrh7420c"
+path="res://.godot/imported/post_skull_skull.obj-16294f07bbb7e57bd07af4c3e1ab30d9.mesh"
+
+[deps]
+
+files=["res://.godot/imported/post_skull_skull.obj-16294f07bbb7e57bd07af4c3e1ab30d9.mesh"]
+
+source_file="res://Assets/KayKit_HalloweenBits_1.0_FREE/KayKit_HalloweenBits_1.0_FREE/Assets/obj/post_skull_skull.obj"
+dest_files=["res://.godot/imported/post_skull_skull.obj-16294f07bbb7e57bd07af4c3e1ab30d9.mesh", "res://.godot/imported/post_skull_skull.obj-16294f07bbb7e57bd07af4c3e1ab30d9.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

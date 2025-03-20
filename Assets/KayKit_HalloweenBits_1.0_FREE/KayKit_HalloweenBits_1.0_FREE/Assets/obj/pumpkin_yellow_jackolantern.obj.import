@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://clis7swmafgay"
+path="res://.godot/imported/pumpkin_yellow_jackolantern.obj-d6a586812c037f3d361198e805c0ecdb.mesh"
+
+[deps]
+
+files=["res://.godot/imported/pumpkin_yellow_jackolantern.obj-d6a586812c037f3d361198e805c0ecdb.mesh"]
+
+source_file="res://Assets/KayKit_HalloweenBits_1.0_FREE/KayKit_HalloweenBits_1.0_FREE/Assets/obj/pumpkin_yellow_jackolantern.obj"
+dest_files=["res://.godot/imported/pumpkin_yellow_jackolantern.obj-d6a586812c037f3d361198e805c0ecdb.mesh", "res://.godot/imported/pumpkin_yellow_jackolantern.obj-d6a586812c037f3d361198e805c0ecdb.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

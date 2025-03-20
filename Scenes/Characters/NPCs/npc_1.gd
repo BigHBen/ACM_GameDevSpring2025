@@ -164,6 +164,8 @@ func npc_quest_finish():
 
 func npc_quest_reward():
 	# Reward animation
+	var quest_reward_mesh : Node
+	var tween : Tween
 	if target and !npc_quest_over:
 		var level = get_parent() if get_parent().is_in_group("Level") else null
 		var _level_items : Node = level.get_node_or_null("Items")
@@ -171,19 +173,18 @@ func npc_quest_reward():
 		var start_pos = self.position
 		var end_pos = target.position 
 		
-		var quest_reward_mesh = base_item_mesh.instantiate()
+		quest_reward_mesh = base_item_mesh.instantiate()
 		quest_reward_mesh.item_type = quest_reward
 		quest_reward_mesh.position = start_pos
 		level.add_child(quest_reward_mesh)
 		
-		var tween = create_tween()
+		tween = create_tween()
 		tween.set_trans(Tween.TRANS_LINEAR)
 		tween.set_ease(Tween.EASE_IN_OUT)
 		tween.tween_property(quest_reward_mesh, "position", end_pos, 1.0)
-		await tween.finished
-		if quest_reward_mesh: quest_reward_mesh.queue_free()
-		
 		npc_quest_over = true
+	await tween.finished
+	if quest_reward_mesh: quest_reward_mesh.queue_free()
 
 func _on_quest_accepted():
 	if target: npc_quest.player = target

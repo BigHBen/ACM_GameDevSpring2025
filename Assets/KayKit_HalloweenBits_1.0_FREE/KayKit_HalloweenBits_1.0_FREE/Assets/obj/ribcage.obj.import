@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://dchnvvab05cnp"
+path="res://.godot/imported/ribcage.obj-1ca7b243a1f531e251a36db605e5f8ce.mesh"
+
+[deps]
+
+files=["res://.godot/imported/ribcage.obj-1ca7b243a1f531e251a36db605e5f8ce.mesh"]
+
+source_file="res://Assets/KayKit_HalloweenBits_1.0_FREE/KayKit_HalloweenBits_1.0_FREE/Assets/obj/ribcage.obj"
+dest_files=["res://.godot/imported/ribcage.obj-1ca7b243a1f531e251a36db605e5f8ce.mesh", "res://.godot/imported/ribcage.obj-1ca7b243a1f531e251a36db605e5f8ce.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

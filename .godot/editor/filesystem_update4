@@ -1,4 +1,3 @@
-res://Scenes/game_manager.tscn
 res://Tileset/tiles.tres
 res://Scenes/Terrain/wall_gen_tiles.tres
 res://Resources/knight_state.tres
@@ -7,12 +6,10 @@ res://Shaders/darkness.gdshader
 res://Shaders/outline.gdshader
 res://Shaders/darkness2.gdshader
 res://Shaders/darkness3.gdshader
+res://Scenes/Characters/Hazards/Enemies/skeleton_warrior.tscn
 res://Scenes/Levels/test_dungeon.tscn
-res://Scenes/UI/Quests/quest_popup_menu.tscn
-res://Scenes/UI/Quests/quest_popup_menu.gd
-res://Scenes/Characters/player_inv_controller.gd
-res://Resources/quest_manager.gd
-res://Resources/quest.gd
-res://Scenes/Characters/NPCs/npc_1.gd
-res://Scenes/UI/Inventory/inventory.tscn
-res://Scenes/UI/Inventory/inventory_slot.tscn
+res://Scenes/game_manager.tscn
+res://Scenes/Characters/knight.tscn
+res://Scenes/Characters/Hazards/Enemies/basic_enemy_movement.gd
+res://Scenes/Characters/Character_UI/PlayerUI.tscn
+res://Resources/skeleton_state.tres
