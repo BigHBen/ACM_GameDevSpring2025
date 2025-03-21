@@ -1,5 +1,7 @@
 extends Node3D
 
+@onready var nav_region : NavigationRegion3D = $Gridmaps/NavigationRegion3D
+
 func group_toggle_ui(group,toggle):
 	for child in get_children():
 		if child.is_in_group(group):

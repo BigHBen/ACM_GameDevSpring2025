@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://clxrfo8h6ft4m"]
+
+[ext_resource type="Shader" uid="uid://cx4toex8ia5gn" path="res://Shaders/fire_shader.tres" id="1_jk8ap"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n5c7e"]
+render_priority = 0
+shader = ExtResource("1_jk8ap")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ytxos"]
+gravity = Vector3(0, 0, 0)
+color = Color(1, 0.4, 0, 1)
+
+[sub_resource type="QuadMesh" id="QuadMesh_shta2"]
+
+[node name="VFX_Fire" type="Node3D"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+material_override = SubResource("ShaderMaterial_n5c7e")
+lifetime = 5.0
+process_material = SubResource("ParticleProcessMaterial_ytxos")
+draw_pass_1 = SubResource("QuadMesh_shta2")

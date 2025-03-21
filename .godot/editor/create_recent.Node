@@ -1,3 +1,6 @@
+WorldEnvironment
+GPUParticles3D
+GridMap
 MultiplayerSpawner
 MultiplayerSynchronizer
 LineEdit
@@ -10,5 +13,3 @@ Node
 Timer
 NavigationAgent3D
 NavigationRegion3D
-MeshInstance3D
-BoneAttachment3D

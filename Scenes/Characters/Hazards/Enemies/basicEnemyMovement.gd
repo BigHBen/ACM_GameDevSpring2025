@@ -5,7 +5,12 @@ const SPEED = 5.0
 const JUMP_VELOCITY = 4.5
 
 enum States {INACTIVE = 0,IDLE = 1,CHASE = 2, ATTACK = 3, DEFEATED = 4}
-var state = States.INACTIVE
+var state = States.INACTIVE : 
+	set(val):
+		state = val
+		match state:
+			1: check_pathfinding()
+			_: pass
 
 @export_group("Movement")
 @export var speed = 5.0
@@ -72,9 +77,14 @@ var rotation_speed : float = 0.001
 # When player enters detection area, skeleton will rise
 var wake_up = false
 
+# Navigation Region 3d Pathfinding
+var nav_pathfinding_enabled : bool = false
+
+# Action variables
 var attacking = false
 var blocking = false
 
+# For healthbar positioning
 var camera: Camera3D
 
 var defeated : bool = false
@@ -83,6 +93,18 @@ func _ready():
 	anim_tree.animation_finished.connect(_on_animation_finished)
 	healthbar.init_health(health)
 	camera = get_viewport().get_camera_3d()
+
+func check_pathfinding():
+	if owner.is_in_group("Level"):
+		var level := owner
+		# Make sure navigation region is acive before state transition
+		if level.nav_region and level.nav_region.navigation_mesh: 
+			var mesh_data = level.nav_region.navigation_mesh
+			if mesh_data.get_polygon_count() > 0:
+				nav_pathfinding_enabled = true
+			else:
+				nav_pathfinding_enabled = false
+				printerr(level.nav_region.navigation_mesh," is NOT baked. Enemy pathfinding disabled")
 
 func _process(delta: float) -> void:
 	var screen_pos = camera.unproject_position(self.global_position + Vector3(0, 4, 0))
@@ -104,7 +126,7 @@ func state_transitions() -> void:
 		if wake_up and state == States.INACTIVE:
 			if anim_state and anim_state.get_current_node() == "IWR":
 				state = States.IDLE
-		if target and state == States.IDLE: 
+		if target and state == States.IDLE and nav_pathfinding_enabled: 
 			# Check animation before
 			if anim_state and anim_state.get_current_node() == "IWR":
 				state = States.CHASE
