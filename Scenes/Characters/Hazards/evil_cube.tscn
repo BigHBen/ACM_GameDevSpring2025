@@ -1,7 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dxcmlu5im4msx"]
+[gd_scene load_steps=14 format=3 uid="uid://dxcmlu5im4msx"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Hazards/evil_cube.gd" id="1_3dsqp"]
 [ext_resource type="Script" path="res://Scripts/hitbox.gd" id="1_ijaqi"]
+[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="3_0uo6h"]
+[ext_resource type="PackedScene" uid="uid://nsjluf8e1piw" path="res://Scenes/Characters/Character_UI/health_bar.tscn" id="3_q0j0g"]
+[ext_resource type="FontFile" uid="uid://hxqlvug5a3dn" path="res://Assets/Fonts/Sagewold-Regular.ttf" id="4_cn245"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_j20re"]
 
@@ -12,9 +15,16 @@ albedo_color = Color(1, 0.17894, 0.33732, 1)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_0h3nw"]
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_00d3r"]
+
 [sub_resource type="BoxShape3D" id="BoxShape3D_fpdfi"]
 
-[node name="EvilCube" type="CharacterBody3D"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_2h180"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1mxqm"]
+bg_color = Color(0.853569, 0.109188, 0, 1)
+
+[node name="EvilCube" type="CharacterBody3D" groups=["Enemy"]]
 script = ExtResource("1_3dsqp")
 
 [node name="Area3D" type="Area3D" parent="."]
@@ -28,13 +38,52 @@ skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_h1w53")
 
 [node name="HitBox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 0
 script = ExtResource("1_ijaqi")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
 shape = SubResource("BoxShape3D_0h3nw")
+
+[node name="HurtBox" type="Area3D" parent="."]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("3_0uo6h")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HurtBox"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CapsuleShape3D_00d3r")
+
+[node name="Timer" type="Timer" parent="HurtBox"]
+wait_time = 0.5
+one_shot = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 shape = SubResource("BoxShape3D_fpdfi")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.518728, 0.854939, 0, -0.854939, 0.518728, -0.692314, 3.83344, 3.77219)
+
+[node name="EnemyUi" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="HealthBar" parent="EnemyUi" instance=ExtResource("3_q0j0g")]
+offset_left = 187.0
+offset_top = 62.0
+offset_right = 687.0
+offset_bottom = 89.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_2h180")
+theme_override_styles/fill = SubResource("StyleBoxFlat_1mxqm")
+
+[node name="PlayerName" type="Label" parent="EnemyUi/HealthBar"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = -44.0
+offset_right = 222.0
+offset_bottom = 5.0
+theme_override_fonts/font = ExtResource("4_cn245")
+theme_override_font_sizes/font_size = 40
+text = "EvilCube"
+vertical_alignment = 2
+
+[connection signal="timeout" from="HurtBox/Timer" to="HurtBox" method="_on_timer_timeout"]

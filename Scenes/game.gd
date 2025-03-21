@@ -1,7 +1,6 @@
 extends Node
 class_name  GameManager
 
-
 signal _on_game_paused(is_paused : bool)
 
 var game_paused : bool = false :

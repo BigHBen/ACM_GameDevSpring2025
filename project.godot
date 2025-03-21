@@ -38,6 +38,7 @@ window/stretch/mode="viewport"
 Player=""
 NPC=""
 Level=""
+Enemy=""
 
 [input]
 

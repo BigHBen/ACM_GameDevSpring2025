@@ -9,6 +9,12 @@ func _set_health(new_health):
 	var prev_health = health
 	health = min(max_value, new_health)
 	value = health
+	if health <= 0:
+		if owner.has_method("_on_defeat"):
+			owner._on_defeat()
+		elif owner.owner.has_method("_on_defeat"):
+			owner.owner._on_defeat()
+		return
 	
 	if health > prev_health:
 		damagebar.value = health

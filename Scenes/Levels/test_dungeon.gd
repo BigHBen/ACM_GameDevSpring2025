@@ -6,3 +6,6 @@ func group_toggle_ui(group,toggle):
 			for subchild in child.get_children():
 				if subchild is CanvasLayer:
 					subchild.visible = toggle
+
+#func _process(delta: float) -> void:
+	#get_tree().call_group("Enemy", "target_position", target.global_transform.origin)

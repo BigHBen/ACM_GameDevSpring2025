@@ -10,6 +10,14 @@ class_name PlayerCharacter
 @export_range(0,1) var FRICTION: float = 1
 var base_friction_multiplier = 10
 
+@export_group("Attacking")
+@export_range(0.1,10.0) var combo_cooldown : float = 0.5
+@export_range(1,10) var combo_length : int = 3
+var combo_over : bool = true
+var combo_count : int = 0
+var attack_cooldown_elapsed := 0.0
+var combo_cooldown_elapsed := 0.0
+
 @export_group("Stats")
 @export_range(0,100) var health : int = 100
 
@@ -48,12 +56,15 @@ var rayEnd = Vector3()
 # Inventory Controller node
 @onready var p_inv_controller : Node3D = $InventoryController
 
+@onready var debug = get_node("/root/Debug")
 var attacking = false
 var blocking = false
 
 # Item/ Currency Variables
 var moneyAmount : int = 0
 var potionAmount : int = 1
+
+var defeated : bool = false
 
 func _ready():
 	anim_tree.animation_finished.connect(_on_animation_finished)
@@ -83,7 +94,7 @@ func _physics_process(delta):
 	# Collision layer vs mask: https://gamedev.stackexchange.com/questions/185178/whats-the-difference-between-collision-layers-and-collision-masks
 	# How to set .create bitmask value: https://www.reddit.com/r/godot/comments/mai6fa/exclude_parameter_in_intersect_raywhat_does_it_do/
 	handle_rotation(space_state,delta)
-	
+	handle_combo_cooldown(delta)
 	# Movement Stuff
 	velocity += get_gravity() * delta
 	get_move_input(delta)
@@ -127,15 +138,36 @@ func handle_rotation(space,_delta):
 	if not intersection.is_empty():
 		var pos = intersection.position
 		model.look_at(Vector3(pos.x, position.y, pos.z), Vector3.UP)
+		$"Hit_Hurt Boxes".look_at(Vector3(pos.x, position.y, pos.z), Vector3.UP)
 	
 	# Smooth rotation using rotation_speed
 	#if velocity.length() > 0.0:
 		#model.rotation.y = lerp_angle(model.rotation.y, camera.rotation.y, rotation_speed * delta)
 
-func _input(event):
-	if event.is_action_pressed("attack"):
+func handle_attack():
+	if combo_count >= combo_length: 
+		combo_over = true
+		return
+	if anim_state.get_current_node() == "IWR":
 		anim_state.travel(attacks.pick_random())
 		attacking = true
+		await get_tree().create_timer(0.2).timeout
+		$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = false
+		await get_tree().create_timer(0.2).timeout
+		$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
+		combo_count += 1
+
+func handle_combo_cooldown(delta):
+	if combo_over:
+		if combo_cooldown_elapsed > combo_cooldown: 
+			combo_count = 0
+			combo_cooldown_elapsed = 0.0
+			combo_over = false
+		elif anim_state.get_current_node() == "IWR": combo_cooldown_elapsed += delta
+
+func _input(event):
+	if event.is_action_pressed("attack"):
+		handle_attack()
 	if event.is_action_pressed("block"): # Blocking
 		anim_tree.set("parameters/AnimationNodeStateMachine/conditions/blocking", true)
 		blocking = true
@@ -144,7 +176,7 @@ func _input(event):
 		blocking = false
 
 func can_move():
-	return !(blocking)
+	return !(blocking and defeated)
 
 func set_camera():
 	spring_arm.position.y = 12.5
@@ -163,8 +195,18 @@ func change_anim_parameters():
 	last_floor = is_on_floor()
 
 func take_damage(damage):
+	#print($Rig/Skeleton3D/Knight_Head.get("surface_material_override/0"))
 	healthbar._set_health(health - damage)
 	health -= damage
+
+func _on_defeat():
+	defeated = true
+	set_process(false)
+	set_physics_process(false)
+	await get_tree().create_timer(2.0).timeout
+	if anim_state.get_current_node() == "Death_A": 
+		debug.debug_pause_game()
+		queue_free()
 
 func _on_animation_finished(_anim):
 	if attacking: 

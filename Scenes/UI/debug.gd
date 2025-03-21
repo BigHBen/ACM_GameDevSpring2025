@@ -59,6 +59,10 @@ func _process(_delta: float) -> void:
 	#fps_meter.text = "FPS - " + str(Engine.get_frames_per_second())
 	pass
 
+func debug_pause_game():
+	var scene_root = get_tree().current_scene
+	if scene_root is GameManager: scene_root.game_paused = true
+
 # Access @export variables from player node script
 # Create sliders for each @export variable
 # Currently uses float variables only
