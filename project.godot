@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="ACM_GameDevSpring25"
+config/name="GameDevTests"
 run/main_scene="res://Scenes/game_manager.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://acm_logo.svg"
