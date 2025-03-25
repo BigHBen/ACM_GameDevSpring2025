@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://0udrovh0uwjn"]
+
+[ext_resource type="Script" path="res://Scenes/game.gd" id="1_nw1mo"]
+[ext_resource type="PackedScene" uid="uid://glmmqlidn4d" path="res://Scenes/Levels/test_dungeon.tscn" id="2_wbq3d"]
+[ext_resource type="PackedScene" uid="uid://dnxbomjfrdbl1" path="res://Scenes/UI/pause_menu.tscn" id="2_yxgdt"]
+[ext_resource type="Shader" path="res://Shaders/blur_effect.gdshader" id="4_hcraj"]
+[ext_resource type="Script" path="res://Scenes/UI/stats_display.gd" id="5_8hb7y"]
+[ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="5_wmtf2"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fyedd"]
+shader = ExtResource("4_hcraj")
+shader_parameter/lod = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_iuxih"]
+font = ExtResource("5_wmtf2")
+
+[node name="Game" type="Node"]
+process_mode = 3
+script = ExtResource("1_nw1mo")
+
+[node name="test_dungeon" parent="." instance=ExtResource("2_wbq3d")]
+process_mode = 1
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="UI"]
+z_index = -1
+material = SubResource("ShaderMaterial_fyedd")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="PauseMenu" parent="UI" node_paths=PackedStringArray("game_manager") instance=ExtResource("2_yxgdt")]
+game_manager = NodePath("../..")
+
+[node name="StatsDisplay" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("5_8hb7y")
+
+[node name="FPS" type="Label" parent="UI/StatsDisplay"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -60.0
+offset_top = 10.0
+offset_right = -20.0
+offset_bottom = 33.0
+grow_horizontal = 0
+text = "FPS"
+label_settings = SubResource("LabelSettings_iuxih")

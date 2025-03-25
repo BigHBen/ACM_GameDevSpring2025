@@ -1,0 +1,8 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cfply0846yv0"]
+
+[ext_resource type="Texture2D" uid="uid://cu0dkqoxp5a4x" path="res://Assets/RPG/KayKit_Skeletons_1.0_FREE/KayKit_Skeletons_1.0_FREE/characters/gltf/Skeleton_Warrior_skeleton_texture.png" id="1_4qalk"]
+
+[resource]
+resource_name = "skeleton"
+albedo_texture = ExtResource("1_4qalk")
+roughness = 0.5

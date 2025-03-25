@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://d0r3hwls0x2kd"]
+
+[ext_resource type="ArrayMesh" uid="uid://vowalvlf5ynm" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/obj/bottle_C_green.obj" id="1_nfeuf"]
+
+[sub_resource type="Environment" id="Environment_a1rgm"]
+
+[node name="PhotoShoot" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_a1rgm")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.952369, 0.304947, 0, -0.304947, 0.952369, 0, 1.03497, 2.05823)
+
+[node name="Subject" type="MeshInstance3D" parent="."]
+mesh = ExtResource("1_nfeuf")
+
+[node name="FrontLight" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.409617, 2.63674)
+light_energy = 5.0
+
+[node name="BackLight" type="SpotLight3D" parent="."]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, -3.47291)
+light_energy = 5.0

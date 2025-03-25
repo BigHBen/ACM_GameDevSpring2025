@@ -1,0 +1,200 @@
+[gd_scene load_steps=12 format=3 uid="uid://tmflrvcq2dhv"]
+
+[ext_resource type="PackedScene" uid="uid://b8tgw0t31vcnp" path="res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/Barbarian.glb" id="1_qi1wv"]
+[ext_resource type="Script" path="res://Scripts/basicMovement.gd" id="2_q20by"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://brktypcshptqv" path="res://Resources/knight_state.tres" id="3_pnqpt"]
+[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="4_65adk"]
+[ext_resource type="PackedScene" uid="uid://ckstcle8h8g1f" path="res://Scenes/Characters/Character_UI/PlayerUI.tscn" id="5_3ysqs"]
+[ext_resource type="Texture2D" uid="uid://b0pidw1cbkwmk" path="res://Assets/UI_Assets/Barbarian.png" id="6_ve8c0"]
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_7eciw"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_kg8m5"]
+graph_offset = Vector2(-596.465, 0)
+nodes/AnimationNodeStateMachine/node = ExtResource("3_pnqpt")
+nodes/AnimationNodeStateMachine/position = Vector2(-160, 120)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_7eciw")
+nodes/TimeScale/position = Vector2(115.451, 129.532)
+node_connections = [&"TimeScale", 0, &"AnimationNodeStateMachine", &"output", 0, &"TimeScale"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_clfcw"]
+height = 2.4
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kelhh"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sdr3y"]
+texture = ExtResource("6_ve8c0")
+
+[node name="Barbarian" instance=ExtResource("1_qi1wv")]
+script = ExtResource("2_q20by")
+
+[node name="Skeleton3D" parent="Rig" index="0"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+bones/1/position = Vector3(0, 0.504194, 0)
+bones/1/rotation = Quaternion(-1.02444e-09, 0.00294937, 7.78144e-09, 0.999996)
+bones/2/rotation = Quaternion(0.00129833, -0.00294469, 0.000170928, 0.999995)
+bones/3/rotation = Quaternion(-0.00223436, 5.00005e-14, 5.20868e-12, 0.999997)
+bones/4/rotation = Quaternion(-0.663976, -0.341837, -0.371712, 0.551464)
+bones/4/scale = Vector3(0.999999, 0.999999, 1)
+bones/5/rotation = Quaternion(1.84266e-08, -5.07407e-08, -0.564983, 0.825103)
+bones/6/rotation = Quaternion(-9.73784e-11, -2.98437e-10, 0.0266581, 0.999645)
+bones/6/scale = Vector3(1, 1, 1)
+bones/7/rotation = Quaternion(-0.0881932, 0.0470068, 0.489432, 0.866296)
+bones/8/position = Vector3(8.34843e-10, 0.0961252, -0.0575)
+bones/8/rotation = Quaternion(1.60975e-09, 1.60975e-09, -0.707107, 0.707107)
+bones/8/scale = Vector3(1, 1, 1)
+bones/11/rotation = Quaternion(-0.647984, 0.370767, 0.396292, 0.534417)
+bones/11/scale = Vector3(0.999999, 0.999999, 1)
+bones/12/rotation = Quaternion(1.33697e-08, 4.98485e-08, 0.504833, 0.863217)
+bones/13/rotation = Quaternion(-9.73784e-11, 2.98437e-10, -0.0266581, 0.999645)
+bones/13/scale = Vector3(1, 1, 1)
+bones/14/rotation = Quaternion(-0.0175286, -0.0918899, -0.456548, 0.884767)
+bones/15/position = Vector3(1.40663e-08, 0.0961251, -0.0575)
+bones/15/rotation = Quaternion(-2.34153e-09, 7.60989e-09, 0.707107, 0.707107)
+bones/15/scale = Vector3(1, 1, 1)
+bones/22/position = Vector3(0.170945, 0.113587, 1.78556e-08)
+bones/22/rotation = Quaternion(0.95063, 0.0228074, 0.0285816, 0.308166)
+bones/22/scale = Vector3(1, 1, 1)
+bones/23/rotation = Quaternion(0.605058, 5.4509e-08, -4.19159e-07, 0.796182)
+bones/24/rotation = Quaternion(-0.359393, -0.0474834, 0.0173487, 0.931816)
+bones/25/rotation = Quaternion(-3.03504e-08, 0.920355, -0.391084, 7.15634e-08)
+bones/25/scale = Vector3(1, 1, 1)
+bones/26/position = Vector3(-0.170945, 0.113587, 1.78556e-08)
+bones/26/rotation = Quaternion(0.901171, -0.0302181, -0.0387877, 0.430665)
+bones/26/scale = Vector3(1, 1, 1)
+bones/27/rotation = Quaternion(0.816147, -3.97169e-08, 5.62393e-07, 0.577845)
+bones/28/rotation = Quaternion(-0.597297, 0.0504024, -0.0446371, 0.799189)
+bones/29/rotation = Quaternion(2.88291e-08, 0.920355, -0.391084, -6.9174e-08)
+bones/29/scale = Vector3(1, 1, 1)
+bones/30/rotation = Quaternion(0.707107, -2.29302e-07, -4.60552e-08, 0.707107)
+bones/31/position = Vector3(0.210945, 0.0564993, 0.163613)
+bones/31/rotation = Quaternion(-0.420781, 0.0183716, 0.0395617, 0.906113)
+bones/32/position = Vector3(3.43593e-08, 0.362833, -2.42861e-15)
+bones/32/rotation = Quaternion(7.10544e-15, -1.49012e-08, 1, 1.05879e-22)
+bones/33/rotation = Quaternion(-1.026e-07, 0.391084, 0.920355, -2.99279e-08)
+bones/34/position = Vector3(-6.31128e-09, 0.16565, 5.63557e-09)
+bones/35/rotation = Quaternion(1, -1.69494e-15, 1.94009e-07, 1.86265e-09)
+bones/37/rotation = Quaternion(0.707107, -3.82385e-08, 1.45009e-07, 0.707107)
+bones/38/position = Vector3(-0.210945, 0.167233, 0.225909)
+bones/38/rotation = Quaternion(-0.511457, -0.0223308, -0.0374699, 0.858201)
+bones/39/position = Vector3(3.43593e-08, 0.362833, 2.42861e-15)
+bones/39/rotation = Quaternion(7.10544e-15, 7.45058e-09, 1, -9.31323e-10)
+bones/40/position = Vector3(3.75294e-09, 0.213436, 1.07269e-08)
+bones/40/rotation = Quaternion(-1.00542e-07, 0.391084, 0.920355, -2.70299e-08)
+bones/41/position = Vector3(-6.31127e-09, 0.16565, -2.00878e-08)
+bones/41/rotation = Quaternion(-0.391084, -6.885e-08, -6.56287e-08, 0.920355)
+bones/42/rotation = Quaternion(1, -2.45728e-15, 1.95173e-07, 1.49012e-08)
+bones/44/rotation = Quaternion(-0.707107, -7.27951e-08, -7.27951e-08, 0.707107)
+bones/45/position = Vector3(0.620841, 1.16315, 0.0512295)
+bones/45/rotation = Quaternion(0.634021, 0.313114, 0.476021, -0.522859)
+bones/46/rotation = Quaternion(-0.707107, -7.27951e-08, -7.27951e-08, 0.707107)
+bones/47/position = Vector3(-0.639244, 1.16126, 0.0597369)
+bones/47/rotation = Quaternion(0.585158, -0.35012, -0.455044, -0.572661)
+
+[node name="1H_Axe_Offhand" parent="Rig/Skeleton3D" index="0"]
+transform = Transform3D(-0.894843, 0.350686, 0.276176, 0.25715, -0.100732, 0.961106, 0.364866, 0.931059, -3.99175e-05, 0.761848, 1.07808, 0.0912919)
+visible = false
+
+[node name="Barbarian_Round_Shield" parent="Rig/Skeleton3D" index="1"]
+transform = Transform3D(-0.894843, 0.350688, 0.276175, 0.257149, -0.100732, 0.961106, 0.364868, 0.931058, -3.93946e-05, 0.799185, 1.22955, 0.076112)
+visible = false
+
+[node name="1H_Axe" parent="Rig/Skeleton3D" index="2"]
+transform = Transform3D(0.930922, -0.340702, 0.131545, 0.0989507, -0.11142, -0.988834, 0.351555, 0.933545, -0.0700107, -0.793923, 1.08869, 0.093951)
+
+[node name="2H_Axe" parent="Rig/Skeleton3D" index="3"]
+transform = Transform3D(0.930922, -0.340702, 0.131545, 0.0989507, -0.11142, -0.988834, 0.351555, 0.933545, -0.0700107, -0.793923, 1.08869, 0.093951)
+visible = false
+
+[node name="Mug" parent="Rig/Skeleton3D" index="4"]
+transform = Transform3D(0.930922, -0.340702, 0.131545, 0.0989507, -0.11142, -0.988834, 0.351555, 0.933545, -0.0700107, -1.05705, 1.0644, -0.0574079)
+visible = false
+
+[node name="Barbarian_Hat" parent="Rig/Skeleton3D" index="5"]
+transform = Transform3D(1, -0.00033424, 8.541e-06, 0.000334223, 0.999998, 0.00187108, -9.16701e-06, -0.00187107, 0.999998, -0.000206625, 1.3144, 0.000518819)
+
+[node name="Barbarian_Cape" parent="Rig/Skeleton3D" index="6"]
+transform = Transform3D(1, -0.00033424, 8.541e-06, 0.000334223, 0.999998, 0.00187108, -9.16701e-06, -0.00187107, 0.999998, -0.000208533, 1.3144, 0.000518819)
+
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="." index="2"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.80548, 0)
+remote_path = NodePath("../PlayerUi/Control/ClippingMask/SubViewportContainer/PlayerPortrait/SpringArm3D")
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="3"]
+tree_root = SubResource("AnimationNodeBlendTree_kg8m5")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
+parameters/AnimationNodeStateMachine/conditions/blocking = false
+parameters/AnimationNodeStateMachine/conditions/grounded = false
+parameters/AnimationNodeStateMachine/IWR/blend_position = Vector2(0, 0)
+parameters/TimeScale/scale = 1.0
+
+[node name="Physics" type="CollisionShape3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CapsuleShape3D_clfcw")
+
+[node name="CameraPivot" type="Node3D" parent="." index="5"]
+transform = Transform3D(1, 0, 0, 0, 0.939693, -0.34202, 0, 0.34202, 0.939693, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot" index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." index="6"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0)
+spot_angle = 60.0
+
+[node name="Hit_Hurt Boxes" type="Node3D" parent="." index="7"]
+
+[node name="HurtBox" type="Area3D" parent="Hit_Hurt Boxes" index="0"]
+script = ExtResource("4_65adk")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hit_Hurt Boxes/HurtBox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CapsuleShape3D_kelhh")
+
+[node name="Timer" type="Timer" parent="Hit_Hurt Boxes/HurtBox" index="1"]
+wait_time = 0.5
+
+[node name="PlayerUi" parent="." index="8" instance=ExtResource("5_3ysqs")]
+
+[node name="Control" type="Control" parent="PlayerUi" index="5"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ClippingMask" type="Panel" parent="PlayerUi/Control" index="0"]
+clip_children = 2
+z_index = 2
+layout_mode = 0
+offset_left = 36.0
+offset_top = 34.0
+offset_right = 209.0
+offset_bottom = 256.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_sdr3y")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="PlayerUi/Control/ClippingMask" index="0"]
+layout_mode = 0
+offset_left = -36.0
+offset_top = -34.0
+offset_right = 476.0
+offset_bottom = 478.0
+scale = Vector2(0.5, 0.5)
+
+[node name="PlayerPortrait" type="SubViewport" parent="PlayerUi/Control/ClippingMask/SubViewportContainer" index="0"]
+handle_input_locally = false
+render_target_update_mode = 4
+
+[node name="SpringArm3D" type="SpringArm3D" parent="PlayerUi/Control/ClippingMask/SubViewportContainer/PlayerPortrait" index="0"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.80548, 0)
+collision_mask = 3
+spring_length = 2.5
+margin = 0.1
+
+[node name="Camera3D" type="Camera3D" parent="PlayerUi/Control/ClippingMask/SubViewportContainer/PlayerPortrait/SpringArm3D" index="0"]
+
+[connection signal="timeout" from="Hit_Hurt Boxes/HurtBox/Timer" to="Hit_Hurt Boxes/HurtBox" method="_on_timer_timeout"]

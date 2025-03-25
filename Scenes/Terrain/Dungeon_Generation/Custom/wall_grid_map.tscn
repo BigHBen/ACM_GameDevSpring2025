@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://bfxdlah1qyj45"]
+
+[ext_resource type="MeshLibrary" uid="uid://cesdw4mponpmt" path="res://Scenes/Terrain/wall_gen_tiles.tres" id="1_lcwgw"]
+[ext_resource type="Script" path="res://Scenes/Terrain/Dungeon_Generation/Custom/wall_grid_map.gd" id="2_ggl6v"]
+
+[node name="WallGridMap" type="GridMap"]
+mesh_library = ExtResource("1_lcwgw")
+script = ExtResource("2_ggl6v")

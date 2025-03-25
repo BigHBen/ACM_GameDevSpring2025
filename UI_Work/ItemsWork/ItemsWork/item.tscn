@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cr2r7g0o06it3"]
+
+[ext_resource type="Script" path="res://UI_Work/ItemsWork/ItemsWork/item.gd" id="1_vf4ug"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s63xw"]
+
+[node name="Item" type="Area3D"]
+collision_layer = 0
+collision_mask = 8
+script = ExtResource("1_vf4ug")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0.35, 0)
+shape = SubResource("BoxShape3D_s63xw")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

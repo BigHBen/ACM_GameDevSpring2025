@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseItem" load_steps=4 format=3 uid="uid://c3g48hahsp065"]
+
+[ext_resource type="ArrayMesh" uid="uid://c77wl1kqscixj" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/obj/bottle_A_labeled_green.obj" id="1_2fgpw"]
+[ext_resource type="Script" path="res://UI_Work/ItemsWork/ItemsWork/BaseItem.gd" id="1_ngpwo"]
+[ext_resource type="Texture2D" uid="uid://cfshqolaykq21" path="res://Assets/UI_Assets/Speed_Potion.png" id="1_yr7i4"]
+
+[resource]
+script = ExtResource("1_ngpwo")
+value = 1
+mesh = ExtResource("1_2fgpw")
+type = 2
+icon = ExtResource("1_yr7i4")
+usable = true
+removeable = true
+player_removable = true
+info = ""
+max_stack_size = 3

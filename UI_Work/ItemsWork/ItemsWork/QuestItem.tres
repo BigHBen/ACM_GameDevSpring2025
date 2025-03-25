@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="BaseItem" load_steps=2 format=3 uid="uid://ihg04rn0fdh4"]
+
+[ext_resource type="Script" path="res://UI_Work/ItemsWork/ItemsWork/BaseItem.gd" id="1_wvl8m"]
+
+[resource]
+script = ExtResource("1_wvl8m")
+value = 1
+type = 4
+usable = false
+removeable = true
+player_removable = false
+info = ""
+max_stack_size = 1
