@@ -91,9 +91,12 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_accept"):
 		if dialogue[talk_status][dialogue_id].has("accept"): return
 		progress()
-	if event.is_action_pressed("left") || event.is_action_pressed("right"):
+	if event.is_action_pressed("left") || event.is_action_pressed("ui_left"):
 		if dialogue[talk_status][dialogue_id].has("accept"):
-			player_response_toggle = !player_response_toggle
+			player_response_toggle = true
+	if event.is_action_pressed("right") || event.is_action_pressed("ui_right"):
+		if dialogue[talk_status][dialogue_id].has("accept"):
+			player_response_toggle = false
 
 func get_return_dialogue_index(quest_status: String) -> int:
 	var return_dialogue = dialogue["return_dialogue"]
@@ -110,8 +113,12 @@ func set_chat_active(val):
 func set_response_focus(val):
 	player_response_toggle = val
 	if $PlayerResponse.visible:
-		if player_response_toggle: $PlayerResponse/HBoxContainer/Accept.grab_focus()
-		else: $PlayerResponse/HBoxContainer/Reject.grab_focus()
+		if player_response_toggle: 
+			$PlayerResponse/HBoxContainer/Reject.release_focus()
+			$PlayerResponse/HBoxContainer/Accept.grab_focus()
+		else: 
+			$PlayerResponse/HBoxContainer/Accept.release_focus()
+			$PlayerResponse/HBoxContainer/Reject.grab_focus()
 
 func _on_player_accept():
 	player_response = true

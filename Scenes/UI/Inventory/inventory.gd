@@ -40,6 +40,8 @@ func _ready() -> void:
 			# Set up signals - Hovering mouse over slots will change info_text
 			button.mouse_entered.connect(_on_slot_hovered.bind(button))
 			button.mouse_exited.connect(_on_slot_hover_exit.bind(button))
+			button.focus_entered.connect(_on_slot_hovered.bind(button))
+			button.focus_exited.connect(_on_slot_hover_exit.bind(button))
 	set_inventory_array()
 
 # Started off following inventory system tutorial: https://gamedevacademy.org/godot-inventory-system-tutorial/
@@ -50,6 +52,7 @@ func toggle_window(open : bool):
 	inventory_toggle.emit()
 	for s in slots: 
 		s.toggle_slot_options(false)
+	if !slots.is_empty(): slots.front().grab_focus()
 
 func animated_pop_up(open : bool):
 	match open:
@@ -141,6 +144,7 @@ func _on_slot_hovered(slot : InventorySlot):
 	info_text.text = slot_item.info
 
 func _on_slot_hover_exit(slot : InventorySlot):
-	if hovered_slot.slot_options.mouse_entered: pass
-	else: slot.toggle_slot_options(false)
-	info_text.text = "Info"
+	if hovered_slot:
+		if hovered_slot.slot_options.visible: return
+		else: slot.toggle_slot_options(false)
+		info_text.text = "Info"

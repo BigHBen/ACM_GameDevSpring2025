@@ -1,6 +1,7 @@
 extends CharacterBody3D
 class_name PlayerCharacter
 
+@export var CONTROLLER : bool = false
 @export_group("Movement")
 @export var speed = 5.0
 @export var acceleration = 4.0
@@ -11,6 +12,9 @@ class_name PlayerCharacter
 var base_friction_multiplier = 10
 
 @export_group("Attacking")
+@export_range(0,3) var max_block_time : float = 1.0
+@export_range(0,1) var block_damage_multiplier: float = 0.5
+
 @export_range(0.1,10.0) var combo_cooldown : float = 0.5
 @export_range(1,10) var combo_length : int = 3
 var combo_over : bool = true
@@ -38,6 +42,7 @@ var attacks = [
 	"1H_Melee_Attack_Slice_Diagonal",
 	"1H_Melee_Attack_Chop"
 ]
+var hit_animations = ["Hit_A","Hit_B"]
 var rayOrigin = Vector3()
 var rayEnd = Vector3()
 
@@ -134,11 +139,26 @@ func handle_rotation(space,_delta):
 	var query = PhysicsRayQueryParameters3D.create(rayOrigin, rayEnd, 0b00000000000000000100)
 	var intersection = space.intersect_ray(query)
 	
-	# Character Rotation
-	if not intersection.is_empty():
-		var pos = intersection.position
-		model.look_at(Vector3(pos.x, position.y, pos.z), Vector3.UP)
-		$"Hit_Hurt Boxes".look_at(Vector3(pos.x, position.y, pos.z), Vector3.UP)
+	# Controller Input
+	var controller_right_input = Input.get_vector("look_left", "look_right", "look_up", "look_down")
+	var controller_3d_rot = Vector3(controller_right_input.x, position.y, controller_right_input.y)
+	controller_3d_rot = controller_3d_rot.normalized()
+	
+	var target_position = model.global_transform.origin + controller_3d_rot
+	target_position.y = model.global_transform.origin.y
+	var direction = (target_position - model.global_transform.origin).normalized()
+	if CONTROLLER:
+		if controller_right_input != Vector2.ZERO: # Character Controller Rotation
+			var target_rotation = Transform3D.IDENTITY.looking_at(direction, Vector3.UP).basis.get_euler()
+			var _angle_diff = model.rotation.angle_to(target_rotation)
+			
+			model.rotation.y = lerp_angle(model.rotation.y, target_rotation.y, 0.1)
+			$"Hit_Hurt Boxes".rotation.y = lerp_angle($"Hit_Hurt Boxes".rotation.y, target_rotation.y, 0.1)
+	else:
+		if not intersection.is_empty(): # Character Mouse Rotation
+			var pos = intersection.position
+			model.look_at(Vector3(pos.x, position.y, pos.z), Vector3.UP)
+			$"Hit_Hurt Boxes".look_at(Vector3(pos.x, position.y, pos.z), Vector3.UP)
 	
 	# Smooth rotation using rotation_speed
 	#if velocity.length() > 0.0:
@@ -165,18 +185,34 @@ func handle_combo_cooldown(delta):
 			combo_over = false
 		elif anim_state.get_current_node() == "IWR": combo_cooldown_elapsed += delta
 
+func handle_block():
+	var block_timer : float = 0.0
+	anim_tree.set("parameters/AnimationNodeStateMachine/conditions/blocking", true)
+	blocking = true
+	while Input.is_action_pressed("block") and block_timer < max_block_time:
+		block_timer += get_process_delta_time()
+		await get_tree().process_frame
+	anim_tree.set("parameters/AnimationNodeStateMachine/conditions/blocking", false)
+	blocking = false
+
+
 func _input(event):
-	if event.is_action_pressed("attack"):
+	if event.is_action_pressed("attack") and can_attack():
 		handle_attack()
-	if event.is_action_pressed("block"): # Blocking
-		anim_tree.set("parameters/AnimationNodeStateMachine/conditions/blocking", true)
-		blocking = true
+	if event.is_action_pressed("block") and can_block(): # Blocking
+		handle_block()
 	if event.is_action_released("block"):
 		anim_tree.set("parameters/AnimationNodeStateMachine/conditions/blocking", false)
 		blocking = false
 
 func can_move():
-	return !(blocking and defeated)
+	return !(blocking or defeated or p_effects.item_consuming)
+
+func can_attack():
+	return !(p_inv_controller.inventory.window.visible)
+
+func can_block():
+	return !(p_inv_controller.inventory.window.visible)
 
 func set_camera():
 	spring_arm.position.y = 12.5
@@ -194,8 +230,11 @@ func change_anim_parameters():
 	# Check if player is still on floor (before next frame)
 	last_floor = is_on_floor()
 
+
 func take_damage(damage):
 	#print($Rig/Skeleton3D/Knight_Head.get("surface_material_override/0"))
+	if blocking: damage *= block_damage_multiplier
+	else: anim_state.travel(hit_animations.pick_random()) # Animations
 	healthbar._set_health(health - damage)
 	health -= damage
 
@@ -207,6 +246,12 @@ func _on_defeat():
 	if anim_state.get_current_node() == "Death_A": 
 		debug.debug_pause_game()
 		queue_free()
+
+func pause_anim_tree():
+	anim_tree.active = false
+func play_anim_tree():
+	anim_tree.active = true
+	
 
 func _on_animation_finished(_anim):
 	if attacking: 

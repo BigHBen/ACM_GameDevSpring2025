@@ -13,7 +13,7 @@ func _ready() -> void:
 	healthbar.init_health(health)
 	camera = get_viewport().get_camera_3d()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var screen_pos = camera.unproject_position(self.global_position + Vector3(0, 4, 0))
 	$EnemyUi/HealthBar.global_position = screen_pos 
 	$EnemyUi/HealthBar.global_position += Vector2(-$EnemyUi/HealthBar.size.x / 2, 0)

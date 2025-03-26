@@ -44,7 +44,7 @@ func _on_game_paused(is_paused):
 		show()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		tween_shader_property("lod",2.0, 0.25) # Blur effect - Tween that changes blur strength over 0.25 seconds
-		
+		resume_button.grab_focus()
 		# Turn off level UI (Dialog boxes and such)
 		#if game_manager.get_child(0).is_in_group("Level"):
 			#var level =  game_manager.get_child(0)

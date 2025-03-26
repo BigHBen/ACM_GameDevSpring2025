@@ -111,7 +111,7 @@ func create_property_labels(player,properties):
 							slider.max_value = 100.0
 							slider.step = 0.1
 						slider.name = property_name + "_slider"
-						slider.focus_mode = Control.FOCUS_NONE
+						slider.focus_mode = Control.FOCUS_ALL
 						slider.mouse_filter = Control.MOUSE_FILTER_PASS
 						slider.value = player.get(property_name)
 						$Panel/VBoxContainer.add_child(slider)
@@ -121,6 +121,7 @@ func create_property_labels(player,properties):
 	update_panel_size(total_height,vboxseparation)
 
 func update_panel_size(vbox_height,separation):
+	
 	$Panel.size.y = vbox_height + separation
 
 func _input(event: InputEvent) -> void:
@@ -132,6 +133,7 @@ func _input(event: InputEvent) -> void:
 
 func set_debug_active(active : bool):
 	debug_active = active
+	if active: fps_toggle.grab_focus()
 
 func get_debug_active() -> bool:
 	return debug_active

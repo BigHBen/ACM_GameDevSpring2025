@@ -62,8 +62,8 @@ func remove_item():
 	update_quantity_text()
 	if quantity == 0: 
 		inventory.color_flash(self,Color.RED, 0.5)
-		await remove_item_animation()
 		set_item(null)
+		await remove_item_animation()
 	if slot_options.visible: toggle_slot_options(false)
 	
 
@@ -89,8 +89,16 @@ func _on_gui_input(event):
 			MOUSE_BUTTON_RIGHT: 
 				if mouse_entered and item != null: toggle_slot_options(!slot_options.visible)
 
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_right_click") and item != null:
+		var node_focused = get_viewport().gui_get_focus_owner()
+		if self == node_focused or self.slot_options.visible: toggle_slot_options(!slot_options.visible)
+
 func toggle_slot_options(open: bool):
 	slot_options.visible = open
+	if open:
+		if slot_options.get_child_count() > 0: slot_options.get_child(0).grab_focus()
+	else: self.grab_focus()
 
 func _on_pressed():
 	if item == null: return
@@ -98,3 +106,15 @@ func _on_pressed():
 		var remove_after_use = item.use(inventory.player_ref)
 		if remove_after_use: remove_item()
 		inventory.color_flash(self,Color.GREEN, 0.5)
+
+func _on_focus_entered() -> void:
+	for s in inventory.slots:
+		if s != self and s.slot_options.visible:
+			s.toggle_slot_options(false)
+	for option in slot_options.get_children():
+		if option.visible: toggle_slot_options(false)
+
+func _on_focus_exited() -> void:
+	for option in slot_options.get_children():
+		if option.focus_entered: return
+	toggle_slot_options(false)

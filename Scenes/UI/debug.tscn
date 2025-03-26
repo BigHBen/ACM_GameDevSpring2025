@@ -11,6 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 2
 mouse_filter = 1
 script = ExtResource("1_wcwh1")
 
@@ -41,7 +42,6 @@ theme_override_styles/separator = SubResource("StyleBoxEmpty_t786h")
 [node name="FPSmode" type="CheckButton" parent="Panel/VBoxContainer"]
 layout_direction = 3
 layout_mode = 2
-focus_mode = 0
 button_pressed = true
 text = "Show FPS
 "

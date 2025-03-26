@@ -17,7 +17,7 @@ var state = States.INACTIVE :
 @export var acceleration = 4.0
 @export var min_attack_distance = 2.5  # Closest distance enemy can move toward target
 @export var max_attack_distance = 5.0  # Furthest distance enemy can move toward target
-
+@export_range(0,10) var rotation_speed : float = 5.0
 #@export var jump_speed = 8.0
 
 @export_group("Friction")
@@ -28,6 +28,7 @@ var base_friction_multiplier = 10
 @export_range(0.1,10.0) var attack_cooldown : float = 0.25
 @export_range(0.1,10.0) var combo_cooldown : float = 1.0
 @export_range(1,10) var combo_length : int = 3
+@export var exclude_enemies : bool = true
 var combo_over : bool = true
 var combo_count : int = 0
 var attack_cooldown_elapsed := 0.0
@@ -56,23 +57,9 @@ var rayEnd = Vector3()
 @onready var anim_state : AnimationNodeStateMachinePlayback = $AnimationTree.get("parameters/AnimationNodeStateMachine/playback")
 @onready var healthbar = $EnemyUi/HealthBar
 
-#Visibility/Raycasts
-var prev_raycast_endpoint := Vector2.ZERO
-var curr_endpoint_position := Vector2.ZERO
-
-#More detection variables
+#Detection variables
 var target
-var target2
-var hit_pos
-var params
-var target_raycast
-var raycast_endpoint := Vector2.ZERO
-var target_displacement := Vector2.ZERO
-var target_velocity := Vector2.ZERO
-var rid_array = []
 var player_pos
-@export var exclude_enemies : bool = true
-var rotation_speed : float = 0.001
 
 # When player enters detection area, skeleton will rise
 var wake_up = false
@@ -106,7 +93,7 @@ func check_pathfinding():
 				nav_pathfinding_enabled = false
 				printerr(level.nav_region.navigation_mesh," is NOT baked. Enemy pathfinding disabled")
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var screen_pos = camera.unproject_position(self.global_position + Vector3(0, 4, 0))
 	$EnemyUi/HealthBar.global_position = screen_pos 
 	$EnemyUi/HealthBar.global_position += Vector2(-$EnemyUi/HealthBar.size.x / 2, 0)
@@ -220,12 +207,15 @@ func player_collision_scan(delta):
 			if collider.is_in_group("Player"):
 				var direction_to_target = (player_pos - self.global_transform.origin).normalized()
 				var dir_rotation = atan2(direction_to_target.x, direction_to_target.z)
-				self.rotation.y = dir_rotation
+				
+				# Switched to lerp_angle - Stops rotation snapping
+				self.rotation.y = lerp_angle(self.rotation.y, dir_rotation, delta * rotation_speed)
+				#self.rotation.y = dir_rotation
 			else:
 				$ScanRaycast.debug_shape_custom_color = Color(0,225,0)
 				var new_basis = self.global_transform.basis
 				var target_rotation = deg_to_rad(self.rotation_degrees.y)  # Or some other target rotation
-				new_basis = Basis().rotated(Vector3.UP, lerp_angle(self.rotation_degrees.y, rad_to_deg(target_rotation), delta * rotation_speed))
+				new_basis = Basis().rotated(Vector3.UP, target_rotation)
 				self.global_transform.basis = new_basis
 
 func apply_friction(delta,friction):

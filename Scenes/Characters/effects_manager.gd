@@ -4,6 +4,7 @@ extends Node3D
 @onready var player = $".."
 enum EffectType { BUFF, DEBUFF, STATUS}
 var active_effects = []
+var item_consuming : bool = false
 
 var effect_types = {
 	EffectType.BUFF : {"speed": speed_boost.get_method()},
@@ -48,6 +49,15 @@ func start_effect(type: EffectType, e_name: String):
 
 func speed_boost():
 	print("Blitz em")
+	var item_consumption = 1.0
+	var drinking_timer = 0.0
+	player.anim_state.travel("Use_Item")
+	while drinking_timer < item_consumption:
+		item_consuming = true
+		drinking_timer += get_process_delta_time()
+		await get_tree().process_frame
+	item_consuming = false
+	
 
 func slow_debuff():
 	print("Slow player speed for duration")

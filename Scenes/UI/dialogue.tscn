@@ -52,6 +52,9 @@ anchors_preset = 0
 offset_left = -512.0
 offset_right = -472.0
 offset_bottom = 40.0
+focus_neighbor_left = NodePath("HBoxContainer/Accept")
+focus_neighbor_right = NodePath("HBoxContainer/Reject")
+focus_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PlayerResponse"]
 layout_mode = 0
@@ -64,8 +67,6 @@ alignment = 1
 
 [node name="Accept" type="Button" parent="PlayerResponse/HBoxContainer"]
 layout_mode = 2
-focus_neighbor_left = NodePath(".")
-focus_neighbor_right = NodePath("../Reject")
 theme_override_fonts/font = ExtResource("3_u3308")
 theme_override_font_sizes/font_size = 35
 text = "ACCEPT"

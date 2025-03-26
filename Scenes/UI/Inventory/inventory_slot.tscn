@@ -626,6 +626,7 @@ offset_left = 59.0
 offset_top = 67.0
 offset_right = 139.0
 offset_bottom = 111.0
+tooltip_text = "True"
 mouse_filter = 0
 theme_override_constants/separation = 0
 alignment = 1
@@ -647,4 +648,8 @@ text = "Remove
 "
 flat = true
 
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]
+[connection signal="focus_exited" from="Options/Use" to="." method="_on_focus_exited"]
+[connection signal="focus_exited" from="Options/Remove" to="." method="_on_focus_exited"]

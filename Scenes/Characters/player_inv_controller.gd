@@ -1,7 +1,7 @@
 class_name PlayerInventoryController
 extends Node3D
 
-@onready var player = $".."
+@onready var player : = $".."
 @onready var interactions_node : Area3D = $"../Interact"
 # Autoload Inventory scene
 @onready var inventory : Inventory = get_node("/root/PlayerInventory")
@@ -24,6 +24,7 @@ func _process(_delta: float) -> void:
 func collect(item : BaseItem):
 	inventory.add_item(item,player)
 	if item.ITEM_TYPE.QUEST_ITEM: quest_man.quest_check(item)
+	player.anim_state.travel("PickUp")
 
 func inventory_window_toggled():
 	if inventory_close_conditions(): inventory.window.visible = false

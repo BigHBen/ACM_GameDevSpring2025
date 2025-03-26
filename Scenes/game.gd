@@ -12,8 +12,8 @@ var game_paused : bool = false :
 		return game_paused
 
 func _ready() -> void:
-	print("hello")
+	pass
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("pause_game"):
 		game_paused = !game_paused
