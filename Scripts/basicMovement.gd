@@ -14,13 +14,19 @@ var base_friction_multiplier = 10
 @export_group("Attacking")
 @export_range(0,3) var max_block_time : float = 1.0
 @export_range(0,1) var block_damage_multiplier: float = 0.5
-
 @export_range(0.1,10.0) var combo_cooldown : float = 0.5
 @export_range(1,10) var combo_length : int = 3
 var combo_over : bool = true
 var combo_count : int = 0
 var attack_cooldown_elapsed := 0.0
 var combo_cooldown_elapsed := 0.0
+
+# Armor classes - More damage reduction
+var block_multipliers = {
+	"default": 1.0, # No blocking
+	"gold": 0.75,  
+	"diamond": 0.5
+}
 
 @export_group("Stats")
 @export_range(0,100) var health : int = 100
@@ -55,6 +61,10 @@ var rayEnd = Vector3()
 @onready var spring_arm : SpringArm3D = $CameraPivot/SpringArm3D
 @onready var healthbar = $PlayerUi/HealthBar
 
+# Player meshes (for armor mainly)
+@onready var helm_mesh : MeshInstance3D = $Rig/Skeleton3D/Knight_Helmet/Knight_Helmet
+@onready var chest_mesh : MeshInstance3D = $Rig/Skeleton3D/Knight_Body
+
 # Effects
 @onready var p_effects : Node3D = $EffectsManager
 
@@ -75,6 +85,7 @@ func _ready():
 	anim_tree.animation_finished.connect(_on_animation_finished)
 	healthbar.init_health(health)
 	set_camera()
+	
 
 # Movement is HEAVILY modified code from KidsCanCode
 # https://www.youtube.com/@Kidscancode/featured
@@ -233,9 +244,14 @@ func change_anim_parameters():
 
 func take_damage(damage):
 	#print($Rig/Skeleton3D/Knight_Head.get("surface_material_override/0"))
+	var armor_reduction
+	match p_effects.current_armor:
+		0: armor_reduction = block_multipliers["default"]
+		1: armor_reduction = block_multipliers["gold"]
+		2: armor_reduction = block_multipliers["diamond"]
 	if blocking: damage *= block_damage_multiplier
 	else: anim_state.travel(hit_animations.pick_random()) # Animations
-	healthbar._set_health(health - damage)
+	healthbar._set_health(health - (damage * armor_reduction))
 	health -= damage
 
 func _on_defeat():

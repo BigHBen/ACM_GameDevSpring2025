@@ -13,11 +13,25 @@ var effect_types = {
 }
 var effect_types_names := ["BUFF", "DEBUFF", "STATUS"]
 
+# Armor
+var current_armor : int
+enum ArmorType { CHEST_DEFAULT, CHEST_GOLD, CHEST_DIAMOND, HELM_DEFAULT, HELM_GOLD, HELM_DIAMOND}
+var armor_types = {
+	ArmorType.CHEST_DEFAULT : {"chest_default": "res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/knight_body.res"},
+	ArmorType.CHEST_GOLD : {"chest_gold": "res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/knight_body_gold.res"},
+	ArmorType.CHEST_DIAMOND: {"chest_diamond": "res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/knight_body_diamond.res"},
+	
+	ArmorType.HELM_DEFAULT : {"helm_default": "res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/knight_helmet.res"},
+	ArmorType.HELM_GOLD : {"helm_gold": "res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/knight_helmet_gold.res"},
+	ArmorType.HELM_DIAMOND: {"helm_diamond": "res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/knight_helmet_diamond.res"}
+}
+var armor_types_names := ["CHEST_DEFAULT", "CHEST_GOLD", "CHEST_DIAMOND", "HELM_DEFAULT", "HELM_GOLD", "HELM_DIAMOND"]
+
 func _ready() -> void:
-	pass # Replace with function body.
+	if player: current_armor = ArmorType.CHEST_DEFAULT
 
 func load_effect_item(type:String):
-	var e_type_arr = find_effect_dict(type)
+	var e_type_arr = find_item_dict(type,effect_types)
 	
 	if e_type_arr.size() > 0: 
 		start_effect(e_type_arr[0], e_type_arr[1])
@@ -25,17 +39,39 @@ func load_effect_item(type:String):
 	else: printerr("Item Used has no EffectType")
 	return false
 
-func find_effect_dict(type:String) -> Array:
+func load_armor(type: String):
+	var a_type_arr = find_item_dict(type,armor_types)
+	if a_type_arr: 
+		var new_mesh : ArrayMesh = load(a_type_arr.back())
+		if armor_types_names[a_type_arr[0]].to_lower().find("chest") != -1:
+			player.chest_mesh.mesh = new_mesh
+			player.chest_mesh.force_update_transform()
+			current_armor = a_type_arr[0]
+		elif armor_types_names[a_type_arr[0]].to_lower().find("helm") != -1:
+			if !player.helm_mesh.visible: player.helm_mesh.visible = true
+			player.helm_mesh.mesh = new_mesh
+			player.helm_mesh.force_update_transform()
+		
+		var item_consumption = 1.0
+		var dress_timer = 0.0
+		player.anim_state.travel("Use_Item")
+		while dress_timer < item_consumption:
+			item_consuming = true
+			dress_timer += get_process_delta_time()
+			await get_tree().process_frame
+		item_consuming = false
+
+func find_item_dict(type:String, types_dict : Dictionary) -> Array:
 	var key_to_find = type
 	var dict : Dictionary = {}
-	for effect_type in effect_types.keys():
-		var effects_dict = effect_types[effect_type]
+	for i_type in types_dict.keys():
+		var i_dict = types_dict[i_type]
 		
-		if key_to_find in effects_dict:
-			dict[key_to_find] = effects_dict[key_to_find]
+		if key_to_find in i_dict:
+			dict[key_to_find] = i_dict[key_to_find]
 			#print("PlayerEffectsManager: EffectType: ", effect_types_names[effect_type], \
 			#" | Key:", key_to_find, " | Func:", effects_dict[key_to_find])
-			return [effect_type, key_to_find, effects_dict[key_to_find]]
+			return [i_type, key_to_find, dict[key_to_find]]
 	return []
 	
 func start_effect(type: EffectType, e_name: String):

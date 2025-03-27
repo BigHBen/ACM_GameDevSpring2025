@@ -1,7 +1,43 @@
-[gd_scene load_steps=10 format=3 uid="uid://dg62lovogyqry"]
+[gd_scene load_steps=26 format=3 uid="uid://dg62lovogyqry"]
 
 [ext_resource type="PackedScene" uid="uid://c402qyiapbxxt" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/chest.gltf" id="1_578qm"]
 [ext_resource type="Script" path="res://Scenes/Items/item_chest.gd" id="2_a45p0"]
+[ext_resource type="Texture2D" uid="uid://csn0cj45jmklw" path="res://Assets/Effects/radial_Shine.png" id="3_0fox3"]
+[ext_resource type="Script" path="res://UI_Work/ItemsWork/ItemsWork/BaseItem.gd" id="3_rjqkn"]
+[ext_resource type="Shader" path="res://Shaders/radial_shine.gdshader" id="3_toefe"]
+[ext_resource type="Texture2D" uid="uid://c1mwxc8qrs5ug" path="res://Assets/UI_Assets/knight_chest_gold.png" id="4_avg40"]
+[ext_resource type="ArrayMesh" uid="uid://x5gilv7ed43f" path="res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/knight_body_gold.res" id="4_kg5kr"]
+[ext_resource type="Texture2D" uid="uid://cfshqolaykq21" path="res://Assets/UI_Assets/Speed_Potion.png" id="5_qte64"]
+[ext_resource type="ArrayMesh" uid="uid://do776ir4kb3j1" path="res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/knight_helmet_gold.res" id="6_ij65a"]
+[ext_resource type="Texture2D" uid="uid://dpdg50366qto" path="res://Assets/UI_Assets/knight_helm_gold.png" id="6_iph2r"]
+
+[sub_resource type="Resource" id="Resource_mxl0b"]
+script = ExtResource("3_rjqkn")
+value = 1
+mesh = ExtResource("4_kg5kr")
+type = 5
+icon = ExtResource("4_avg40")
+usable = true
+removeable = true
+player_removable = false
+info = "Premium Gold Armor $$$"
+max_stack_size = 0
+special_name_type = ""
+armor_type = "chest_gold"
+
+[sub_resource type="Resource" id="Resource_6a8wh"]
+script = ExtResource("3_rjqkn")
+value = 1
+mesh = ExtResource("6_ij65a")
+type = 5
+icon = ExtResource("6_iph2r")
+usable = true
+removeable = true
+player_removable = false
+info = "Premium Gold Helmet $$$"
+max_stack_size = 0
+special_name_type = ""
+armor_type = "helm_gold"
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_bbc0w"]
 points = PackedVector3Array(-0.605012, 0.0249606, -0.6, -0.650117, -2.38419e-07, -0.575001, -0.8, -2.38419e-07, -0.500004, -0.605012, 0.49998, -0.6, 0.604855, 0.0249606, -0.6, 0.649961, -2.38419e-07, -0.575001, -0.8, -2.38419e-07, 0.499955, -0.8, 0.6, -0.500004, -0.650117, 0.525, -0.575001, 0.604855, 0.49998, -0.6, 0.8, -2.38419e-07, -0.500004, -0.8, 0.6, 0.499955, -0.650117, -2.38419e-07, 0.574952, -0.605012, 0.0249606, 0.599951, -0.546594, 0.119988, 0.63434, 0.8, 0.6, -0.500004, 0.649961, 0.525, -0.575001, 0.8, -2.38419e-07, 0.499955, -0.605012, 0.49998, 0.599951, -0.650117, 0.525, 0.574952, 0.8, 0.6, 0.499955, 0.649961, -2.38419e-07, 0.574952, -0.500078, 0.073414, 0.63434, -0.500078, 0.119988, 0.645802, 0.604855, 0.0249606, 0.599951, 0.546437, 0.119988, 0.63434, 0.604855, 0.49998, 0.599951, 0.649961, 0.525, 0.574952, 0.499922, 0.073414, 0.63434, 0.499922, 0.119988, 0.645802)
@@ -66,8 +102,67 @@ _data = {
 [sub_resource type="SphereShape3D" id="SphereShape3D_6j2x3"]
 radius = 3.0
 
+[sub_resource type="Gradient" id="Gradient_tlq15"]
+offsets = PackedFloat32Array(0, 0.45082)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8jruu"]
+gradient = SubResource("Gradient_tlq15")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ecrkn"]
+shader = ExtResource("3_toefe")
+shader_parameter/spread = 0.5
+shader_parameter/cutoff = 1.0
+shader_parameter/size = 1.0
+shader_parameter/speed = 1.0
+shader_parameter/ray1_density = 8.0
+shader_parameter/ray2_density = 30.0
+shader_parameter/ray2_intensity = 0.3
+shader_parameter/core_intensity = 2.0
+shader_parameter/hdr = false
+shader_parameter/seed = 5.0
+shader_parameter/gradient = SubResource("GradientTexture1D_8jruu")
+
+[sub_resource type="Animation" id="Animation_xv7mu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ir3yd"]
+resource_name = "rotate"
+length = 2.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.466667, 1, 1.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.523599, 0.0, 0.523599, 0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6hhq7"]
+_data = {
+"RESET": SubResource("Animation_xv7mu"),
+"rotate": SubResource("Animation_ir3yd")
+}
+
 [node name="Item_Chest" groups=["Chest"] instance=ExtResource("1_578qm")]
 script = ExtResource("2_a45p0")
+loot = Array[ExtResource("3_rjqkn")]([SubResource("Resource_mxl0b"), SubResource("Resource_6a8wh")])
 
 [node name="StaticBody3D" type="StaticBody3D" parent="chest" index="1"]
 
@@ -92,6 +187,54 @@ shape = SubResource("SphereShape3D_6j2x3")
 [node name="Scan" type="Timer" parent="Area3D" index="1"]
 wait_time = 0.25
 autostart = true
+
+[node name="UI" type="CanvasLayer" parent="." index="3"]
+
+[node name="Control" type="Control" parent="UI" index="0"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(960, 540)
+
+[node name="shine" type="TextureRect" parent="UI/Control" index="0"]
+material = SubResource("ShaderMaterial_ecrkn")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_0fox3")
+
+[node name="item_icon" type="TextureRect" parent="UI/Control" index="1"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -260.0
+offset_right = 225.0
+offset_bottom = 260.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("5_qte64")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="UI/Control" index="2"]
+libraries = {
+"": SubResource("AnimationLibrary_6hhq7")
+}
 
 [connection signal="body_entered" from="Area3D" to="." method="_on_chest_entered"]
 [connection signal="body_exited" from="Area3D" to="." method="_on_chest_exited"]

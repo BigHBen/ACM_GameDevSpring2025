@@ -4,6 +4,7 @@
 [ext_resource type="ArrayMesh" uid="uid://6x04k6ufdxyf" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/obj/bottle_A_green.obj" id="2_1ydvv"]
 [ext_resource type="Script" path="res://UI_Work/ItemsWork/ItemsWork/BaseItem.gd" id="3_qkecm"]
 
+
 [resource]
 script = ExtResource("3_qkecm")
 value = 1

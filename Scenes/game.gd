@@ -1,6 +1,9 @@
 extends Node
 class_name  GameManager
 
+@onready var color_rect : ColorRect = $UI/ColorRect
+@onready var pause_menu : Control = $UI/PauseMenu
+
 signal _on_game_paused(is_paused : bool)
 
 var game_paused : bool = false :

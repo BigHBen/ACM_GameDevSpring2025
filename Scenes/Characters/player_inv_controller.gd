@@ -15,6 +15,7 @@ extends Node3D
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	inventory.inventory_toggle.connect(inventory_window_toggled)
+	inventory.focus_mode_set = player.CONTROLLER
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

@@ -1,5 +1,6 @@
 extends Node3D
 
+@onready var game : Node = get_parent()
 @onready var nav_region : NavigationRegion3D = $Gridmaps/NavigationRegion3D
 @export var level_chest : PackedScene
 

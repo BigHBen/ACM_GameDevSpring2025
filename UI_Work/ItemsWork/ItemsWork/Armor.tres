@@ -1,0 +1,17 @@
+[gd_resource type="Resource" script_class="BaseItem" load_steps=3 format=3 uid="uid://emrkygul2bo3"]
+
+[ext_resource type="Script" path="res://UI_Work/ItemsWork/ItemsWork/BaseItem.gd" id="1_6c1jp"]
+[ext_resource type="ArrayMesh" uid="uid://c3knpq68ioaou" path="res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/knight_body.res" id="1_x6a74"]
+
+[resource]
+script = ExtResource("1_6c1jp")
+value = 1
+mesh = ExtResource("1_x6a74")
+type = 5
+usable = true
+removeable = true
+player_removable = false
+info = ""
+max_stack_size = 0
+special_name_type = ""
+armor_type = ""

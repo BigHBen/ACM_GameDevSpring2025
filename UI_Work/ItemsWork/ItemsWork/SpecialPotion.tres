@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://UI_Work/ItemsWork/ItemsWork/BaseItem.gd" id="1_ngpwo"]
 [ext_resource type="Texture2D" uid="uid://cfshqolaykq21" path="res://Assets/UI_Assets/Speed_Potion.png" id="1_yr7i4"]
 
+
 [resource]
 script = ExtResource("1_ngpwo")
 value = 1

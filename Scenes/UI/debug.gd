@@ -3,6 +3,7 @@ class_name TestDebug
 
 var target_player : CharacterBody3D = null
 @onready var fps_toggle : CheckButton = $Panel/VBoxContainer/FPSmode 
+@onready var game : Node = get_parent()
 
 var panel_size : Vector2
 var panel_initial : int = 50
