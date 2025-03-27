@@ -90,8 +90,8 @@ func _on_gui_input(event):
 				if mouse_entered and item != null: toggle_slot_options(!slot_options.visible)
 
 func _input(event: InputEvent) -> void:
-	if inventory.player_ref and inventory.player_ref.CONTROLLER:
-		if event.is_action_pressed("ui_right_click") and item != null:
+	if event.is_action_pressed("ui_right_click") and item != null:
+		if inventory.player_ref and inventory.player_ref.CONTROLLER:
 			var node_focused = get_viewport().gui_get_focus_owner()
 			if self == node_focused or self.slot_options.visible: toggle_slot_options(!slot_options.visible)
 

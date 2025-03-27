@@ -94,9 +94,10 @@ func check_pathfinding():
 				printerr(level.nav_region.navigation_mesh," is NOT baked. Enemy pathfinding disabled")
 
 func _process(_delta: float) -> void:
-	var screen_pos = camera.unproject_position(self.global_position + Vector3(0, 4, 0))
-	$EnemyUi/HealthBar.global_position = screen_pos 
-	$EnemyUi/HealthBar.global_position += Vector2(-$EnemyUi/HealthBar.size.x / 2, 0)
+	if camera != null:
+		var screen_pos = camera.unproject_position(self.global_position + Vector3(0, 4, 0))
+		$EnemyUi/HealthBar.global_position = screen_pos 
+		$EnemyUi/HealthBar.global_position += Vector2(-$EnemyUi/HealthBar.size.x / 2, 0)
 
 func _physics_process(delta):
 	# Movement Stuff

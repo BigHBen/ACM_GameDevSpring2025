@@ -52,27 +52,29 @@ func set_interacted(val):
 
 
 func _on_area_entered(area: Area3D) -> void:
-	if area.owner.is_in_group("NPC"):
-		detected_npc = area.owner
-		interact_button.visible = true
+	if area.owner:
+		if area.owner.is_in_group("NPC"):
+			detected_npc = area.owner
+			interact_button.visible = true
+			
+			# Close inventory if player starts chatting
+			player_inventory.close_inventory()
 		
-		# Close inventory if player starts chatting
-		player_inventory.close_inventory()
-	
-	if area.owner.is_in_group("Chest"):
-		detected_chest = area.owner
-		interact_button.visible = true
+		if area.owner.is_in_group("Chest"):
+			detected_chest = area.owner
+			interact_button.visible = true
 
 
 func _on_area_exited(area: Area3D) -> void:
-	if area.owner.is_in_group("NPC"):
-		if area.owner == detected_npc: 
-			if detected_npc.chat_end.is_connected(_on_npc_chat_end):
-				detected_npc.chat_end.disconnect(_on_npc_chat_end)
-			detected_npc.interact(false)
-			detected_npc = null
-		interact_button.visible = false
-	if area.owner and area.owner.is_in_group("Chest"):
-		if area == detected_chest:
-			detected_chest = null
-		interact_button.visible = false
+	if area.owner:
+		if area.owner.is_in_group("NPC"):
+			if area.owner == detected_npc: 
+				if detected_npc.chat_end.is_connected(_on_npc_chat_end):
+					detected_npc.chat_end.disconnect(_on_npc_chat_end)
+				detected_npc.interact(false)
+				detected_npc = null
+			interact_button.visible = false
+		if area.owner.is_in_group("Chest"):
+			if area == detected_chest:
+				detected_chest = null
+			interact_button.visible = false

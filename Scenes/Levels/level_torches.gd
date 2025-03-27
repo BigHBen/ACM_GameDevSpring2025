@@ -73,6 +73,7 @@ func add_flame_vfx(map : GridMap,flame_scene : PackedScene):
 		
 		var forward_vector = gpu_particles.transform.basis.z.normalized()
 		var up_vector = gpu_particles.transform.basis.y.normalized()
-		gpu_particles.transform.origin += forward_vector * z_adjustment
-		gpu_particles.transform.origin += up_vector * y_adjustment
+		if mesh_name.find("mounted") != -1:
+			gpu_particles.transform.origin += forward_vector * z_adjustment
+			gpu_particles.transform.origin += up_vector * y_adjustment
 		add_child(gpu_particles)

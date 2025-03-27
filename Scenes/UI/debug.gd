@@ -3,7 +3,7 @@ class_name TestDebug
 
 var target_player : CharacterBody3D = null
 @onready var fps_toggle : CheckButton = $Panel/VBoxContainer/FPSmode 
-@onready var game : Node = get_parent()
+@onready var game : Node = $"../Game"
 
 var panel_size : Vector2
 var panel_initial : int = 50
@@ -19,20 +19,23 @@ signal fps_vis(active)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	get_player_properties(null)
 	$Panel.size_flags_vertical = SIZE_EXPAND | SIZE_FILL
 	hide()
-	if get_target_player() != null:
+	fps_toggle.toggled.connect(_on_fps_show_toggle)
+	if game: for player in game.players: get_player_properties(player)
+
+func get_player_properties(player):
+	target_player = player
+	if target_player or get_target_player() != null:
 		load_properties()
 	else: 
 		#printerr("Debug (Autoload): Current scene is not GameManager.. ")
 		pass
-	
-	fps_toggle.toggled.connect(_on_fps_show_toggle)
 
 # Searches scene tree and returns first character in 'Player' group
 func get_target_player():
 	var scene_root = get_tree().current_scene
-	
 	if scene_root.get_child_count() > 0:
 		for character in find_characters_in_level(scene_root):
 			if character.is_in_group("Player"):

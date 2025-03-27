@@ -4,6 +4,18 @@ class_name  GameManager
 @onready var color_rect : ColorRect = $UI/ColorRect
 @onready var pause_menu : Control = $UI/PauseMenu
 
+# Autoload scene
+@onready var debug : TestDebug = get_node("/root/Debug")
+
+var level_itr : int : # Iterate through levels array
+	set (val):
+		level_itr = val
+		change_level(levels[level_itr])
+	get: return level_itr
+
+@export var players : Array[CharacterBody3D]
+@export var levels : Array[PackedScene]
+
 signal _on_game_paused(is_paused : bool)
 
 var game_paused : bool = false :
@@ -15,8 +27,38 @@ var game_paused : bool = false :
 		return game_paused
 
 func _ready() -> void:
-	pass
+	load_first_level()
+	if levels.is_empty(): printerr($".", " Error: No levels to load - Add scene elements to 'levels' Array")
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_game"):
 		game_paused = !game_paused
+
+func change_level(new_level_scene: PackedScene):
+	var current_level = get_child(0)
+	if current_level.is_in_group("Level"):
+		current_level.call_deferred("queue_free")
+	
+	var new_level : Node3D = load(new_level_scene.resource_path).instantiate()
+	connect_debug_properties(new_level)
+	for player in players: player.position = new_level.player_spawn_point
+	self.add_child(new_level)
+	new_level.owner = get_tree().current_scene
+	self.move_child(new_level,0)
+	
+
+func load_first_level():
+	level_itr = 0
+
+func next_level():
+	level_itr += 1
+
+# Set up a signal for when player spawns in level - Load its properties on debug menu
+func connect_debug_properties(from) -> bool:
+	for child in from.get_children():
+		if child.is_in_group("Player"): 
+			var _player : PlayerCharacter = child
+			child.queue_free()
+			#player.ready.connect(debug.get_player_properties.bind(player))
+			return true
+	return false
