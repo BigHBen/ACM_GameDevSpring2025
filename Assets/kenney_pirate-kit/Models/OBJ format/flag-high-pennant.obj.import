@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://borvldoielhcb"
+path="res://.godot/imported/flag-high-pennant.obj-6ad82cc22395997f6bfd00d7fa00680c.mesh"
+
+[deps]
+
+files=["res://.godot/imported/flag-high-pennant.obj-6ad82cc22395997f6bfd00d7fa00680c.mesh"]
+
+source_file="res://Assets/kenney_pirate-kit/Models/OBJ format/flag-high-pennant.obj"
+dest_files=["res://.godot/imported/flag-high-pennant.obj-6ad82cc22395997f6bfd00d7fa00680c.mesh", "res://.godot/imported/flag-high-pennant.obj-6ad82cc22395997f6bfd00d7fa00680c.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

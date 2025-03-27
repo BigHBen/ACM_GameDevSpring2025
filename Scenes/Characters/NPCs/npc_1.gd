@@ -19,7 +19,8 @@ extends CharacterBody3D
 #Detection Variables
 @export_group("Detection")
 @export var vis_radius = 3
-@export_range(0,1) var rotation_speed : float = 4.0
+@export_range(0,10) var rotation_speed : float = 1.0
+var start_head_basis : Basis
 var head_rotation_weight = 0.0
 
 # Quests!
@@ -59,6 +60,7 @@ func _ready():
 			#print("Bone Rotation: ", bone_rotation)
 			# Optionally, make the new attachment a child of the skeleton so it follows the bone
 			#new_attachment.get_parent().add_child(new_attachment)
+		start_head_basis = head.global_transform.basis
 
 func _process(delta: float) -> void:
 	var collisions = $Area3D.get_overlapping_bodies()
@@ -86,11 +88,11 @@ func look_toward(target_basis,weight):
 	head.global_transform.basis = start_basis.slerp(target_basis, weight)
 
 func look_away(target_basis,_weight):
-	var new_head_rotation_weight = 0.0
+	head_rotation_weight = 0.0
 	var start_basis = head.global_transform.basis
-	while !start_basis.is_equal_approx(target_basis):
+	while !target and head_rotation_weight < 1.0:
 		head_rotation_weight = min(head_rotation_weight + rotation_speed*2 * get_process_delta_time(), 1.0)
-		head.global_transform.basis = start_basis.slerp(target_basis, new_head_rotation_weight)
+		head.global_transform.basis = start_basis.slerp(target_basis, head_rotation_weight)
 		await get_tree().process_frame
 
 func load_quest():
@@ -216,11 +218,12 @@ func _on_chatzone_entered(body):
 			return
 		target = body
 		head_rotation_weight = 0.0
+		$ScanRaycast.position = Vector3.ZERO
 
 func _on_chatzone_exited(body):
 	if body == target:
 		target = null
-		look_away(Basis(),head_rotation_weight)
+		look_away(start_head_basis,head_rotation_weight)
 
 
 func _on_scan_timeout() -> void:

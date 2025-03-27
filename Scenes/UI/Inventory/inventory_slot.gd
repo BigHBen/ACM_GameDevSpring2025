@@ -97,9 +97,10 @@ func _input(event: InputEvent) -> void:
 
 func toggle_slot_options(open: bool):
 	slot_options.visible = open
-	if open:
-		if slot_options.get_child_count() > 0: slot_options.get_child(0).grab_focus()
-	else: self.grab_focus()
+	if inventory.focus_mode_set: # focus_mode_set == true -> using mouse and keyboard
+		if open:
+			if slot_options.get_child_count() > 0: slot_options.get_child(0).grab_focus()
+		else: self.grab_focus()
 
 func _on_pressed(): 
 	if item == null: return

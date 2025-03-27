@@ -74,6 +74,8 @@ func progress():
 		elif cur_dialogue["quest_progress"] == "completed" and \
 		dialogue_id == dialogue[talk_status].size()-1: 
 			quest_lock = false
+	elif dialogue[talk_status][dialogue_id].has("auto_accept"): # Ask player a yes/no question
+		quest_auto_accept()
 	elif dialogue[talk_status][dialogue_id].has("accept"): # Ask player a yes/no question
 		load_player_responses(dialogue[talk_status][dialogue_id])
 		$PlayerResponse.visible = true
@@ -119,6 +121,14 @@ func set_response_focus(val):
 		else: 
 			$PlayerResponse/HBoxContainer/Accept.release_focus()
 			$PlayerResponse/HBoxContainer/Reject.grab_focus()
+
+func quest_auto_accept():
+	var cur_line = dialogue[talk_status][dialogue_id]
+	if cur_line.has("quest"):
+		if cur_line.quest: 
+			get_parent().quest_accepted.emit()
+			quest_lock = true
+	#progress()
 
 func _on_player_accept():
 	player_response = true

@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" path="res://UI_Work/ItemsWork/ItemsWork/BaseItem.gd" id="1_wvl8m"]
 
-
 [resource]
 script = ExtResource("1_wvl8m")
 value = 1
@@ -12,3 +11,5 @@ removeable = true
 player_removable = false
 info = ""
 max_stack_size = 1
+special_name_type = ""
+armor_type = ""

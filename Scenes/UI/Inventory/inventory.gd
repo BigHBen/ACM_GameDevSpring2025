@@ -59,7 +59,8 @@ func toggle_window(open : bool):
 	inventory_toggle.emit()
 	for s in slots: 
 		s.toggle_slot_options(false)
-	if !slots.is_empty(): slots.front().grab_focus()
+	# focus_mode_set == true -> using mouse and keyboard
+	if !slots.is_empty() and focus_mode_set: slots.front().grab_focus() 
 
 func animated_pop_up(open : bool):
 	match open:

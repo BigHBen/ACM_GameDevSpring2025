@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://ve0kjfnqywc8"
+path="res://.godot/imported/flag-pirate.obj-b2201d0b9a09c804cde85bf36cbe4451.mesh"
+
+[deps]
+
+files=["res://.godot/imported/flag-pirate.obj-b2201d0b9a09c804cde85bf36cbe4451.mesh"]
+
+source_file="res://Assets/kenney_pirate-kit/Models/OBJ format/flag-pirate.obj"
+dest_files=["res://.godot/imported/flag-pirate.obj-b2201d0b9a09c804cde85bf36cbe4451.mesh", "res://.godot/imported/flag-pirate.obj-b2201d0b9a09c804cde85bf36cbe4451.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false
