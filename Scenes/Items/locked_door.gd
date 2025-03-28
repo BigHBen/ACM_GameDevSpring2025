@@ -142,6 +142,18 @@ func _on_chatzone_exited(body):
 	if body == target:
 		target = null
 
+func _on_area_entered(area: Area3D) -> void:
+	if area.owner:
+		if area.owner.is_in_group("Player"): pass
+			#if target:
+				#return
+			#target = area.owner
+
+func _on_area_exited(area: Area3D) -> void:
+	if area.owner:
+		if area.owner.is_in_group("Player"): pass
+			#if area.owner == target: 
+				#pass
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	pass

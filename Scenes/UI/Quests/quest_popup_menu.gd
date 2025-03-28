@@ -64,6 +64,10 @@ func _on_gui_input(event):
 
 func reset_window_prop():
 	window.modulate = Color.WHITE
+	quest_title_label.modulate = Color.WHITE
+	quest_desc_label.modulate = Color.WHITE
+	quest_item_label.modulate = Color.WHITE
+	quest_checkbox.button_pressed = false
 
 func animated_pop_up(open : bool):
 	reset_window_prop()

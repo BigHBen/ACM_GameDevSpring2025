@@ -17,9 +17,10 @@ shader_parameter/lod = 0.0
 [sub_resource type="LabelSettings" id="LabelSettings_iuxih"]
 font = ExtResource("5_wmtf2")
 
-[node name="Game" type="Node" node_paths=PackedStringArray("players")]
+[node name="Game" type="Node" node_paths=PackedStringArray("ui_control", "players")]
 process_mode = 3
 script = ExtResource("1_nw1mo")
+ui_control = NodePath("UI")
 players = [NodePath("Knight")]
 levels = Array[PackedScene]([ExtResource("2_kwsbf"), ExtResource("2_wbq3d")])
 
@@ -64,3 +65,13 @@ offset_bottom = 33.0
 grow_horizontal = 0
 text = "FPS"
 label_settings = SubResource("LabelSettings_iuxih")
+
+[node name="ColorRect2" type="ColorRect" parent="UI/StatsDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)

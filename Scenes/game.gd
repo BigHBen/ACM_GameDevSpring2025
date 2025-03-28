@@ -14,6 +14,7 @@ var level_itr : int : # Iterate through levels array
 
 @export var ui_control : CanvasLayer
 @export var players : Array[CharacterBody3D]
+@export var start_level_idx : int = 0
 @export var levels : Array[PackedScene]
 
 signal _on_game_paused(is_paused : bool)
@@ -28,7 +29,9 @@ var game_paused : bool = false :
 
 func _ready() -> void:
 	load_first_level()
-	if levels.is_empty(): printerr($".", " Error: No levels to load - Add scene elements to 'levels' Array")
+	if levels.is_empty(): 
+		printerr($".", " Error: No levels to load - Add scene elements to 'levels' Array")
+		get_tree().quit()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_game"):
@@ -50,7 +53,7 @@ func change_level(new_level_scene: PackedScene):
 
 
 func load_first_level():
-	level_itr = 0
+	level_itr = start_level_idx
 
 func next_level():
 	level_itr += 1
