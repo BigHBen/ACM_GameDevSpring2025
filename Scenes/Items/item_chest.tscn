@@ -236,5 +236,7 @@ libraries = {
 "": SubResource("AnimationLibrary_6hhq7")
 }
 
+[connection signal="area_entered" from="Area3D" to="." method="_on_area_entered"]
+[connection signal="area_exited" from="Area3D" to="." method="_on_area_exited"]
 [connection signal="body_entered" from="Area3D" to="." method="_on_chest_entered"]
 [connection signal="body_exited" from="Area3D" to="." method="_on_chest_exited"]

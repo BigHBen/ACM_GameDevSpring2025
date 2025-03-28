@@ -12,6 +12,7 @@
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_7eciw"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_j67w5"]
+graph_offset = Vector2(-366, 46)
 nodes/AnimationNodeStateMachine/node = ExtResource("4_cl545")
 nodes/AnimationNodeStateMachine/position = Vector2(-180, 120)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_7eciw")
@@ -66,10 +67,10 @@ bones/35/rotation = Quaternion(-0.391084, -6.885e-08, -6.56287e-08, 0.920355)
 bones/41/rotation = Quaternion(0.5, -0.5, -0.5, -0.5)
 
 [node name="Skeleton_Warrior_Helmet" parent="Rig/Skeleton3D" index="0"]
-transform = Transform3D(0.105977, -0.961743, -0.252624, 0.30657, -0.210077, 0.928376, -0.94593, -0.175833, 0.272578, 0.0444385, 0.0414593, -0.61443)
+transform = Transform3D(0.999999, -0.00169153, 6.70029e-05, 0.00169247, 0.999833, -0.0181709, -3.62582e-05, 0.018171, 0.999835, -0.00104584, 1.30746, 0.00995319)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Rig/Skeleton3D" index="10"]
-transform = Transform3D(-0.684956, 0.705325, -0.182622, -0.248446, 0.00951719, 0.968598, 0.684915, 0.708819, 0.168716, -2.1452, -0.610189, 0.148859)
+transform = Transform3D(-0.93276, -0.34294, -0.111128, -0.0797246, -0.104395, 0.991335, -0.35157, 0.933538, 0.0700345, -0.784301, 1.08953, 0.0623037)
 bone_name = "handslot.r"
 bone_idx = 13
 

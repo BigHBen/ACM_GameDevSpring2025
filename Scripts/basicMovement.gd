@@ -71,6 +71,8 @@ var rayEnd = Vector3()
 # Inventory Controller node
 @onready var p_inv_controller : Node3D = $InventoryController
 
+@onready var interact : Area3D = $Interact
+
 @onready var debug = get_node("/root/Debug")
 var attacking = false
 var blocking = false
@@ -179,14 +181,40 @@ func handle_attack():
 		combo_over = true
 		return
 	if anim_state.get_current_node() == "IWR":
-		anim_state.travel(attacks.pick_random())
+		var attack = attacks.pick_random()
 		attacking = true
-		await get_tree().create_timer(0.2).timeout
-		$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = false
-		await get_tree().create_timer(0.2).timeout
-		$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
+		attack_animations(attack)
+		#await get_tree().create_timer(0.2).timeout
+		#$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = false
+		#await get_tree().create_timer(0.2).timeout
+		#$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
 		combo_count += 1
 
+func attack_animations(anim):
+	anim_state.travel(anim)
+	match attacks.find(anim):
+		0: # Horizontal
+			await get_tree().create_timer(0.2).timeout
+			$"Rig/Skeleton3D/1H_Sword/Trail".visible = true
+			$"Rig/Skeleton3D/1H_Sword/trail_anim_player".play("new_animation")
+			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = false
+			await get_tree().create_timer(0.2).timeout
+			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
+		1: # Diagonal
+			await get_tree().create_timer(0.4).timeout
+			$"Rig/Skeleton3D/1H_Sword/Trail".visible = true
+			$"Rig/Skeleton3D/1H_Sword/trail_anim_player".play("new_animation")
+			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = false
+			await get_tree().create_timer(0.2).timeout
+			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
+		2: # Chop
+			await get_tree().create_timer(0.5).timeout
+			$"Rig/Skeleton3D/1H_Sword/Trail".visible = true
+			$"Rig/Skeleton3D/1H_Sword/trail_anim_player".play("new_animation")
+			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = false
+			await get_tree().create_timer(0.3).timeout
+			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
+		
 func handle_combo_cooldown(delta):
 	if combo_over:
 		if combo_cooldown_elapsed > combo_cooldown: 
@@ -271,6 +299,8 @@ func play_anim_tree():
 func _on_animation_finished(_anim):
 	if attacking: 
 		attacking = false
+		$"Rig/Skeleton3D/1H_Sword/Trail".visible = false
+		$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
 
 func update_ui() -> void:
 	$PlayerUi/Coins/Label.text = str(moneyAmount)

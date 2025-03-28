@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://0udrovh0uwjn"]
+[gd_scene load_steps=12 format=3 uid="uid://0udrovh0uwjn"]
 
 [ext_resource type="Script" path="res://Scenes/game.gd" id="1_nw1mo"]
 [ext_resource type="PackedScene" uid="uid://pojgr1oyd3ob" path="res://Scenes/Levels/level_1.tscn" id="2_kwsbf"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="4_61e57"]
 [ext_resource type="Shader" path="res://Shaders/blur_effect.gdshader" id="4_hcraj"]
 [ext_resource type="Script" path="res://Scenes/UI/stats_display.gd" id="5_8hb7y"]
+[ext_resource type="Script" path="res://Scenes/game_manager_ui.gd" id="5_m2k5e"]
 [ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="5_wmtf2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fyedd"]
@@ -25,6 +26,7 @@ levels = Array[PackedScene]([ExtResource("2_kwsbf"), ExtResource("2_wbq3d")])
 [node name="Knight" parent="." instance=ExtResource("4_61e57")]
 
 [node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("5_m2k5e")
 
 [node name="ColorRect" type="ColorRect" parent="UI"]
 z_index = -1

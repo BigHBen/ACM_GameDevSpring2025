@@ -1,18 +1,18 @@
 extends Node
 class_name  GameManager
 
-@onready var color_rect : ColorRect = $UI/ColorRect
-@onready var pause_menu : Control = $UI/PauseMenu
-
 # Autoload scene
 @onready var debug : TestDebug = get_node("/root/Debug")
+
 
 var level_itr : int : # Iterate through levels array
 	set (val):
 		level_itr = val
-		change_level(levels[level_itr])
+		if level_itr < levels.size(): change_level(levels[level_itr])
+		else: printerr($".", " Error: No more levels to load - Add more scene elements to 'levels' Array")
 	get: return level_itr
 
+@export var ui_control : CanvasLayer
 @export var players : Array[CharacterBody3D]
 @export var levels : Array[PackedScene]
 
@@ -41,11 +41,13 @@ func change_level(new_level_scene: PackedScene):
 	
 	var new_level : Node3D = load(new_level_scene.resource_path).instantiate()
 	connect_debug_properties(new_level)
-	for player in players: player.position = new_level.player_spawn_point
+	for player in players: 
+		player.position = new_level.player_spawn_point
+		player.interact.entered_areas.clear()
 	self.add_child(new_level)
 	new_level.owner = get_tree().current_scene
 	self.move_child(new_level,0)
-	
+
 
 func load_first_level():
 	level_itr = 0

@@ -63,7 +63,6 @@ func progress():
 	#if dialogue_id >= dialogue.size()-1: $ChatEndDelay.start()
 	elif !$ChatEndDelay.is_stopped(): $ChatEndDelay.timeout.emit()
 	else: $ChatEndDelay.start()
-	
 	var cur_dialogue = dialogue[talk_status][dialogue_id]
 	if talk_status == "return_dialogue" and quest_lock:
 		if talk_status in dialogue and dialogue_id + 1 < len(dialogue[talk_status]):
@@ -76,6 +75,8 @@ func progress():
 			quest_lock = false
 	elif dialogue[talk_status][dialogue_id].has("auto_accept"): # Ask player a yes/no question
 		quest_auto_accept()
+		end_early = true
+		return
 	elif dialogue[talk_status][dialogue_id].has("accept"): # Ask player a yes/no question
 		load_player_responses(dialogue[talk_status][dialogue_id])
 		$PlayerResponse.visible = true
@@ -86,7 +87,6 @@ func progress():
 	else: $PlayerResponse.visible = false
 	$NinePatchRect/Name.text = dialogue[talk_status][dialogue_id]["name"]
 	$NinePatchRect/Chatbox.text = dialogue[talk_status][dialogue_id]["text"]
-		
 
 func _input(event: InputEvent) -> void:
 	if not d_active: return
@@ -128,7 +128,8 @@ func quest_auto_accept():
 		if cur_line.quest: 
 			get_parent().quest_accepted.emit()
 			quest_lock = true
-	#progress()
+	$NinePatchRect/Name.text = dialogue[talk_status][dialogue_id]["name"]
+	$NinePatchRect/Chatbox.text = dialogue[talk_status][dialogue_id]["text"]
 
 func _on_player_accept():
 	player_response = true

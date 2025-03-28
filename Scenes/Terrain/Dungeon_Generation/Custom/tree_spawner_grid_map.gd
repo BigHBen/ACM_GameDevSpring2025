@@ -5,13 +5,13 @@ class_name TreeGridSpawner
 
 @export var start : bool = false : set = set_start
 @export var clear_fill : bool = false : set = set_clear
-@export var keep : bool = false
+@export var keep : bool = true
 
 @export_category("Parameters")
 @export var dun_gen : DunGen
 @export var source_gridmap : GridMap
 @export var grass_gridmap : GridMap
-@export var border_size : int = 20 : set = set_border_size
+@export var border_size : int = 110 : set = set_border_size
 #@export var fill_height : int = 4 : set = set_fill_height
 
 @export_category("Seed")
@@ -19,6 +19,7 @@ class_name TreeGridSpawner
 
 var center_x = 0  # Assuming 0 is the center in the x direction
 var center_z = 0  # Assuming 0 is the center in the z direction
+var trees_filled : bool = true
 
 @export var tree_items : Array[int] = [1,2,3,4,5,6,7,8,9,10,11,12,13]
 
@@ -51,7 +52,8 @@ func set_clear(val:bool)->void:
 # Tiles inside border are scanned for wall spawning
 func set_border_size(val : int) -> void:
 	border_size = val
-	if Engine.is_editor_hint() and !keep:
+	if Engine.is_editor_hint() and !keep and !trees_filled:
+		print("hi")
 		#center_x = int(border_size / 2)
 		#center_z = int(border_size / 2)
 		visualize_border()
@@ -98,7 +100,7 @@ func iterate_grid_cells():
 	self.clear()
 	if custom_seed : set_seed(custom_seed)
 	visualize_border()
-	
+	trees_filled = false
 	#for x in range(-border_size + 1, border_size): # If centered
 		#for z in range(-border_size + 1, border_size):
 	# Set all empty tiles from source gridmap to wall
@@ -141,6 +143,6 @@ func iterate_grid_cells():
 			#if self.get_cell_item(t) == -1:
 				#self.set_cell_item(t,0)
 				#positions.append(t)
-	
+	if positions.size() > 0: trees_filled = true
 	self.position = Vector3i.ZERO
 	print("Generated %s cells" % [positions.size()])

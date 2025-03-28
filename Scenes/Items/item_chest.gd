@@ -10,6 +10,9 @@ class_name ItemChest1
 @export_range(0,5) var item_reveal_wait : float = 2.0
 var target
 var opened : bool = false
+
+signal interaction_done(area) # Signal to player_interact
+
 var item_revealed : bool = false : 
 	set(val):
 		item_revealed = val
@@ -20,23 +23,27 @@ var item_revealed : bool = false :
 		return item_revealed
 
 func interact():
-	anim_player.play("open")
-	if not opened:
+	if target and not opened:
+		anim_player.play("open")
 		for item in loot: if target: await reveal_item(item)
 		opened = true
+		interaction_done.emit(self)
 
 func reveal_item(item : BaseItem):
 	if !target: return
 	if target.get_parent().is_in_group("Level"):
-		var game = target.get_parent().game
-		var pause_menu = game.pause_menu
-		pause_menu.tween_shader_property("lod",2.0, 0.25) # Blur effect - Tween that changes blur strength over 0.25 seconds
+		var game
+		var pause_menu
+		if get_tree().current_scene is GameManager:
+			game = target.get_parent().game
+			pause_menu = game.pause_menu
+			pause_menu.tween_shader_property("lod",2.0, 0.25) # Blur effect - Tween that changes blur strength over 0.25 seconds
 		
-		if !item_display.visible: 
+		if !item_display.visible:  # Show item popup icon
 			item_display_icon.texture = item.icon
 			item_display.visible = true
 		item_display_anim.play("rotate")
-		item_display.scale = Vector2.ONE/8 # Show item reveal
+		item_display.scale = Vector2.ONE/8 # Item reveal tween
 		var tween = create_tween()
 		tween.set_trans(Tween.TRANS_LINEAR)
 		tween.set_ease(Tween.EASE_IN_OUT)
@@ -46,12 +53,13 @@ func reveal_item(item : BaseItem):
 		give_item(item,target)
 		
 		await get_tree().create_timer(item_reveal_wait).timeout
-		var tween_out = create_tween()
+		var tween_out = create_tween() # Shrink item popup and reverse blur effect
 		tween_out.set_trans(Tween.TRANS_LINEAR)
 		tween_out.set_ease(Tween.EASE_IN_OUT)
 		tween_out.tween_property(item_display, "scale", Vector2.ONE/8, 0.25)
 		await tween_out.finished
-		pause_menu.tween_shader_property("lod",0.0, 0.25) # Blur effect - Tween that changes blur strength over 0.25 seconds
+		if get_tree().current_scene is GameManager:
+			pause_menu.tween_shader_property("lod",0.0, 0.25) # Blur effect - Tween that changes blur strength over 0.25 seconds
 		item_display.visible = false
 		item_revealed = false
 
@@ -65,7 +73,20 @@ func _on_chest_entered(body):
 			return
 		target = body
 
-func _on_chest_exited(body):
-	if body == target:
-		target = null
-		if opened: anim_player.play("close")
+func _on_chest_exited(_body):
+	#if body == target:
+		#target = null
+	if opened: pass #anim_player.play("close")
+
+func _on_area_entered(area: Area3D) -> void:
+	if area.owner:
+		if area.owner.is_in_group("Player"):
+			if target:
+				return
+			target = area
+
+func _on_area_exited(area: Area3D) -> void:
+	if area.owner:
+		if area.owner.is_in_group("Player"):
+			if area.owner == target: 
+				pass

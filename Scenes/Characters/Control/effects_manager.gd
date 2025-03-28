@@ -2,6 +2,12 @@ class_name PlayerEffectsManager
 extends Node3D
 
 @onready var player = $".."
+
+# GPUParticle Nodes - For potions, attacks, transformations, etc
+@onready var aura_flame : GPUParticles3D = $Effects/Aura_Flame
+@onready var orb_particles : GPUParticles3D = $Effects/Orb_Particles
+@onready var glow_light : OmniLight3D = $Effects/Effects_Light
+
 enum EffectType { BUFF, DEBUFF, STATUS}
 var active_effects = []
 var item_consuming : bool = false
@@ -26,6 +32,9 @@ var armor_types = {
 	ArmorType.HELM_DIAMOND: {"helm_diamond": "res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/knight_helmet_diamond.res"}
 }
 var armor_types_names := ["CHEST_DEFAULT", "CHEST_GOLD", "CHEST_DIAMOND", "HELM_DEFAULT", "HELM_GOLD", "HELM_DIAMOND"]
+
+# Effect states
+var speed_boost_active : bool = false
 
 func _ready() -> void:
 	if player: current_armor = ArmorType.CHEST_DEFAULT
@@ -88,15 +97,52 @@ func speed_boost():
 	var item_consumption = 1.0
 	var drinking_timer = 0.0
 	player.anim_state.travel("Use_Item")
+	
+	var p_mat : ParticleProcessMaterial = orb_particles.process_material
+	var _default_mat_color = p_mat.color
+	
 	while drinking_timer < item_consumption:
 		item_consuming = true
+		launch_particles(p_mat,Color.GREEN)
 		drinking_timer += get_process_delta_time()
+		
 		await get_tree().process_frame
 	item_consuming = false
+	stop_particles(p_mat)
 	
+	# Start speed boost buff
+	speed_boost_active = true
+	if speed_boost_active: 
+		player.speed = player.speed * 2
+		start_speed_boost_timer()
+
+func start_speed_boost_timer():
+	glow_light.light_color = Color.KHAKI
+	glow_light.light_energy = 5.0
+	await get_tree().create_timer(6).timeout
+	glow_light.light_color = Color.WHITE
+	glow_light.light_energy = 0.0
+	
+	player.speed = player.speed / 2
+	speed_boost_active = false
+	print("Speed boost over")
 
 func slow_debuff():
 	print("Slow player speed for duration")
 
 func freeze_status():
 	print("Freeze player for duration")
+
+func launch_particles(mat,c : Color):
+	
+	mat.color = c
+	orb_particles.emitting = true
+	glow_light.light_color = c
+	if glow_light.light_energy < 1.0:
+		glow_light.light_energy = lerp(glow_light.light_energy, 1.0, get_process_delta_time() * 2)
+
+func stop_particles(_mat):
+	orb_particles.emitting = false
+	while glow_light.light_energy > 0.0:
+		glow_light.light_energy = lerp(glow_light.light_energy, 0.0, get_process_delta_time() * 2)
+		await get_tree().process_frame
