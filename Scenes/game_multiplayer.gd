@@ -22,6 +22,7 @@ var level_itr : int : # Iterate through levels array
 # UI Nodes
 @onready var direct_menu : PanelContainer = $Multiplayer_UI/UI/PanelContainer
 @onready var address_entry : LineEdit = $Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Options/Remote
+@onready var ip_entry : LineEdit = $Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Options/Remote
 @onready var name_entry : LineEdit = $Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Options/NameEntry
 @onready var lobby : Lobby = get_node("/root/MultiplayerLobby")
 

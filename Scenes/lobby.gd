@@ -3,6 +3,7 @@ class_name Lobby
 
 var game_root : GameManagerMultiplayer
 
+const DEFAULT_IP = '127.0.0.1' # Localhost
 const PORT = 9999
 var peer : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 var player_idx : int = 0
@@ -32,7 +33,11 @@ func _on_host():
 	create_player(multiplayer.get_unique_id())
 
 func _on_connect():
-	peer.create_client("localhost", PORT)
+	if !game_root.ip_entry.text.is_empty(): 
+		var EXTERNAL_IP = game_root.ip_entry.text
+		print("Connecting to %s..." % [EXTERNAL_IP])
+		peer.create_client(EXTERNAL_IP, PORT)
+	else: peer.create_client(DEFAULT_IP, PORT)
 	multiplayer.multiplayer_peer = peer
 
 func create_player(peer_id):
