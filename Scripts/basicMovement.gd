@@ -91,12 +91,14 @@ var defeated : bool = false
 var id : int = 0
 
 func _enter_tree() -> void:
-	set_multiplayer_authority(str(name).to_int())
+	if get_tree().current_scene is GameManagerMultiplayer:
+		set_multiplayer_authority(str(name).to_int())
 
 func _ready():
 	anim_tree.animation_finished.connect(_on_animation_finished)
 	healthbar.init_health(health)
-	if not is_multiplayer_authority(): return
+	if get_tree().current_scene is GameManagerMultiplayer:
+		if not is_multiplayer_authority(): return
 	camera.current = true
 	set_camera()
 

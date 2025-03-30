@@ -1,5 +1,5 @@
 extends Node
-class_name  GameManager
+class_name GameManager
 
 # Autoload scene
 @onready var debug : TestDebug = get_node("/root/Debug")
