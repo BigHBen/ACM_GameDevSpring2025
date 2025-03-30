@@ -21,6 +21,7 @@ Debug="*res://Scenes/UI/debug.tscn"
 QuestManager="*res://Resources/quest_manager.gd"
 PlayerInventory="*res://Scenes/UI/Inventory/inventory.tscn"
 QuestPopupMenu="*res://Scenes/UI/Quests/quest_popup_menu.tscn"
+MultiplayerLobby="*res://Scenes/multiplayer_lobby.tscn"
 
 [debug]
 

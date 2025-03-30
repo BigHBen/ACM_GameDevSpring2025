@@ -1,103 +1,54 @@
-[gd_scene load_steps=8 format=3 uid="uid://c07si76og4gle"]
+[gd_scene load_steps=2 format=3 uid="uid://c07si76og4gle"]
 
-[ext_resource type="Script" path="res://Scenes/game.gd" id="2_qypw1"]
-[ext_resource type="Shader" path="res://Shaders/blur_effect.gdshader" id="4_76q1r"]
-[ext_resource type="PackedScene" uid="uid://dnxbomjfrdbl1" path="res://Scenes/UI/pause_menu.tscn" id="5_nl3r7"]
-[ext_resource type="Script" path="res://Scenes/UI/stats_display.gd" id="6_vsble"]
-[ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="7_amdfo"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fyedd"]
-shader = ExtResource("4_76q1r")
-shader_parameter/lod = 0.0
-
-[sub_resource type="LabelSettings" id="LabelSettings_iuxih"]
-font = ExtResource("7_amdfo")
+[ext_resource type="Script" path="res://Scenes/multiplayer.gd" id="1_q8wud"]
 
 [node name="Multiplayer" type="Node"]
+script = ExtResource("1_q8wud")
 
-[node name="Game" type="Node" parent="."]
-process_mode = 3
-script = ExtResource("2_qypw1")
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Network" type="Node" parent="Game"]
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="Game"]
-_spawnable_scenes = PackedStringArray("res://Scenes/Characters/knight.tscn")
-spawn_path = NodePath("../Network")
-
-[node name="UI" type="CanvasLayer" parent="Game"]
-
-[node name="ColorRect" type="ColorRect" parent="Game/UI"]
-z_index = -1
-material = SubResource("ShaderMaterial_fyedd")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
-
-[node name="PauseMenu" parent="Game/UI" node_paths=PackedStringArray("game_manager") instance=ExtResource("5_nl3r7")]
-game_manager = NodePath("../..")
-
-[node name="StatsDisplay" type="Control" parent="Game/UI"]
+[node name="UI" type="Control" parent="CanvasLayer"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
-script = ExtResource("6_vsble")
+metadata/_edit_use_anchors_ = true
 
-[node name="FPS" type="Label" parent="Game/UI/StatsDisplay"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/UI"]
 layout_mode = 1
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -60.0
-offset_top = 10.0
-offset_right = -20.0
-offset_bottom = 33.0
-grow_horizontal = 0
-text = "FPS"
-label_settings = SubResource("LabelSettings_iuxih")
-
-[node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Levels/test_dungeon.tscn")
-spawn_path = NodePath("../Game")
-
-[node name="UI" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
+offset_right = 273.0
 offset_bottom = 40.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="Options" type="HBoxContainer" parent="UI/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/UI/PanelContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
 
-[node name="Label" type="Label" parent="UI/VBoxContainer/Options"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UI/PanelContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Options" type="HBoxContainer" parent="CanvasLayer/UI/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Label" type="Label" parent="CanvasLayer/UI/PanelContainer/MarginContainer/VBoxContainer/Options"]
 layout_mode = 2
 text = "Direct"
 
-[node name="Host" type="Button" parent="UI/VBoxContainer/Options"]
+[node name="Host" type="Button" parent="CanvasLayer/UI/PanelContainer/MarginContainer/VBoxContainer/Options"]
 layout_mode = 2
 text = "Host"
 
-[node name="Connect" type="Button" parent="UI/VBoxContainer/Options"]
+[node name="Connect" type="Button" parent="CanvasLayer/UI/PanelContainer/MarginContainer/VBoxContainer/Options"]
 layout_mode = 2
 text = "Connect"
 
-[node name="Remote" type="LineEdit" parent="UI/VBoxContainer/Options"]
+[node name="Remote" type="LineEdit" parent="CanvasLayer/UI/PanelContainer/MarginContainer/VBoxContainer/Options"]
 layout_mode = 2
-text = "127.0.0.1"
+placeholder_text = "IP Address"
 expand_to_text_length = true
-
-[connection signal="pressed" from="UI/VBoxContainer/Options/Host" to="." method="_on_host_pressed"]
-[connection signal="pressed" from="UI/VBoxContainer/Options/Connect" to="." method="_on_connect_pressed"]

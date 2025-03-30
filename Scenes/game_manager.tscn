@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://0udrovh0uwjn"]
 
-[ext_resource type="Script" path="res://Scenes/game.gd" id="1_nw1mo"]
+[ext_resource type="Script" path="res://Scenes/game_multiplayer.gd" id="1_uab85"]
 [ext_resource type="PackedScene" uid="uid://pojgr1oyd3ob" path="res://Scenes/Levels/level_1.tscn" id="2_kwsbf"]
 [ext_resource type="PackedScene" uid="uid://glmmqlidn4d" path="res://Scenes/Levels/test_dungeon.tscn" id="2_wbq3d"]
 [ext_resource type="PackedScene" uid="uid://dnxbomjfrdbl1" path="res://Scenes/UI/pause_menu.tscn" id="2_yxgdt"]
@@ -19,7 +19,7 @@ font = ExtResource("5_wmtf2")
 
 [node name="Game" type="Node" node_paths=PackedStringArray("ui_control", "players")]
 process_mode = 3
-script = ExtResource("1_nw1mo")
+script = ExtResource("1_uab85")
 ui_control = NodePath("UI")
 players = [NodePath("Knight")]
 levels = Array[PackedScene]([ExtResource("2_kwsbf"), ExtResource("2_wbq3d")])

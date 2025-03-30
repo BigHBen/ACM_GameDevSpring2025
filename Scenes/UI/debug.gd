@@ -3,7 +3,7 @@ class_name TestDebug
 
 var target_player : CharacterBody3D = null
 @onready var fps_toggle : CheckButton = $Panel/VBoxContainer/FPSmode 
-@onready var game : Node = $"../Game"
+@onready var game : Node
 
 var panel_size : Vector2
 var panel_initial : int = 50
@@ -19,6 +19,8 @@ signal fps_vis(active)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	for sibling in get_parent().get_children(): # Find GameManager
+		if sibling is GameManager: game = sibling
 	get_player_properties(null)
 	$Panel.size_flags_vertical = SIZE_EXPAND | SIZE_FILL
 	hide()

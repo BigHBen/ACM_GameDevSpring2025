@@ -28,10 +28,11 @@ var game_paused : bool = false :
 		return game_paused
 
 func _ready() -> void:
-	load_first_level()
 	if levels.is_empty(): 
 		printerr($".", " Error: No levels to load - Add scene elements to 'levels' Array")
-		get_tree().quit()
+		await get_tree().create_timer(1.0).timeout
+		get_tree().call_deferred("quit")
+	else: load_first_level()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_game"):
