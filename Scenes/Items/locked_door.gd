@@ -29,7 +29,7 @@ var quest_reward : BaseItem = null
 var npc_quest_over : bool = false
 
 #More detection variables
-var target
+var target = null
 
 signal chat_end(response) # When player exits out of dialogue box
 signal quest_accepted()
@@ -68,7 +68,9 @@ func load_quest():
 	npc_quest_item.icon = quest_item_icon
 	npc_quest_item.info = "A rusty key"
 
+@rpc("call_local")
 func interact(talk):
+	if target and !target.is_multiplayer_authority(): return
 	if talk:
 		if dialogue:
 			if quest_manager.has_quest(npc_quest.id): 
@@ -96,7 +98,6 @@ func npc_quest_finish():
 func _on_quest_accepted():
 	if target: npc_quest.player = target
 	quest_manager.accept_quest(npc_quest)
-	
 	# Spawn Quest Item 
 	# Pick a random Marker3D child from level
 	# Place Item Mesh at Marker3D position
@@ -107,8 +108,8 @@ func _on_quest_accepted():
 	for child in level_items.get_children():
 		if child is Marker3D: markers.append(child)
 	if markers.size() > 0:
-		random_marker = markers[randi() % markers.size()]
-		#random_marker = markers[1]
+		#random_marker = markers[randi() % markers.size()]
+		random_marker = markers[1]
 	
 	var quest_item = base_item_mesh.instantiate()
 	quest_item.item_type = npc_quest_item

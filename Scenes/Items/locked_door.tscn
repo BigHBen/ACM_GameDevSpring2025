@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://binyi8s3uy3qp"]
+[gd_scene load_steps=12 format=3 uid="uid://binyi8s3uy3qp"]
 
 [ext_resource type="Script" path="res://Scenes/Items/locked_door.gd" id="1_c8byg"]
 [ext_resource type="ArrayMesh" uid="uid://mikqfgv8f4bq" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/obj/wall_doorway_door.obj" id="1_kspj5"]
@@ -77,6 +77,14 @@ _data = {
 [sub_resource type="SphereShape3D" id="SphereShape3D_4fuve"]
 radius = 2.0
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_cqd8f"]
+properties/0/path = NodePath("Rig:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Rig:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="Locked_Door" type="Node3D" node_paths=PackedStringArray("dialogue") groups=["NPC"]]
 script = ExtResource("1_c8byg")
 dialogue = NodePath("Dialogue")
@@ -112,6 +120,9 @@ autostart = true
 
 [node name="Dialogue" parent="." instance=ExtResource("3_uv3qc")]
 d_file = ExtResource("4_434n6")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_cqd8f")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="Area3D" to="." method="_on_chatzone_entered"]

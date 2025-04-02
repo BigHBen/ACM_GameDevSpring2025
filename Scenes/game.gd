@@ -1,8 +1,7 @@
 extends Node
 class_name GameManager
 
-# Autoload scene
-@onready var debug : TestDebug = get_node("/root/Debug")
+@export var debug : TestDebug
 
 
 var level_itr : int : # Iterate through levels array
@@ -18,7 +17,6 @@ var level_itr : int : # Iterate through levels array
 @export var levels : Array[PackedScene]
 
 signal _on_game_paused(is_paused : bool)
-
 var game_paused : bool = false :
 	set(val):
 		game_paused = val

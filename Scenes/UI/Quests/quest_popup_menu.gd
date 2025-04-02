@@ -26,7 +26,7 @@ func toggle_quest_menu(open : bool):
 	if open: animated_pop_up(open)
 	else: await animated_pop_up(open)
 	window.visible = open
-	
+
 func set_menu_active(active):
 	menu_active = active
 	

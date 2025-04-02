@@ -73,7 +73,7 @@ func _on_interact_pressed():
 			if node_to_check == detected_npc:
 				if !node_to_check.chat_end.is_connected(_on_npc_chat_end):
 					node_to_check.chat_end.connect(_on_npc_chat_end)
-				node_to_check.interact(true)
+					node_to_check.interact(true)
 			else:
 				if !node_to_check.interaction_done.is_connected(_on_interaction_end): 
 					node_to_check.interaction_done.connect(_on_interaction_end)
@@ -97,6 +97,7 @@ func set_interacted(val):
 		
 
 func _on_area_entered(area: Area3D) -> void:
+	if !get_parent().is_multiplayer_authority(): return
 	if area.owner:
 		if area.owner.is_in_group("NPC"):
 			detected_npc = area.owner

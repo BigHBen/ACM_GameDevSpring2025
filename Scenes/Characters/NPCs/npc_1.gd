@@ -179,7 +179,7 @@ func npc_quest_reward():
 
 func _on_quest_accepted():
 	if target: npc_quest.player = target
-	quest_manager.accept_quest(npc_quest)
+	quest_manager.accept_quest.rpc(npc_quest)
 	
 	# Spawn Quest Item 
 	# Pick a random Marker3D child from level

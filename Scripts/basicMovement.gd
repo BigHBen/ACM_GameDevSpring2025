@@ -59,7 +59,11 @@ var rayEnd = Vector3()
 @onready var anim_state : AnimationNodeStateMachinePlayback = $AnimationTree.get("parameters/AnimationNodeStateMachine/playback")
 @onready var camera = $CameraPivot/SpringArm3D/Camera3D
 @onready var spring_arm : SpringArm3D = $CameraPivot/SpringArm3D
+
+# Player UI
+@onready var player_ui = $PlayerUi
 @onready var healthbar = $PlayerUi/HealthBar
+@onready var name_label : Label = $PlayerUi/PlayerName
 
 # Player meshes (for armor mainly)
 @onready var helm_mesh : MeshInstance3D = $Rig/Skeleton3D/Knight_Helmet/Knight_Helmet
@@ -75,7 +79,8 @@ var rayEnd = Vector3()
 
 @onready var interact : Area3D = $Interact
 
-@onready var debug = get_node("/root/Debug")
+@onready var lobby : Lobby = get_node("/root/MultiplayerLobby")
+
 var attacking = false
 
 var blocking = false : set = set_block_state
@@ -88,19 +93,48 @@ var potionAmount : int = 1
 var defeated : bool = false
 
 # Multiplayer
-var id : int = 0
+var nickname : String
 
 func _enter_tree() -> void:
 	if get_tree().current_scene is GameManagerMultiplayer:
-		set_multiplayer_authority(str(name).to_int())
+		set_multiplayer_authority(self.name.to_int())
 
 func _ready():
 	anim_tree.animation_finished.connect(_on_animation_finished)
 	healthbar.init_health(health)
+	
+	# Multiplayer startup functions
 	if get_tree().current_scene is GameManagerMultiplayer:
-		if not is_multiplayer_authority(): return
+		var game_root = get_tree().current_scene
+		#test_authority()
+		if not is_multiplayer_authority(): 
+			player_ui.hide()
+			#trail_effects_anim.active = false
+			#trail.hide()
+			return
+		
+		if game_root.debug: game_root.debug.get_player_properties(self)
+		# Set player label
+		if !game_root.name_entry.text.is_empty():
+			nickname = game_root.name_entry.text
+			change_name.rpc(nickname)
+		else: change_name.rpc(self.name)
+		
+	
 	camera.current = true
 	set_camera()
+
+# _Ready() runs once for both server and client
+# Show which is running and player authority mode
+func test_authority():
+	if multiplayer.is_server():
+		print("SERVER: Ready function: Player[%s] multiplayer authority: %s" % [self.name,is_multiplayer_authority()])
+	else: print("CLIENT: Ready function: Player[%s] multiplayer authority: %s" % [self.name,is_multiplayer_authority()])
+
+@rpc("call_local")
+func change_name(val):
+	#print("Changing name for ", val)
+	name_label.text = val
 
 # Movement is HEAVILY modified code from KidsCanCode
 # https://www.youtube.com/@Kidscancode/featured
@@ -110,6 +144,7 @@ func _ready():
 func _physics_process(delta):
 	if not is_multiplayer_authority(): return
 	
+	client_functions()
 	# The Final Value sets what collision mask the ray is on.
 	# The default value is on every collision mask
 	# The value is a bitmask. The current value inserted is for collision mask 3.
@@ -124,7 +159,7 @@ func _physics_process(delta):
 	get_move_input(delta)
 	move_and_slide()
 	change_anim_parameters()
-	update_ui()
+	update_ui.rpc()
 	
 
 func get_move_input(delta):
@@ -210,33 +245,32 @@ func handle_attack():
 		#$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
 		combo_count += 1
 
-@rpc("authority","call_local")
+@rpc("call_local")
 func attack_animations(anim):
 	anim_state.travel(anim)
 	match attacks.find(anim):
 		0: # Horizontal
 			await get_tree().create_timer(0.2).timeout
-			update_sword_effects(true)
+			update_sword_effects.rpc(true)
 			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = false
 			await get_tree().create_timer(0.2).timeout
 			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
 		1: # Diagonal
 			await get_tree().create_timer(0.4).timeout
-			update_sword_effects(true)
+			update_sword_effects.rpc(true)
 			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = false
 			await get_tree().create_timer(0.2).timeout
 			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
 		2: # Chop
 			await get_tree().create_timer(0.5).timeout
-			update_sword_effects(true)
+			update_sword_effects.rpc(true)
 			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = false
 			await get_tree().create_timer(0.3).timeout
 			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
 
-@rpc("call_local")
-func update_sword_effects(in_progress : bool):
+@rpc("any_peer")
+func update_sword_effects(in_progress : bool): # Sync sword trail animation
 	if in_progress:
-		trail.visible = true
 		trail_effects_anim.play("new_animation")
 
 func handle_combo_cooldown(delta):
@@ -332,21 +366,24 @@ func _on_defeat():
 	set_physics_process(false)
 	await get_tree().create_timer(2.0).timeout
 	if anim_state.get_current_node() == "Death_A": 
-		debug.debug_pause_game()
+		#debug.debug_pause_game()
 		queue_free()
 
 func pause_anim_tree():
 	anim_tree.active = false
 func play_anim_tree():
 	anim_tree.active = true
-	
+
+func client_functions():
+	#lobby.do_ping()
+	pass
 
 func _on_animation_finished(_anim):
 	if attacking: 
 		attacking = false
-		trail.visible = false
 		$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
 
+@rpc("call_local")
 func update_ui() -> void:
 	$PlayerUi/Coins/Label.text = str(moneyAmount)
 	$PlayerUi/Potions/Label.text = str(potionAmount)
