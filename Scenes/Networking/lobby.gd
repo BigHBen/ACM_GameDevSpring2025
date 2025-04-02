@@ -108,13 +108,18 @@ func do_ping():
 @rpc("any_peer")
 func ping():
 	var sender_id = get_multiplayer().get_remote_sender_id()
+	
 	print_ping.rpc(sender_id)
 
 @rpc("any_peer")
 func print_ping(_sender_id):
-	var pong_time = Time.get_unix_time_from_system()
-	var rtt = pong_time - last_ping_time
-	print("Ping delay: ", rtt)
+	var pong_time = Time.get_unix_time_from_system() # Receive ping
+	var rtt = pong_time - last_ping_time # Get wait time between ping & pong
+	var rtt_ms = rtt * 1000 # Convert to ms
+	
+	if multiplayer.is_server(): return # Don't display ping on host
+	if game_root:
+		game_root.stats_display.ping_val = ceil(rtt_ms)
 
 @rpc("any_peer")
 func change_player_name(player,id):

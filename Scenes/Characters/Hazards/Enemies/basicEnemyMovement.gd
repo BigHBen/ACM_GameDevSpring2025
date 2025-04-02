@@ -94,10 +94,12 @@ func check_pathfinding():
 				printerr(level.nav_region.navigation_mesh," is NOT baked. Enemy pathfinding disabled")
 
 func _process(_delta: float) -> void:
-	if camera != null:
-		var screen_pos = camera.unproject_position(self.global_position + Vector3(0, 4, 0))
-		$EnemyUi/HealthBar.global_position = screen_pos 
-		$EnemyUi/HealthBar.global_position += Vector2(-$EnemyUi/HealthBar.size.x / 2, 0)
+	if camera != null: update_floating_healthbar()
+
+func update_floating_healthbar():
+	var screen_pos = camera.unproject_position(self.global_position + Vector3(0, 4, 0))
+	$EnemyUi/HealthBar.global_position = screen_pos 
+	$EnemyUi/HealthBar.global_position += Vector2(-$EnemyUi/HealthBar.size.x / 2, 0)
 
 func _physics_process(delta):
 	# Movement Stuff
@@ -264,10 +266,16 @@ func _on_animation_finished(_anim):
 func _on_detection_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group("Player"):
 		if is_on_floor() and state == States.INACTIVE: wake_up = true
+		if !healthbar.visible: 
+			update_floating_healthbar()
+			healthbar.show()
 
 func _on_detection_area_body_exited(body: Node3D) -> void:
 	if body.is_in_group("Player") and target:
 		target = null
+		if body==target: 
+			update_floating_healthbar()
+			healthbar.hide()
 
 func _on_attack_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group("Player") and target == null:

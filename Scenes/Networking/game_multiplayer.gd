@@ -20,10 +20,12 @@ var level_itr : int : # Iterate through levels array
 # Multiplayer Section
 
 # UI Nodes
+@onready var pause_menu : Control = $UI/PauseMenu
+@onready var stats_display : Control = $UI/StatsDisplay
 @onready var direct_menu : PanelContainer = $Multiplayer_UI/UI/PanelContainer
-@onready var address_entry : LineEdit = $Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Options/Remote
-@onready var ip_entry : LineEdit = $Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Options/Remote
-@onready var name_entry : LineEdit = $Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Options/NameEntry
+@onready var address_entry : LineEdit = $Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Remote
+@onready var ip_entry : LineEdit = $Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Remote
+@onready var name_entry : LineEdit = $Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/NameEntry
 @onready var lobby : Lobby = get_node("/root/MultiplayerLobby")
 
 #const PORT = 9999
@@ -44,6 +46,7 @@ var game_paused : bool = false :
 		return game_paused
 
 func _ready() -> void:
+	multiplayer_ui_setup()
 	if levels.is_empty(): 
 		printerr($".", " Error: No levels to load - Add scene elements to 'levels' Array")
 		await get_tree().create_timer(1.0).timeout
@@ -74,6 +77,9 @@ func load_first_level():
 
 func next_level():
 	level_itr += 1
+
+func multiplayer_ui_setup():
+	pause_menu.tween_shader_property("lod",2.0, 0.25) # Blur effect - Tween that changes blur strength over 0.25 seconds
 
 # Set up a signal for when player spawns in level - Load its properties on debug menu
 func connect_debug_properties(from) -> bool:
@@ -127,7 +133,7 @@ func find_player(player_name : String):
 func _on_child_entered_tree(node: Node) -> void:
 	if node.is_in_group("Player"):
 		players.append(node)
-		#setup_debug(node)
+		pause_menu.tween_shader_property("lod",0.0, 0.25) # Blur effect - Tween that changes blur strength over 0.25 seconds
 		lobby.player_loaded.rpc_id(node.name.to_int())
 
 func setup_debug(player):

@@ -9,19 +9,25 @@ const JUMP_VELOCITY = 4.5
 @export_range(0,100) var health : int = 100
 var camera: Camera3D
 
-
 var defeated : bool = false
 var path_dir : bool = true
 
+var target
 func _ready() -> void:
 	healthbar.init_health(health)
+	update_current_camera()
+
+func update_current_camera():
 	camera = get_viewport().get_camera_3d()
+	print(camera)
 
 func _process(_delta: float) -> void:
-	if camera != null:
-		var screen_pos = camera.unproject_position(self.global_position + Vector3(0, 4, 0))
-		$EnemyUi/HealthBar.global_position = screen_pos 
-		$EnemyUi/HealthBar.global_position += Vector2(-$EnemyUi/HealthBar.size.x / 2, 0)
+	if camera != null: update_floating_healthbar()
+
+func update_floating_healthbar():
+	var screen_pos = camera.unproject_position(self.global_position + Vector3(0, 4, 0))
+	$EnemyUi/HealthBar.global_position = screen_pos 
+	$EnemyUi/HealthBar.global_position += Vector2(-$EnemyUi/HealthBar.size.x / 2, 0)
 
 func _physics_process(delta: float) -> void:
 	if get_parent() is PathFollow3D:
@@ -46,3 +52,19 @@ func _on_defeat():
 	set_process(false)
 	set_physics_process(false)
 	queue_free()
+
+
+func _on_detection_area_body_entered(body: Node3D) -> void:
+	if body.is_in_group("Player"): 
+		if !target: target = body
+		if !healthbar.visible: 
+			update_current_camera()
+			healthbar.show()
+		
+
+
+func _on_detection_area_body_exited(body: Node3D) -> void:
+	if body.is_in_group("Player"): 
+		if body==target: 
+			update_current_camera()
+			healthbar.hide()

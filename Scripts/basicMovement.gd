@@ -251,24 +251,24 @@ func attack_animations(anim):
 	match attacks.find(anim):
 		0: # Horizontal
 			await get_tree().create_timer(0.2).timeout
-			update_sword_effects.rpc(true)
+			update_sword_effects(true)
 			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = false
 			await get_tree().create_timer(0.2).timeout
 			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
 		1: # Diagonal
 			await get_tree().create_timer(0.4).timeout
-			update_sword_effects.rpc(true)
+			update_sword_effects(true)
 			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = false
 			await get_tree().create_timer(0.2).timeout
 			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
 		2: # Chop
 			await get_tree().create_timer(0.5).timeout
-			update_sword_effects.rpc(true)
+			update_sword_effects(true)
 			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = false
 			await get_tree().create_timer(0.3).timeout
 			$"Hit_Hurt Boxes/HitBox1/CollisionShape3D".disabled = true
 
-@rpc("any_peer")
+#@rpc("any_peer")
 func update_sword_effects(in_progress : bool): # Sync sword trail animation
 	if in_progress:
 		trail_effects_anim.play("new_animation")
@@ -374,9 +374,10 @@ func pause_anim_tree():
 func play_anim_tree():
 	anim_tree.active = true
 
-func client_functions():
-	#lobby.do_ping()
-	pass
+func client_functions(): 
+	# For now, just check ping time every few seconds
+	await get_tree().create_timer(2).timeout
+	lobby.do_ping()
 
 func _on_animation_finished(_anim):
 	if attacking: 

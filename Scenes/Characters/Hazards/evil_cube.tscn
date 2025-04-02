@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dxcmlu5im4msx"]
+[gd_scene load_steps=15 format=3 uid="uid://dxcmlu5im4msx"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Hazards/evil_cube.gd" id="1_3dsqp"]
 [ext_resource type="Script" path="res://Scripts/hitbox.gd" id="1_ijaqi"]
@@ -24,15 +24,18 @@ albedo_color = Color(1, 0.17894, 0.33732, 1)
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1mxqm"]
 bg_color = Color(0.853569, 0.109188, 0, 1)
 
+[sub_resource type="SphereShape3D" id="SphereShape3D_w0nlv"]
+radius = 12.0
+
 [node name="EvilCube" type="CharacterBody3D" groups=["Enemy"]]
 script = ExtResource("1_3dsqp")
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Physics" type="Area3D" parent="."]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Physics"]
 shape = SubResource("BoxShape3D_j20re")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Physics"]
 mesh = SubResource("BoxMesh_gduop")
 skeleton = NodePath("")
 surface_material_override/0 = SubResource("StandardMaterial3D_h1w53")
@@ -68,6 +71,7 @@ transform = Transform3D(1, 0, 0, 0, 0.518728, 0.854939, 0, -0.854939, 0.518728, 
 layer = 0
 
 [node name="HealthBar" parent="EnemyUi" instance=ExtResource("3_q0j0g")]
+visible = false
 offset_left = 187.0
 offset_top = 62.0
 offset_right = 687.0
@@ -86,4 +90,16 @@ theme_override_font_sizes/font_size = 40
 text = "EvilCube"
 vertical_alignment = 2
 
+[node name="detection_area" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="detection_area"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("SphereShape3D_w0nlv")
+
+[node name="detection_scan" type="Timer" parent="detection_area"]
+autostart = true
+
 [connection signal="timeout" from="HurtBox/Timer" to="HurtBox" method="_on_timer_timeout"]
+[connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]

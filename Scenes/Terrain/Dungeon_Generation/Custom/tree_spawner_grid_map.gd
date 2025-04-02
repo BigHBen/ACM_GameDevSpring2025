@@ -99,7 +99,7 @@ func iterate_grid_cells():
 	var positions = []
 	self.clear()
 	if custom_seed : set_seed(custom_seed)
-	visualize_border()
+	#visualize_border()
 	trees_filled = false
 	#for x in range(-border_size + 1, border_size): # If centered
 		#for z in range(-border_size + 1, border_size):
