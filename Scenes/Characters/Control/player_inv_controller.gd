@@ -1,5 +1,5 @@
-class_name PlayerInventoryController
 extends Node3D
+class_name PlayerInventoryController
 
 @onready var player : = $".."
 @onready var interactions_node : Area3D = $"../Interact"

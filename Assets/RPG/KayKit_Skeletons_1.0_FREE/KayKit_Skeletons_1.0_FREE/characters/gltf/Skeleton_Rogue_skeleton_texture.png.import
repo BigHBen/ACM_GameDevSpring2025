@@ -2,14 +2,11 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://vd7gg1v5q4j6"
+uid="uid://boelpo03w5xw8"
 path.s3tc="res://.godot/imported/Skeleton_Rogue_skeleton_texture.png-6a4e99b39e4382f719a170d4ebcf34fb.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
-}
-generator_parameters={
-"md5": "661544b1e8ba10b5a0c98b638eae6d0b"
 }
 
 [deps]

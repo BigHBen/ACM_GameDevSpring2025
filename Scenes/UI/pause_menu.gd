@@ -1,6 +1,6 @@
 extends Control
 
-@export var game_manager : GameManager
+@export var game_manager : Node
 @onready var debug_menu
 @onready var inventory_menu = get_node("/root/PlayerInventory")
 @onready var resume_button = $VBoxContainer/ResumeButton
@@ -10,6 +10,11 @@ extends Control
 func _ready() -> void:
 	hide()
 	if get_tree().current_scene is GameManager: 
+		debug_menu = game_manager.debug
+		game_manager._on_game_paused.connect(_on_game_paused)
+		resume_button.pressed.connect(_on_resume_button_pressed)
+		exit_button.pressed.connect(_on_exit_button_pressed)
+	if get_tree().current_scene is GameManagerMultiplayer: 
 		debug_menu = game_manager.debug
 		game_manager._on_game_paused.connect(_on_game_paused)
 		resume_button.pressed.connect(_on_resume_button_pressed)

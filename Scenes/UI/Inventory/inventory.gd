@@ -89,6 +89,9 @@ func add_starter_items():
 		add_item(item, null)
 
 func _input(event: InputEvent) -> void:
+	if get_tree().current_scene is GameManagerMultiplayer:
+		var game = get_tree().current_scene
+		if !game.input_handling: return
 	if event.is_action_pressed("inventory"): #E
 		toggle_window(!window.visible)
 

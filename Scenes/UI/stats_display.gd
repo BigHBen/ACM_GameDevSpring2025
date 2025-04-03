@@ -15,16 +15,23 @@ func _ready() -> void:
 		game_root = get_tree().current_scene
 		fps = $VBoxContainer/FPS
 		ping = $VBoxContainer/Ping
+		hide()
 	debug = game_root.debug
-	if debug: debug.fps_vis.connect(_on_fps_vis)
+	if debug: 
+		debug.fps_vis.connect(_on_fps_vis)
+		debug.ping_vis.connect(_on_ping_vis)
 
 func _process(_delta: float) -> void:
 	fps.text = "FPS - " + str(Engine.get_frames_per_second())
 
 func update_ping_text(val):
+	
 	ping_val = val
 	ping.text = "PING - " + str(ping_val)
 
 func _on_fps_vis(active):
 	set_process(active)
 	fps.visible = active
+
+func _on_ping_vis(active):
+	ping.visible = active

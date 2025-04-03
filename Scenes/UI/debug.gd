@@ -3,6 +3,7 @@ class_name TestDebug
 
 var target_player : CharacterBody3D = null : set = set_target_player
 @onready var fps_toggle : CheckButton = $Panel/VBoxContainer/FPSmode 
+@onready var ping_toggle : CheckButton = $Panel/VBoxContainer/PINGmode
 @onready var game : Node
 
 var panel_size : Vector2
@@ -12,10 +13,14 @@ var fps_meter : Label
 var debug_active : bool = false : set = set_debug_active, get = get_debug_active
 var fps_show : bool = false
 
+var ping_meter : Label
+var ping_show: bool = false
+
 var labels = {}
 var sliders = {}
 
 signal fps_vis(active)
+signal ping_vis(active)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -24,6 +29,9 @@ func _ready() -> void:
 	$Panel.size_flags_vertical = SIZE_EXPAND | SIZE_FILL
 	hide()
 	fps_toggle.toggled.connect(_on_fps_show_toggle)
+	if game is GameManagerMultiplayer:
+		ping_toggle.toggled.connect(_on_ping_show_toggle)
+	else: ping_toggle.hide()
 
 func set_target_player(val):
 	target_player = val
@@ -65,9 +73,10 @@ func find_characters_in_level(node):
 	return players
 
 func load_properties():
-	if is_multiplayer_authority():
-			print("SERVER: ", self, "Loading player properties for ",target_player)
-	else: print("CLIENT: ", self, "Loading player properties for ",target_player)
+	if game is GameManagerMultiplayer:
+		if is_multiplayer_authority():
+			print("SERVER: ", self, " Loading player properties for ",target_player)
+		else: print("CLIENT: ", self, " Loading player properties for ",target_player)
 	var player_script = target_player.get_script()
 	var properties = player_script.get_script_property_list()
 	create_property_labels(target_player,properties)
@@ -140,6 +149,7 @@ func update_panel_size(vbox_height,separation):
 	$Panel.size.y = vbox_height + separation
 
 func _input(event: InputEvent) -> void:
+	if game is GameManagerMultiplayer and !game.input_handling: return
 	# Show/Hide Debug Interface
 	if event.is_action_pressed("debug"):
 		self.visible = !self.visible
@@ -175,3 +185,7 @@ func _on_fps_show_toggle(active):
 	fps_show = active
 	fps_vis.emit(fps_show)
 	#mouse_filter = MOUSE_FILTER_PASS if active else MOUSE_FILTER_STOP # Prevent Control node from blocking mouse movement (not working)
+
+func _on_ping_show_toggle(active):
+	ping_show = active
+	ping_vis.emit(ping_show)

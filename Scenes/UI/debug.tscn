@@ -48,3 +48,13 @@ text = "Show FPS
 flat = true
 alignment = 2
 text_direction = 2
+
+[node name="PINGmode" type="CheckButton" parent="Panel/VBoxContainer"]
+layout_direction = 3
+layout_mode = 2
+button_pressed = true
+text = "Show Ping
+"
+flat = true
+alignment = 2
+text_direction = 2

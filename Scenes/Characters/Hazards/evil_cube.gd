@@ -19,7 +19,6 @@ func _ready() -> void:
 
 func update_current_camera():
 	camera = get_viewport().get_camera_3d()
-	print(camera)
 
 func _process(_delta: float) -> void:
 	if camera != null: update_floating_healthbar()

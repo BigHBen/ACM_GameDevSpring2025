@@ -1,4 +1,4 @@
-[gd_resource type="AnimationNodeStateMachine" load_steps=43 format=3 uid="uid://brktypcshptqv"]
+[gd_resource type="AnimationNodeStateMachine" load_steps=46 format=3 uid="uid://brktypcshptqv"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_036e2"]
 animation = &"1H_Melee_Attack_Chop"
@@ -66,6 +66,9 @@ animation = &"Jump_Land"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_0xqqq"]
 animation = &"PickUp"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uyos8"]
+animation = &"Sit_Floor_StandUp"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_4hmal"]
 animation = &"Use_Item"
@@ -154,6 +157,14 @@ advance_mode = 2
 switch_mode = 2
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_drnwx"]
+xfade_time = 0.1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mub4r"]
+xfade_time = 0.1
+switch_mode = 2
+advance_mode = 2
+
 [resource]
 states/1H_Melee_Attack_Chop/node = SubResource("AnimationNodeAnimation_036e2")
 states/1H_Melee_Attack_Chop/position = Vector2(579, 50.4508)
@@ -162,7 +173,7 @@ states/1H_Melee_Attack_Slice_Diagonal/position = Vector2(339, 15.4508)
 states/1H_Melee_Attack_Slice_Horizontal/node = SubResource("AnimationNodeAnimation_117fo")
 states/1H_Melee_Attack_Slice_Horizontal/position = Vector2(830, 15.4508)
 states/Blocking/node = SubResource("AnimationNodeAnimation_fohdh")
-states/Blocking/position = Vector2(444, 345.357)
+states/Blocking/position = Vector2(358, 402.487)
 states/Death_A/node = SubResource("AnimationNodeAnimation_bjub6")
 states/Death_A/position = Vector2(830, 188)
 states/End/position = Vector2(944, 188)
@@ -180,8 +191,10 @@ states/Jump_Land/node = SubResource("AnimationNodeAnimation_oosvc")
 states/Jump_Land/position = Vector2(722, 305.357)
 states/PickUp/node = SubResource("AnimationNodeAnimation_0xqqq")
 states/PickUp/position = Vector2(217.409, 296.487)
+states/Sit_Floor_StandUp/node = SubResource("AnimationNodeAnimation_uyos8")
+states/Sit_Floor_StandUp/position = Vector2(523.409, 402.487)
 states/Start/position = Vector2(187, 188)
 states/Use_Item/node = SubResource("AnimationNodeAnimation_4hmal")
 states/Use_Item/position = Vector2(216.409, 402.487)
-transitions = ["IWR", "Death_A", SubResource("AnimationNodeStateMachineTransition_pslpk"), "IWR", "Interact", SubResource("AnimationNodeStateMachineTransition_w0bnc"), "IWR", "1H_Melee_Attack_Chop", SubResource("AnimationNodeStateMachineTransition_lcx2c"), "IWR", "1H_Melee_Attack_Slice_Horizontal", SubResource("AnimationNodeStateMachineTransition_il1di"), "IWR", "1H_Melee_Attack_Slice_Diagonal", SubResource("AnimationNodeStateMachineTransition_hn3e3"), "1H_Melee_Attack_Slice_Diagonal", "IWR", SubResource("AnimationNodeStateMachineTransition_kpwmb"), "1H_Melee_Attack_Chop", "IWR", SubResource("AnimationNodeStateMachineTransition_up81j"), "1H_Melee_Attack_Slice_Horizontal", "IWR", SubResource("AnimationNodeStateMachineTransition_c6b14"), "Interact", "IWR", SubResource("AnimationNodeStateMachineTransition_drn4t"), "IWR", "Blocking", SubResource("AnimationNodeStateMachineTransition_oovqy"), "Blocking", "IWR", SubResource("AnimationNodeStateMachineTransition_ieddc"), "IWR", "Jump_Idle", SubResource("AnimationNodeStateMachineTransition_i3yrw"), "Jump_Idle", "Jump_Land", SubResource("AnimationNodeStateMachineTransition_s6jx0"), "Jump_Land", "IWR", SubResource("AnimationNodeStateMachineTransition_jnxub"), "Start", "IWR", SubResource("AnimationNodeStateMachineTransition_xldxr"), "IWR", "PickUp", SubResource("AnimationNodeStateMachineTransition_a1434"), "PickUp", "IWR", SubResource("AnimationNodeStateMachineTransition_w50dk"), "IWR", "Use_Item", SubResource("AnimationNodeStateMachineTransition_v18f5"), "Use_Item", "IWR", SubResource("AnimationNodeStateMachineTransition_14cre"), "IWR", "Hit_A", SubResource("AnimationNodeStateMachineTransition_hqsyr"), "IWR", "Hit_B", SubResource("AnimationNodeStateMachineTransition_um0wr"), "Hit_B", "IWR", SubResource("AnimationNodeStateMachineTransition_451wv"), "Hit_A", "IWR", SubResource("AnimationNodeStateMachineTransition_cygxe")]
-graph_offset = Vector2(-23.591, 172.29)
+transitions = ["IWR", "Death_A", SubResource("AnimationNodeStateMachineTransition_pslpk"), "IWR", "Interact", SubResource("AnimationNodeStateMachineTransition_w0bnc"), "IWR", "1H_Melee_Attack_Chop", SubResource("AnimationNodeStateMachineTransition_lcx2c"), "IWR", "1H_Melee_Attack_Slice_Horizontal", SubResource("AnimationNodeStateMachineTransition_il1di"), "IWR", "1H_Melee_Attack_Slice_Diagonal", SubResource("AnimationNodeStateMachineTransition_hn3e3"), "1H_Melee_Attack_Slice_Diagonal", "IWR", SubResource("AnimationNodeStateMachineTransition_kpwmb"), "1H_Melee_Attack_Chop", "IWR", SubResource("AnimationNodeStateMachineTransition_up81j"), "1H_Melee_Attack_Slice_Horizontal", "IWR", SubResource("AnimationNodeStateMachineTransition_c6b14"), "Interact", "IWR", SubResource("AnimationNodeStateMachineTransition_drn4t"), "IWR", "Blocking", SubResource("AnimationNodeStateMachineTransition_oovqy"), "Blocking", "IWR", SubResource("AnimationNodeStateMachineTransition_ieddc"), "IWR", "Jump_Idle", SubResource("AnimationNodeStateMachineTransition_i3yrw"), "Jump_Idle", "Jump_Land", SubResource("AnimationNodeStateMachineTransition_s6jx0"), "Jump_Land", "IWR", SubResource("AnimationNodeStateMachineTransition_jnxub"), "Start", "IWR", SubResource("AnimationNodeStateMachineTransition_xldxr"), "IWR", "PickUp", SubResource("AnimationNodeStateMachineTransition_a1434"), "PickUp", "IWR", SubResource("AnimationNodeStateMachineTransition_w50dk"), "IWR", "Use_Item", SubResource("AnimationNodeStateMachineTransition_v18f5"), "Use_Item", "IWR", SubResource("AnimationNodeStateMachineTransition_14cre"), "IWR", "Hit_A", SubResource("AnimationNodeStateMachineTransition_hqsyr"), "IWR", "Hit_B", SubResource("AnimationNodeStateMachineTransition_um0wr"), "Hit_B", "IWR", SubResource("AnimationNodeStateMachineTransition_451wv"), "Hit_A", "IWR", SubResource("AnimationNodeStateMachineTransition_cygxe"), "IWR", "Sit_Floor_StandUp", SubResource("AnimationNodeStateMachineTransition_drnwx"), "Sit_Floor_StandUp", "IWR", SubResource("AnimationNodeStateMachineTransition_mub4r")]
+graph_offset = Vector2(-63.591, 170.29)

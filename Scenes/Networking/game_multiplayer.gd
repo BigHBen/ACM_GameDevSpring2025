@@ -28,6 +28,7 @@ var level_itr : int : # Iterate through levels array
 @onready var name_entry : LineEdit = $Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/NameEntry
 @onready var lobby : Lobby = get_node("/root/MultiplayerLobby")
 
+var input_handling : bool = false
 #const PORT = 9999
 #var peer : ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 #var player_idx : int = 0
@@ -41,9 +42,16 @@ var game_paused : bool = false :
 	set(val):
 		game_paused = val
 		get_tree().paused = game_paused
+		if multiplayer.has_multiplayer_peer(): update_pause_state.rpc(val)
 		_on_game_paused.emit(game_paused)
 	get:
 		return game_paused
+
+@rpc("any_peer")
+func update_pause_state(_val):
+	var sender_id = multiplayer.get_remote_sender_id()
+	var _player = find_player(str(sender_id))
+	#if player.process_mode == 1: get_tree().paused = true
 
 func _ready() -> void:
 	multiplayer_ui_setup()
@@ -54,6 +62,7 @@ func _ready() -> void:
 	else: load_first_level()
 
 func _input(event: InputEvent) -> void:
+	if !input_handling: return
 	if event.is_action_pressed("pause_game"):
 		game_paused = !game_paused
 
@@ -63,10 +72,11 @@ func change_level(new_level_scene: PackedScene):
 		current_level.call_deferred("queue_free")
 	
 	var new_level : Node3D = load(new_level_scene.resource_path).instantiate()
-	connect_debug_properties(new_level)
+	new_level.process_mode = Node.PROCESS_MODE_PAUSABLE
 	for player in players: 
 		player.position = new_level.player_spawn_point
 		player.interact.entered_areas.clear()
+	connect_debug_properties(new_level)
 	self.add_child(new_level)
 	new_level.owner = get_tree().current_scene
 	self.move_child(new_level,0)
@@ -96,6 +106,7 @@ func connect_debug_properties(from) -> bool:
 func _on_host_pressed() -> void:
 	direct_menu.hide()
 	lobby._on_host()
+	input_handling = true
 	#peer.create_server(PORT)
 	#multiplayer.multiplayer_peer = peer
 	#
@@ -105,6 +116,7 @@ func _on_host_pressed() -> void:
 func _on_connect_pressed() -> void:
 	direct_menu.hide()
 	lobby._on_connect()
+	input_handling = true
 	#peer.create_client("localhost", PORT)
 	#multiplayer.multiplayer_peer = peer
 
@@ -134,6 +146,7 @@ func _on_child_entered_tree(node: Node) -> void:
 	if node.is_in_group("Player"):
 		players.append(node)
 		pause_menu.tween_shader_property("lod",0.0, 0.25) # Blur effect - Tween that changes blur strength over 0.25 seconds
+		stats_display.show()
 		lobby.player_loaded.rpc_id(node.name.to_int())
 
 func setup_debug(player):

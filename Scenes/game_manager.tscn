@@ -27,6 +27,7 @@ players = [NodePath("Knight")]
 levels = Array[PackedScene]([ExtResource("2_kwsbf"), ExtResource("2_wbq3d")])
 
 [node name="Knight" parent="." instance=ExtResource("4_61e57")]
+process_mode = 1
 
 [node name="Debug" parent="." instance=ExtResource("5_87yrw")]
 

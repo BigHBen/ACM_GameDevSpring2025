@@ -94,10 +94,29 @@ var defeated : bool = false
 
 # Multiplayer
 var nickname : String
+var ping_time : float = 2.0
+var ping_timer : float = 0.0
 
 func _enter_tree() -> void:
 	if get_tree().current_scene is GameManagerMultiplayer:
 		set_multiplayer_authority(self.name.to_int())
+
+@rpc("call_local")
+func creation_animation():
+	if anim_state:
+		anim_state.travel("Sit_Floor_StandUp")
+	model.scale = Vector3.ONE/8 # Item reveal tween
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(model, "scale", Vector3.ONE, 0.25)
+
+@rpc("call_local")
+func update_player_despawn(_id):
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(model, "scale", Vector3.ONE/8, 0.25)
 
 func _ready():
 	anim_tree.animation_finished.connect(_on_animation_finished)
@@ -106,12 +125,14 @@ func _ready():
 	# Multiplayer startup functions
 	if get_tree().current_scene is GameManagerMultiplayer:
 		var game_root = get_tree().current_scene
-		#test_authority()
+		self.process_mode = Node.PROCESS_MODE_PAUSABLE
 		if not is_multiplayer_authority(): 
+			lobby.player_disconnected.connect(update_player_despawn.rpc)
 			player_ui.hide()
 			#trail_effects_anim.active = false
 			#trail.hide()
 			return
+		
 		
 		if game_root.debug: game_root.debug.get_player_properties(self)
 		# Set player label
@@ -119,7 +140,7 @@ func _ready():
 			nickname = game_root.name_entry.text
 			change_name.rpc(nickname)
 		else: change_name.rpc(self.name)
-		
+		creation_animation.rpc()
 	
 	camera.current = true
 	set_camera()
@@ -144,7 +165,7 @@ func change_name(val):
 func _physics_process(delta):
 	if not is_multiplayer_authority(): return
 	
-	client_functions()
+	client_functions(delta)
 	# The Final Value sets what collision mask the ray is on.
 	# The default value is on every collision mask
 	# The value is a bitmask. The current value inserted is for collision mask 3.
@@ -374,10 +395,15 @@ func pause_anim_tree():
 func play_anim_tree():
 	anim_tree.active = true
 
-func client_functions(): 
+func client_functions(delta): 
+	if multiplayer.is_server(): return
 	# For now, just check ping time every few seconds
-	await get_tree().create_timer(2).timeout
-	lobby.do_ping()
+	if ping_timer > ping_time:
+		lobby.do_ping()
+		ping_timer = 0.0
+	else: 
+		ping_timer += delta
+	
 
 func _on_animation_finished(_anim):
 	if attacking: 

@@ -2,7 +2,6 @@ extends Node
 class_name Lobby
 
 var game_root : GameManagerMultiplayer
-
 var server : PackedScene = preload("res://Scenes/Networking/server.tscn")
 var client : PackedScene = preload("res://Scenes/Networking/client.tscn")
 
@@ -55,6 +54,7 @@ func create_player(peer_id):
 		var new_server = server.instantiate() # Add server node child
 		new_server.name = str(peer_id)
 		add_child(new_server)
+		
 	
 	game_root.add_child(player)
 	
@@ -108,7 +108,6 @@ func do_ping():
 @rpc("any_peer")
 func ping():
 	var sender_id = get_multiplayer().get_remote_sender_id()
-	
 	print_ping.rpc(sender_id)
 
 @rpc("any_peer")
@@ -117,8 +116,10 @@ func print_ping(_sender_id):
 	var rtt = pong_time - last_ping_time # Get wait time between ping & pong
 	var rtt_ms = rtt * 1000 # Convert to ms
 	
-	if multiplayer.is_server(): return # Don't display ping on host
 	if game_root:
+		if multiplayer.is_server(): 
+			game_root.stats_display.ping.hide()
+			return # Don't display ping on host
 		game_root.stats_display.ping_val = ceil(rtt_ms)
 
 @rpc("any_peer")
