@@ -7,6 +7,7 @@
 [ext_resource type="Shader" uid="uid://csob75j63l0l2" path="res://Shaders/simple_particles.tres" id="5_3cu5o"]
 [ext_resource type="Texture2D" uid="uid://cgry1qvuijsrt" path="res://Assets/Effects/Flare00.PNG" id="6_6wbi6"]
 
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n5c7e"]
 render_priority = 0
 shader = ExtResource("1_jk8ap")
