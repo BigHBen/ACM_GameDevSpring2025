@@ -3,15 +3,20 @@ class_name NPCDialogue
 
 @export var d_file : JSON
 
+# Test UI - For Multiplayer Sync
+@onready var talk_status_label : Label = $Test/PanelContainer/MarginContainer/VBoxContainer/talk_status
+@onready var id_label : Label = $Test/PanelContainer/MarginContainer/VBoxContainer/id
+@onready var lock_label : Label = $Test/PanelContainer/MarginContainer/VBoxContainer/lock
+
 var d_active : bool : set=set_chat_active
 
-var talk_status : String # Determines dialogue thread
+var talk_status : String : set=set_talk_status# Determines dialogue thread
 var dialogue = []
-var dialogue_id : int = 0
+var dialogue_id : int = 0 : set=set_dialogue_id
 
 var player_response_toggle : bool = false : set = set_response_focus
 var player_response : bool = false 
-var quest_lock : bool = false # Don't restart dialogue if player has accepted quest
+var quest_lock : bool = false : set=set_quest_lock # Don't restart dialogue if player has accepted quest
 var end_early : bool = false
 
 func _ready() -> void:
@@ -21,6 +26,30 @@ func _ready() -> void:
 		
 		$PlayerResponse/HBoxContainer/Accept.pressed.connect(_on_player_accept)
 		$PlayerResponse/HBoxContainer/Reject.pressed.connect(_on_player_reject)
+
+func set_dialogue_id(val):
+	dialogue_id = val
+	if is_multiplayer_authority(): set_dialogue_label.rpc(str(dialogue_id))
+
+@rpc("call_local")
+func set_dialogue_label(val:String):
+	id_label.text = "DIALOGUE_ID: "+str(val)
+
+func set_talk_status(val):
+	talk_status = val
+	if is_multiplayer_authority(): set_talk_label.rpc(talk_status)
+
+@rpc("call_local")
+func set_talk_label(val:String):
+	talk_status_label.text = "TALK_STATUS: "+val
+
+func set_quest_lock(val:bool):
+	quest_lock = val
+	if is_multiplayer_authority(): set_lock_label.rpc(str(quest_lock).capitalize())
+
+@rpc("call_local")
+func set_lock_label(val:String):
+	lock_label.text = "QUEST LOCK: "+ val
 
 func load_dialogue():
 	var file = d_file.resource_path
@@ -54,6 +83,7 @@ func start():
 				talk_status = "return_dialogue"
 				dialogue_id = get_return_dialogue_index("in_progress")
 			else: pass # will go to quest_dialogue
+	update_client_dialogue.rpc(talk_status,dialogue_id)
 	$NinePatchRect/Name.text = dialogue[talk_status][dialogue_id]["name"]
 	$NinePatchRect/Chatbox.text = dialogue[talk_status][dialogue_id]["text"]
 	d_active = true
@@ -63,7 +93,7 @@ func progress():
 	#if dialogue_id >= dialogue.size()-1: $ChatEndDelay.start()
 	elif !$ChatEndDelay.is_stopped(): $ChatEndDelay.timeout.emit()
 	else: $ChatEndDelay.start()
-	
+	update_client_dialogue.rpc(talk_status,dialogue_id)
 	var cur_dialogue = dialogue[talk_status][dialogue_id]
 	if talk_status == "return_dialogue" and quest_lock:
 		if talk_status in dialogue and dialogue_id + 1 < len(dialogue[talk_status]):
@@ -74,6 +104,10 @@ func progress():
 		elif cur_dialogue["quest_progress"] == "completed" and \
 		dialogue_id == dialogue[talk_status].size()-1: 
 			quest_lock = false
+	elif dialogue[talk_status][dialogue_id].has("auto_accept"): # Ask player a yes/no question
+		quest_auto_accept()
+		end_early = true
+		return
 	elif dialogue[talk_status][dialogue_id].has("accept"): # Ask player a yes/no question
 		load_player_responses(dialogue[talk_status][dialogue_id])
 		$PlayerResponse.visible = true
@@ -84,16 +118,23 @@ func progress():
 	else: $PlayerResponse.visible = false
 	$NinePatchRect/Name.text = dialogue[talk_status][dialogue_id]["name"]
 	$NinePatchRect/Chatbox.text = dialogue[talk_status][dialogue_id]["text"]
-		
+
+@rpc("any_peer")
+func update_client_dialogue(status,id):
+	dialogue_id = id
+	talk_status = status
 
 func _input(event: InputEvent) -> void:
 	if not d_active: return
 	if event.is_action_pressed("ui_accept"):
 		if dialogue[talk_status][dialogue_id].has("accept"): return
 		progress()
-	if event.is_action_pressed("left") || event.is_action_pressed("right"):
+	if event.is_action_pressed("left") || event.is_action_pressed("ui_left"):
 		if dialogue[talk_status][dialogue_id].has("accept"):
-			player_response_toggle = !player_response_toggle
+			player_response_toggle = true
+	if event.is_action_pressed("right") || event.is_action_pressed("ui_right"):
+		if dialogue[talk_status][dialogue_id].has("accept"):
+			player_response_toggle = false
 
 func get_return_dialogue_index(quest_status: String) -> int:
 	var return_dialogue = dialogue["return_dialogue"]
@@ -110,8 +151,23 @@ func set_chat_active(val):
 func set_response_focus(val):
 	player_response_toggle = val
 	if $PlayerResponse.visible:
-		if player_response_toggle: $PlayerResponse/HBoxContainer/Accept.grab_focus()
-		else: $PlayerResponse/HBoxContainer/Reject.grab_focus()
+		if player_response_toggle: 
+			$PlayerResponse/HBoxContainer/Reject.release_focus()
+			$PlayerResponse/HBoxContainer/Accept.grab_focus()
+		else: 
+			$PlayerResponse/HBoxContainer/Accept.release_focus()
+			$PlayerResponse/HBoxContainer/Reject.grab_focus()
+
+func quest_auto_accept():
+	var cur_line = dialogue[talk_status][dialogue_id]
+	update_client_dialogue.rpc(talk_status,dialogue_id)
+	if cur_line.has("quest"):
+		if cur_line.quest: 
+			get_parent().quest_accepted.emit()
+			quest_lock = true
+			
+	$NinePatchRect/Name.text = dialogue[talk_status][dialogue_id]["name"]
+	$NinePatchRect/Chatbox.text = dialogue[talk_status][dialogue_id]["text"]
 
 func _on_player_accept():
 	player_response = true

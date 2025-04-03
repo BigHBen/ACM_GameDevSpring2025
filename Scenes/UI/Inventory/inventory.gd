@@ -14,7 +14,7 @@ var slots : Array[InventorySlot]
 @onready var window : Panel = $Panel
 @onready var info_text : Label = $Panel/Info
 @export var starter_items : Array[BaseItem]
-
+var focus_mode_set : bool : set = set_slot_focus
 @onready var grid_container : GridContainer = $Panel/InventorySlots
 
 var inventory_slot = preload("res://Scenes/UI/Inventory/inventory_slot.tscn")
@@ -40,7 +40,16 @@ func _ready() -> void:
 			# Set up signals - Hovering mouse over slots will change info_text
 			button.mouse_entered.connect(_on_slot_hovered.bind(button))
 			button.mouse_exited.connect(_on_slot_hover_exit.bind(button))
+			button.focus_entered.connect(_on_slot_hovered.bind(button))
+			button.focus_exited.connect(_on_slot_hover_exit.bind(button))
 	set_inventory_array()
+
+func set_slot_focus(val):
+	focus_mode_set = val
+	if val: pass
+	else:
+		for s in slots:
+			s.focus_mode = Control.FOCUS_NONE
 
 # Started off following inventory system tutorial: https://gamedevacademy.org/godot-inventory-system-tutorial/
 func toggle_window(open : bool):
@@ -50,6 +59,8 @@ func toggle_window(open : bool):
 	inventory_toggle.emit()
 	for s in slots: 
 		s.toggle_slot_options(false)
+	# focus_mode_set == true -> using mouse and keyboard
+	if !slots.is_empty() and focus_mode_set: slots.front().grab_focus() 
 
 func animated_pop_up(open : bool):
 	match open:
@@ -104,9 +115,13 @@ func remove_item(item : BaseItem):
 func get_slot_to_add(item : BaseItem) -> InventorySlot:
 	for slot in slots:
 		if slot.item and item.type:
+			#print("Slot item %s | Item: %s" % [slot.item.ITEM_TYPE_NAMES[slot.item.type],item.ITEM_TYPE_NAMES[item.type]])
 			match slot.item.type:
 				item.ITEM_TYPE.SPECIAL_POTION: 
 					if slot.item.type and slot.item.special_name_type == item.special_name_type:
+						return slot
+				item.ITEM_TYPE.ARMOR:
+					if slot.item.type and slot.item.armor_type == item.armor_type:
 						return slot
 				_: if slot.item.type == item.type: return slot
 	for slot in slots:
@@ -141,6 +156,7 @@ func _on_slot_hovered(slot : InventorySlot):
 	info_text.text = slot_item.info
 
 func _on_slot_hover_exit(slot : InventorySlot):
-	if hovered_slot.slot_options.mouse_entered: pass
-	else: slot.toggle_slot_options(false)
-	info_text.text = "Info"
+	if hovered_slot:
+		if hovered_slot.slot_options.visible: return
+		else: slot.toggle_slot_options(false)
+		info_text.text = "Info"

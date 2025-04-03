@@ -2,6 +2,7 @@ extends CharacterBody3D
 
 @onready var skeleton: Skeleton3D = $Rig/Skeleton3D
 @onready var new_attachment : Node3D = $Rig/Skeleton3D/Mage_Head
+@onready var anim_player : AnimationPlayer = $AnimationPlayer
 
 # Autoload Questmanager scene
 @onready var quest_manager : QuestManager = get_node("/root/QuestManager")
@@ -18,6 +19,9 @@ extends CharacterBody3D
 #Detection Variables
 @export_group("Detection")
 @export var vis_radius = 3
+@export_range(0,10) var rotation_speed : float = 1.0
+var start_head_basis : Basis
+var head_rotation_weight = 0.0
 
 # Quests!
 @export_group("Quests")
@@ -29,25 +33,9 @@ var quest_item_icon : CompressedTexture2D = preload("res://Assets/UI_Assets/Poti
 var quest_reward : BaseItem = preload("res://UI_Work/ItemsWork/ItemsWork/SpecialPotion.tres")
 var npc_quest_over : bool = false
 
-#Visibility/Raycasts
-var prev_raycast_endpoint := Vector2.ZERO
-var curr_endpoint_position := Vector2.ZERO
-
 #More detection variables
-var target
-var target2
-var hit_pos
-var params
-var target_raycast
-var raycast_endpoint := Vector2.ZERO
-var target_displacement := Vector2.ZERO
-var target_velocity := Vector2.ZERO
-var player_spotted: bool
-var rid_array = []
-@export var exclude_enemies : bool = true
 @onready var head : MeshInstance3D = $Rig/Skeleton3D/Mage_Head
-
-var rotation_speed : float = 0.001
+var target
 
 signal chat_end(response) # When player exits out of dialogue box
 signal quest_accepted()
@@ -72,41 +60,40 @@ func _ready():
 			#print("Bone Rotation: ", bone_rotation)
 			# Optionally, make the new attachment a child of the skeleton so it follows the bone
 			#new_attachment.get_parent().add_child(new_attachment)
+		start_head_basis = head.global_transform.basis
 
 func _process(delta: float) -> void:
 	var collisions = $Area3D.get_overlapping_bodies()
-	if !collisions.is_empty():
+	if !collisions.is_empty() and target:
+		var player_pos = null
 		for col in collisions:
 			if col.is_in_group("Player"):
-				var player_pos = col.global_transform.origin
-				$ScanRaycast.look_at(player_pos, Vector3.UP)
-				$ScanRaycast.force_raycast_update()
-				
-				if $ScanRaycast.is_colliding():
-					var collider = $ScanRaycast.get_collider()
-					if collider.is_in_group("Player"):
-						$ScanRaycast.debug_shape_custom_color = Color(174,0,0)
-						var direction_to_target = (player_pos - head.global_transform.origin).normalized()
-						var dir_rotation = atan2(direction_to_target.x, direction_to_target.z)
-						var clamped_rotation = deg_to_rad(clamp(rad_to_deg(dir_rotation), -60, 90)+self.rotation_degrees.y)
-						var new_basis = head.global_transform.basis
-						new_basis = Basis().rotated(Vector3.UP, clamped_rotation)
-						head.global_transform.basis = new_basis
-					else:
-						$ScanRaycast.debug_shape_custom_color = Color(0,225,0)
-						var new_basis = head.global_transform.basis
-						new_basis = Basis().rotated(Vector3.UP, deg_to_rad(self.rotation.y))
-						head.global_transform.basis = new_basis
-				else: 
-					$ScanRaycast.debug_shape_custom_color = Color(0,0,100)
-					var new_basis = head.global_transform.basis
-					new_basis = Basis().rotated(Vector3.UP, deg_to_rad(self.rotation.y))
-					head.global_transform.basis = new_basis
-			else:
-				var new_rotation_degrees = lerp(self.rotation.y, 0.0, rotation_speed * delta)
+				player_pos = col.global_transform.origin
+		$ScanRaycast.look_at(player_pos, Vector3.UP)
+		$ScanRaycast.force_raycast_update()
+		if $ScanRaycast.is_colliding():
+			var collider = $ScanRaycast.get_collider()
+			if collider.is_in_group("Player"):
+				$ScanRaycast.debug_shape_custom_color = Color(174,0,0)
+				var direction_to_target = (player_pos - head.global_transform.origin).normalized()
+				var dir_rotation = atan2(direction_to_target.x, direction_to_target.z)
+				var clamped_rotation = deg_to_rad(clamp(rad_to_deg(dir_rotation), -60, 90)+self.rotation_degrees.y)
 				var new_basis = head.global_transform.basis
-				new_basis = Basis().rotated(Vector3.UP, deg_to_rad(new_rotation_degrees))
-				head.global_transform.basis = new_basis
+				new_basis = Basis().rotated(Vector3.UP, clamped_rotation)
+				head_rotation_weight = min(head_rotation_weight + rotation_speed * delta, 1.0)
+				look_toward(new_basis,head_rotation_weight)
+
+func look_toward(target_basis,weight):
+	var start_basis = head.global_transform.basis
+	head.global_transform.basis = start_basis.slerp(target_basis, weight)
+
+func look_away(target_basis,_weight):
+	head_rotation_weight = 0.0
+	var start_basis = head.global_transform.basis
+	while !target and head_rotation_weight < 1.0:
+		head_rotation_weight = min(head_rotation_weight + rotation_speed*2 * get_process_delta_time(), 1.0)
+		head.global_transform.basis = start_basis.slerp(target_basis, head_rotation_weight)
+		await get_tree().process_frame
 
 func load_quest():
 	if !npc_quest: npc_quest = Quest.new()
@@ -155,7 +142,7 @@ func quest_check():
 		var detected_q_items : int = player_inventory.get_number_of_item(npc_quest.desired_item)
 		if detected_q_items == npc_quest.desired_item_quantity:
 			player_inventory.remove_item(npc_quest.desired_item)
-			quest_manager.quest_finish(npc_quest.id)
+			npc_quest_finish()
 
 
 func npc_quest_finish():
@@ -174,21 +161,25 @@ func npc_quest_reward():
 		var end_pos = target.position 
 		
 		quest_reward_mesh = base_item_mesh.instantiate()
+		quest_reward_mesh.monitoring = false
 		quest_reward_mesh.item_type = quest_reward
 		quest_reward_mesh.position = start_pos
 		level.add_child(quest_reward_mesh)
 		
+		# Interact animation when handing reward
+		anim_player.play("Interact")
 		tween = create_tween()
 		tween.set_trans(Tween.TRANS_LINEAR)
 		tween.set_ease(Tween.EASE_IN_OUT)
 		tween.tween_property(quest_reward_mesh, "position", end_pos, 1.0)
 		npc_quest_over = true
-	await tween.finished
-	if quest_reward_mesh: quest_reward_mesh.queue_free()
+		await tween.finished
+		if quest_reward_mesh and quest_reward_mesh.is_inside_tree():
+			quest_reward_mesh.queue_free()
 
 func _on_quest_accepted():
 	if target: npc_quest.player = target
-	quest_manager.accept_quest(npc_quest)
+	quest_manager.accept_quest.rpc(npc_quest)
 	
 	# Spawn Quest Item 
 	# Pick a random Marker3D child from level
@@ -226,11 +217,22 @@ func _on_chatzone_entered(body):
 		if target:
 			return
 		target = body
+		head_rotation_weight = 0.0
+		$ScanRaycast.position = Vector3.ZERO
 
 func _on_chatzone_exited(body):
-		if body == target:
-			target = null
+	if body == target:
+		target = null
+		look_away(start_head_basis,head_rotation_weight)
 
 
 func _on_scan_timeout() -> void:
 	pass
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	match anim_name:
+		"Interact":
+			anim_player.play("Sit_Floor_Down")
+		"Sit_Floor_Down":
+			anim_player.play("Sit_Floor_Idle")

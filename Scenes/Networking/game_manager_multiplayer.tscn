@@ -1,0 +1,170 @@
+[gd_scene load_steps=15 format=3 uid="uid://cpcb18xsmydxv"]
+
+[ext_resource type="Script" path="res://Scenes/Networking/game_multiplayer.gd" id="1_0ow8d"]
+[ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="2_kgsw3"]
+[ext_resource type="Shader" path="res://Shaders/blur_effect.gdshader" id="2_r406e"]
+[ext_resource type="PackedScene" uid="uid://dnxbomjfrdbl1" path="res://Scenes/UI/pause_menu.tscn" id="3_48p10"]
+[ext_resource type="PackedScene" uid="uid://pojgr1oyd3ob" path="res://Scenes/Levels/level_1.tscn" id="3_njy1e"]
+[ext_resource type="PackedScene" uid="uid://ceqd0t76gybje" path="res://Scenes/UI/debug.tscn" id="4_4thev"]
+[ext_resource type="Script" path="res://Scenes/UI/stats_display.gd" id="4_75rof"]
+[ext_resource type="PackedScene" uid="uid://glmmqlidn4d" path="res://Scenes/Levels/test_dungeon.tscn" id="4_h6712"]
+[ext_resource type="PackedScene" uid="uid://cboy0p71ik6gj" path="res://Scenes/Networking/multiplayer_lobby.tscn" id="4_i2hvu"]
+[ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="5_p3xl0"]
+[ext_resource type="Script" path="res://Scenes/Networking/multiplayer_ui.gd" id="10_82eih"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_fyedd"]
+shader = ExtResource("2_r406e")
+shader_parameter/lod = 0.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_iuxih"]
+font = ExtResource("5_p3xl0")
+
+[sub_resource type="LabelSettings" id="LabelSettings_yhqjo"]
+font = ExtResource("5_p3xl0")
+font_size = 52
+
+[node name="Game" type="Node" node_paths=PackedStringArray("debug", "ui_control")]
+process_mode = 3
+script = ExtResource("1_0ow8d")
+debug = NodePath("Debug")
+ui_control = NodePath("UI")
+players_scenes = Array[PackedScene]([ExtResource("2_kgsw3"), ExtResource("2_kgsw3")])
+levels = Array[PackedScene]([ExtResource("3_njy1e"), ExtResource("4_h6712")])
+
+[node name="Debug" parent="." instance=ExtResource("4_4thev")]
+
+[node name="Lobby" parent="." instance=ExtResource("4_i2hvu")]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://Scenes/Characters/knight.tscn")
+spawn_path = NodePath("..")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="UI"]
+z_index = -1
+material = SubResource("ShaderMaterial_fyedd")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="PauseMenu" parent="UI" node_paths=PackedStringArray("game_manager") instance=ExtResource("3_48p10")]
+game_manager = NodePath("../..")
+
+[node name="StatsDisplay" type="Control" parent="UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("4_75rof")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/StatsDisplay"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -61.0
+offset_top = 15.0
+offset_right = -13.0
+offset_bottom = 55.0
+grow_horizontal = 0
+
+[node name="FPS" type="Label" parent="UI/StatsDisplay/VBoxContainer"]
+layout_mode = 2
+text = "FPS"
+label_settings = SubResource("LabelSettings_iuxih")
+
+[node name="Ping" type="Label" parent="UI/StatsDisplay/VBoxContainer"]
+layout_mode = 2
+text = "PING - N/A"
+label_settings = SubResource("LabelSettings_iuxih")
+
+[node name="Multiplayer_UI" type="CanvasLayer" parent="."]
+script = ExtResource("10_82eih")
+
+[node name="UI" type="Control" parent="Multiplayer_UI"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PanelContainer" type="PanelContainer" parent="Multiplayer_UI/UI"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Multiplayer_UI/UI/PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 5
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Options" type="HBoxContainer" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Label" type="Label" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Options"]
+layout_mode = 2
+text = "Direct Connect (WORK IN PROGRESS)"
+label_settings = SubResource("LabelSettings_yhqjo")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Options"]
+layout_mode = 2
+
+[node name="Remote" type="LineEdit" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_p3xl0")
+theme_override_font_sizes/font_size = 32
+placeholder_text = "IP Address"
+alignment = 1
+expand_to_text_length = true
+
+[node name="NameEntry" type="LineEdit" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_p3xl0")
+theme_override_font_sizes/font_size = 32
+placeholder_text = "Enter Player Name"
+alignment = 1
+expand_to_text_length = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 50
+alignment = 1
+
+[node name="Host" type="Button" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_p3xl0")
+theme_override_font_sizes/font_size = 42
+text = "Host"
+
+[node name="Connect" type="Button" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_p3xl0")
+theme_override_font_sizes/font_size = 42
+text = "Connect"
+
+[connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
+[connection signal="text_submitted" from="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/NameEntry" to="." method="_on_name_entry_text_submitted"]
+[connection signal="pressed" from="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/Host" to="." method="_on_host_pressed"]
+[connection signal="pressed" from="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2/Connect" to="." method="_on_connect_pressed"]

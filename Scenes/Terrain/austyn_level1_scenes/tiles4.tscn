@@ -1,0 +1,33 @@
+[gd_scene load_steps=6 format=3 uid="uid://cqcdv6jvsvctv"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hfix0"]
+albedo_color = Color(0.282353, 0.305882, 0.321569, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_5j5os"]
+material = SubResource("StandardMaterial3D_hfix0")
+size = Vector3(3, 3, 3)
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_2f24d"]
+points = PackedVector3Array(1.5, 1.5, 1.5, 1.5, 1.5, -1.5, -1.5, 1.5, 1.5, 1.5, -1.5, 1.5, 1.5, -1.5, -1.5, -1.5, 1.5, -1.5, -1.5, -1.5, 1.5, -1.5, -1.5, -1.5)
+
+[sub_resource type="BoxMesh" id="BoxMesh_qtnld"]
+size = Vector3(2, 2, 2)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_r86ny"]
+albedo_color = Color(0.611765, 0, 0, 1)
+
+[node name="tiles2" type="Node3D"]
+
+[node name="shade" type="MeshInstance3D" parent="."]
+mesh = SubResource("BoxMesh_5j5os")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="shade"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="shade/StaticBody3D"]
+shape = SubResource("ConvexPolygonShape3D_2f24d")
+
+[node name="bordertile" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.5, 0, 0)
+mesh = SubResource("BoxMesh_qtnld")
+skeleton = NodePath("../shade")
+surface_material_override/0 = SubResource("StandardMaterial3D_r86ny")

@@ -1,7 +1,7 @@
 extends Control
 
 @export var game_manager : GameManager
-@onready var debug_menu = get_node_or_null("/root/Debug")
+@onready var debug_menu
 @onready var inventory_menu = get_node("/root/PlayerInventory")
 @onready var resume_button = $VBoxContainer/ResumeButton
 @onready var exit_button = $VBoxContainer/ExitButton
@@ -10,6 +10,7 @@ extends Control
 func _ready() -> void:
 	hide()
 	if get_tree().current_scene is GameManager: 
+		debug_menu = game_manager.debug
 		game_manager._on_game_paused.connect(_on_game_paused)
 		resume_button.pressed.connect(_on_resume_button_pressed)
 		exit_button.pressed.connect(_on_exit_button_pressed)
@@ -44,7 +45,7 @@ func _on_game_paused(is_paused):
 		show()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		tween_shader_property("lod",2.0, 0.25) # Blur effect - Tween that changes blur strength over 0.25 seconds
-		
+		resume_button.grab_focus()
 		# Turn off level UI (Dialog boxes and such)
 		#if game_manager.get_child(0).is_in_group("Level"):
 			#var level =  game_manager.get_child(0)

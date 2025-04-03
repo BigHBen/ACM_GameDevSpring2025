@@ -11,3 +11,5 @@ removeable = true
 player_removable = false
 info = ""
 max_stack_size = 1
+special_name_type = ""
+armor_type = ""

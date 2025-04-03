@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://exq571fl7mau"
+path="res://.godot/imported/tower-roof.obj-85fd857a9dd107860480dbe7a1c97348.mesh"
+
+[deps]
+
+files=["res://.godot/imported/tower-roof.obj-85fd857a9dd107860480dbe7a1c97348.mesh"]
+
+source_file="res://Assets/kenney_pirate-kit/Models/OBJ format/tower-roof.obj"
+dest_files=["res://.godot/imported/tower-roof.obj-85fd857a9dd107860480dbe7a1c97348.mesh", "res://.godot/imported/tower-roof.obj-85fd857a9dd107860480dbe7a1c97348.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

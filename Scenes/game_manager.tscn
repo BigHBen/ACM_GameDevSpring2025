@@ -1,10 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://0udrovh0uwjn"]
+[gd_scene load_steps=13 format=3 uid="uid://0udrovh0uwjn"]
 
-[ext_resource type="Script" path="res://Scenes/game.gd" id="1_nw1mo"]
+[ext_resource type="Script" path="res://Scenes/game.gd" id="1_3plxs"]
+[ext_resource type="PackedScene" uid="uid://pojgr1oyd3ob" path="res://Scenes/Levels/level_1.tscn" id="2_kwsbf"]
 [ext_resource type="PackedScene" uid="uid://glmmqlidn4d" path="res://Scenes/Levels/test_dungeon.tscn" id="2_wbq3d"]
 [ext_resource type="PackedScene" uid="uid://dnxbomjfrdbl1" path="res://Scenes/UI/pause_menu.tscn" id="2_yxgdt"]
+[ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="4_61e57"]
 [ext_resource type="Shader" path="res://Shaders/blur_effect.gdshader" id="4_hcraj"]
 [ext_resource type="Script" path="res://Scenes/UI/stats_display.gd" id="5_8hb7y"]
+[ext_resource type="PackedScene" uid="uid://ceqd0t76gybje" path="res://Scenes/UI/debug.tscn" id="5_87yrw"]
+[ext_resource type="Script" path="res://Scenes/game_manager_ui.gd" id="5_m2k5e"]
 [ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="5_wmtf2"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fyedd"]
@@ -14,14 +18,20 @@ shader_parameter/lod = 0.0
 [sub_resource type="LabelSettings" id="LabelSettings_iuxih"]
 font = ExtResource("5_wmtf2")
 
-[node name="Game" type="Node"]
+[node name="Game" type="Node" node_paths=PackedStringArray("debug", "ui_control", "players")]
 process_mode = 3
-script = ExtResource("1_nw1mo")
+script = ExtResource("1_3plxs")
+debug = NodePath("Debug")
+ui_control = NodePath("UI")
+players = [NodePath("Knight")]
+levels = Array[PackedScene]([ExtResource("2_kwsbf"), ExtResource("2_wbq3d")])
 
-[node name="test_dungeon" parent="." instance=ExtResource("2_wbq3d")]
-process_mode = 1
+[node name="Knight" parent="." instance=ExtResource("4_61e57")]
+
+[node name="Debug" parent="." instance=ExtResource("5_87yrw")]
 
 [node name="UI" type="CanvasLayer" parent="."]
+script = ExtResource("5_m2k5e")
 
 [node name="ColorRect" type="ColorRect" parent="UI"]
 z_index = -1
@@ -59,3 +69,13 @@ offset_bottom = 33.0
 grow_horizontal = 0
 text = "FPS"
 label_settings = SubResource("LabelSettings_iuxih")
+
+[node name="ColorRect2" type="ColorRect" parent="UI/StatsDisplay"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 1, 1, 0)

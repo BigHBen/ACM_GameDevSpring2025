@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://bftmlls7ibwk7"
+path="res://.godot/imported/ship-small.obj-0d70815f64ad133c6ddb3ba3eb5ff9fa.mesh"
+
+[deps]
+
+files=["res://.godot/imported/ship-small.obj-0d70815f64ad133c6ddb3ba3eb5ff9fa.mesh"]
+
+source_file="res://Assets/kenney_pirate-kit/Models/OBJ format/ship-small.obj"
+dest_files=["res://.godot/imported/ship-small.obj-0d70815f64ad133c6ddb3ba3eb5ff9fa.mesh", "res://.godot/imported/ship-small.obj-0d70815f64ad133c6ddb3ba3eb5ff9fa.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

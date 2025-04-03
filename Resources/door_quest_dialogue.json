@@ -1,0 +1,12 @@
+{
+	"quest_dialogue": [
+		{"name": "", "text": "Use dungeon key to enter", "auto_accept": "True", "quest": {"part" : 1}},
+	],
+	"return_dialogue": [
+		{"name": "", "text": "Use dungeon key to enter", "quest_progress": "in_progress"},
+		{"name": "", "text": "Good luck.", "quest_progress": "completed"},
+	],
+	"chat": [
+		{"name": "", "text": ""},
+	],
+}

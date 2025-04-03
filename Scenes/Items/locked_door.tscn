@@ -1,0 +1,129 @@
+[gd_scene load_steps=12 format=3 uid="uid://binyi8s3uy3qp"]
+
+[ext_resource type="Script" path="res://Scenes/Items/locked_door.gd" id="1_c8byg"]
+[ext_resource type="ArrayMesh" uid="uid://mikqfgv8f4bq" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/obj/wall_doorway_door.obj" id="1_kspj5"]
+[ext_resource type="PackedScene" uid="uid://c07qpbybbbp40" path="res://Scenes/UI/dialogue.tscn" id="3_uv3qc"]
+[ext_resource type="JSON" path="res://Resources/door_quest_dialogue.json" id="4_434n6"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_d437y"]
+points = PackedVector3Array(-1, 0, -0.100025, -0.880579, 0.458423, -0.20005, 0.592991, 1.28563, -0.386773, 1, 0, -0.100025, -1, 0, 0.0999492, -1, 2.09023, -0.100025, -0.880579, 1.8415, -0.20005, -0.639977, 2.66817, -0.100025, -0.54307, 2.70962, -0.100025, -0.340446, 2.75, -0.100025, 0.340251, 2.75, -0.100025, 0.542874, 2.70962, -0.100025, 0.639781, 2.66817, -0.100025, 0.806774, 2.55672, -0.100025, 0.949687, 2.34272, -0.100025, 0.880384, 1.8415, -0.20005, 0.640172, 1.28563, -0.367995, 0.880384, 0.458423, -0.20005, 1, 0, 0.0999492, 0.832811, 1.08589, -0.251084, 1, 2.09023, -0.100025, -0.880579, 0.458423, 0.199974, -1, 2.09023, 0.0999492, 0.592991, 1.28563, 0.386773, -0.949883, 2.34272, -0.100025, -0.806969, 2.55672, -0.100025, -0.592208, 2.7002, -0.0500503, -0.340446, 2.75, 0.0999492, 0.592013, 2.7002, -0.0500503, 0.340251, 2.75, 0.0999492, 0.806774, 2.55672, 0.0999492, 0.949687, 2.34272, 0.0999492, 0.832811, 1.08589, 0.251009, 0.880384, 0.458423, 0.199974, 1, 2.09023, 0.0999492, -0.880579, 1.8415, 0.199974, -0.949883, 2.34272, 0.0999492, 0.640172, 1.28563, 0.367919, 0.880384, 1.8415, 0.199974, 0.639781, 2.66817, 0.0999492, 0.542874, 2.70962, 0.0999492, -0.54307, 2.70962, 0.0999492, -0.639977, 2.66817, 0.0999492, -0.806969, 2.55672, 0.0999492, -0.592208, 2.7002, 0.0499746, 0.592013, 2.7002, 0.0499746)
+
+[sub_resource type="Animation" id="Animation_h6k6n"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig/MeshInstance3D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Rig:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0hg0p"]
+resource_name = "close"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 1.39626, 0), Vector3(0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ha3nv"]
+resource_name = "open"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Rig:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3, 0.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 1.0472, 0), Vector3(0, 1.39626, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ltt36"]
+_data = {
+"RESET": SubResource("Animation_h6k6n"),
+"close": SubResource("Animation_0hg0p"),
+"open": SubResource("Animation_ha3nv")
+}
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4fuve"]
+radius = 2.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_cqd8f"]
+properties/0/path = NodePath("Rig:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Rig:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Locked_Door" type="Node3D" node_paths=PackedStringArray("dialogue") groups=["NPC"]]
+script = ExtResource("1_c8byg")
+dialogue = NodePath("Dialogue")
+
+[node name="Rig" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Rig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+mesh = ExtResource("1_kspj5")
+skeleton = NodePath("../..")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="Rig"]
+
+[node name="Physics" type="CollisionShape3D" parent="Rig/StaticBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+shape = SubResource("ConvexPolygonShape3D_d437y")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_ltt36")
+}
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("SphereShape3D_4fuve")
+
+[node name="Scan" type="Timer" parent="Area3D"]
+wait_time = 0.25
+autostart = true
+
+[node name="Dialogue" parent="." instance=ExtResource("3_uv3qc")]
+d_file = ExtResource("4_434n6")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_cqd8f")
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_chatzone_entered"]
+[connection signal="body_exited" from="Area3D" to="." method="_on_chatzone_exited"]
