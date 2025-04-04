@@ -57,6 +57,11 @@ func add_item():
 	quantity += 1
 	update_quantity_text()
 
+@rpc("any_peer","call_local")
+func add_item_remote():
+	quantity += 1
+	update_quantity_text()
+
 func remove_item():
 	quantity -= 1
 	update_quantity_text()
@@ -65,9 +70,24 @@ func remove_item():
 		set_item(null)
 		await remove_item_animation()
 	if slot_options.visible: toggle_slot_options(false)
-	
+
+@rpc("any_peer", "call_local")
+func remove_item_remote():
+	quantity -= 1
+	update_quantity_text()
+	if quantity == 0: 
+		inventory.color_flash(self,Color.RED, 0.5)
+		set_item(null)
+		await remove_item_animation()
+	if slot_options.visible: toggle_slot_options(false)
+
 
 func update_quantity_text():
+	if quantity <= 1: quantity_text.text = ""
+	else: quantity_text.text = str(quantity)
+
+@rpc("any_peer", "call_local")
+func update_quantity_text_remote():
 	if quantity <= 1: quantity_text.text = ""
 	else: quantity_text.text = str(quantity)
 

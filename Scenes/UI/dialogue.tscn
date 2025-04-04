@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://c07qpbybbbp40"]
+[gd_scene load_steps=6 format=3 uid="uid://c07qpbybbbp40"]
 
 [ext_resource type="Script" path="res://dialogue_player.gd" id="1_cxgqx"]
 [ext_resource type="JSON" path="res://Resources/npc_dialogue.json" id="2_bsms5"]
 [ext_resource type="Texture2D" uid="uid://bs5ja4heekj83" path="res://Assets/UI_Assets/dialogue_box2.png" id="3_2c1go"]
 [ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="3_u3308"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_6fvlm"]
 
 [node name="Dialogue" type="CanvasLayer"]
 script = ExtResource("1_cxgqx")
@@ -81,7 +83,6 @@ text = "REJECT
 flat = true
 
 [node name="Test" type="Control" parent="."]
-visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -117,6 +118,9 @@ text = "DIALOGUE_ID:"
 
 [node name="lock" type="Label" parent="Test/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
-text = "QUEST LOCK: False"
+text = "QUEST LOCK:"
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_6fvlm")
 
 [connection signal="timeout" from="ChatEndDelay" to="." method="_on_chat_timer_timeout"]

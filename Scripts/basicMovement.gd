@@ -123,15 +123,22 @@ func _ready():
 	healthbar.init_health(health)
 	
 	# Multiplayer startup functions
+	if !multiplayer_startup(): return
+	
+	camera.current = true
+	set_camera()
+
+func multiplayer_startup():
 	if get_tree().current_scene is GameManagerMultiplayer:
 		var game_root = get_tree().current_scene
+		
 		self.process_mode = Node.PROCESS_MODE_PAUSABLE
 		if not is_multiplayer_authority(): 
 			lobby.player_disconnected.connect(update_player_despawn.rpc)
 			player_ui.hide()
 			#trail_effects_anim.active = false
 			#trail.hide()
-			return
+			return false
 		
 		
 		if game_root.debug: game_root.debug.get_player_properties(self)
@@ -141,9 +148,7 @@ func _ready():
 			change_name.rpc(nickname)
 		else: change_name.rpc(self.name)
 		creation_animation.rpc()
-	
-	camera.current = true
-	set_camera()
+	return true
 
 # _Ready() runs once for both server and client
 # Show which is running and player authority mode

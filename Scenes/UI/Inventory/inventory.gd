@@ -109,7 +109,25 @@ func add_item(item : BaseItem, from):
 	elif slot.item == item:
 		slot.add_item()
 
+@rpc("any_peer","call_local")
+func add_item_remote(item : BaseItem, from):
+	if from != null and from.is_in_group("Player"):
+		player_ref = from
+	var slot = get_slot_to_add(item)
+	if slot == null: return
+	if slot.item == null:
+		slot.set_item(item)
+	elif slot.item == item:
+		slot.add_item()
+
 func remove_item(item : BaseItem):
+	var slot = get_slot_to_remove(item)
+	if slot == null or slot.item != item: return
+	color_flash(slot,Color.RED, 0.25)
+	slot.remove_item()
+
+@rpc("any_peer","call_local")
+func remove_item_remote(item : BaseItem):
 	var slot = get_slot_to_remove(item)
 	if slot == null or slot.item != item: return
 	color_flash(slot,Color.RED, 0.25)
@@ -132,7 +150,32 @@ func get_slot_to_add(item : BaseItem) -> InventorySlot:
 			return slot
 	return null
 
+@rpc("any_peer","call_local")
+func get_slot_to_add_remote(item : BaseItem) -> InventorySlot:
+	for slot in slots:
+		if slot.item and item.type:
+			#print("Slot item %s | Item: %s" % [slot.item.ITEM_TYPE_NAMES[slot.item.type],item.ITEM_TYPE_NAMES[item.type]])
+			match slot.item.type:
+				item.ITEM_TYPE.SPECIAL_POTION: 
+					if slot.item.type and slot.item.special_name_type == item.special_name_type:
+						return slot
+				item.ITEM_TYPE.ARMOR:
+					if slot.item.type and slot.item.armor_type == item.armor_type:
+						return slot
+				_: if slot.item.type == item.type: return slot
+	for slot in slots:
+		if slot.item == null:
+			return slot
+	return null
+
 func get_slot_to_remove(item : BaseItem) -> InventorySlot:
+	for slot in slots:
+		if slot.item == item:
+			return slot
+	return null
+
+@rpc("any_peer","call_local")
+func get_slot_to_remove_remote(item : BaseItem) -> InventorySlot:
 	for slot in slots:
 		if slot.item == item:
 			return slot
@@ -144,7 +187,23 @@ func get_number_of_item(item : BaseItem) -> int:
 		if slot.item == item: total += slot.quantity
 	return total
 
+@rpc("any_peer","call_local")
+func get_number_of_item_remote(item : BaseItem) -> int:
+	var total = 0
+	for slot in slots:
+		if slot.item == item: total += slot.quantity
+	return total
+
 func color_flash(slot : InventorySlot, color : Color, duration: float):
+	var _cur_modulate = slot.modulate
+	slot.modulate = color
+	var tween = create_tween()
+	tween.set_trans(Tween.TRANS_LINEAR)
+	tween.set_ease(Tween.EASE_IN_OUT)
+	tween.tween_property(slot, "modulate", Color.WHITE, duration)
+
+@rpc("any_peer","call_local")
+func color_flash_remote(slot : InventorySlot, color : Color, duration: float):
 	var _cur_modulate = slot.modulate
 	slot.modulate = color
 	var tween = create_tween()

@@ -13,7 +13,7 @@ func accept_quest(quest: Quest):
 	if quest.id not in active_quests: active_quests[quest.id] = quest
 	print("You Accepted Quest -> ",get_quest_as_dict(quest))
 
-func quest_finish(quest_id: int):
+func quest_finish(quest_id: int, player):
 	if quest_id in active_quests:
 		var quest = active_quests[quest_id]
 		quest.is_completed = true
@@ -21,7 +21,7 @@ func quest_finish(quest_id: int):
 		active_quests.erase(quest_id)
 		if pop_menu.window.visible: 
 			pop_menu.quest_completion()
-		print("Completed quest: ", quest.title)
+		print(player.name.capitalize(), " Completed quest: ", quest.title)
 		#give_rewards(quest.player,quest.rewards)
 
 func give_rewards(to: PlayerCharacter, rewards: Dictionary):

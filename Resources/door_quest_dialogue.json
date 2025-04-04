@@ -1,6 +1,6 @@
 {
 	"quest_dialogue": [
-		{"name": "", "text": "Use dungeon key to enter", "auto_accept": "True", "quest": {"part" : 1}},
+		{"name": "", "text": "Use dungeon key to enter", "auto_accept": "True", "quest": {"part" : 1}, "quest_type": 0},
 	],
 	"return_dialogue": [
 		{"name": "", "text": "Use dungeon key to enter", "quest_progress": "in_progress"},

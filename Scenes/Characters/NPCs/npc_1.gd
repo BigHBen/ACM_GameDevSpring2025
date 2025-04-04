@@ -37,13 +37,16 @@ var npc_quest_over : bool = false
 @onready var head : MeshInstance3D = $Rig/Skeleton3D/Mage_Head
 var target
 
+# Shared vs Individual (For popup)
+var shared_quest : bool = true
+
 signal chat_end(response) # When player exits out of dialogue box
 signal quest_accepted()
 signal quest_rejected()
 
 func _ready():
 	chat_end.connect(_on_chat_over)
-	quest_accepted.connect(_on_quest_accepted)
+	quest_accepted.connect(_on_quest_accepted.rpc)
 	quest_rejected.connect(_on_quest_rejected)
 	load_quest()
 	
@@ -127,7 +130,7 @@ func interact(talk):
 	if talk:
 		if dialogue:
 			if quest_manager.has_quest(npc_quest.id): 
-				quest_check()
+				quest_check.rpc()
 				dialogue.start()
 			else: dialogue.start()
 		else: printerr("Make sure to assign Dialogue!")
@@ -135,6 +138,7 @@ func interact(talk):
 
 # Check for npc quest item in player inventory
 # Finish quest if player has desired amount of quest item
+@rpc("any_peer","call_local")
 func quest_check():
 	if npc_quest == null: return
 	if target:
@@ -146,9 +150,10 @@ func quest_check():
 
 
 func npc_quest_finish():
-	quest_manager.quest_finish(npc_quest.id)
+	quest_manager.quest_finish(npc_quest.id,npc_quest.player)
 	quest_manager.give_rewards(npc_quest.player,npc_quest.rewards)
 
+@rpc("any_peer","call_local")
 func npc_quest_reward():
 	# Reward animation
 	var quest_reward_mesh : Node
@@ -177,10 +182,35 @@ func npc_quest_reward():
 		if quest_reward_mesh and quest_reward_mesh.is_inside_tree():
 			quest_reward_mesh.queue_free()
 
+
+@rpc("any_peer","call_local")
 func _on_quest_accepted():
 	if target: npc_quest.player = target
 	quest_manager.accept_quest.rpc(npc_quest)
 	
+	# Spawn Quest Item 
+	# Pick a random Marker3D child from level
+	# Place Item Mesh at Marker3D position
+	var level = get_parent() if get_parent().is_in_group("Level") else null
+	var level_items : Node = level.get_node_or_null("Items")
+	var markers : Array = []
+	var random_marker
+	for child in level_items.get_children():
+		if child is Marker3D: markers.append(child)
+	if markers.size() > 0:
+		#random_marker = markers[randi() % markers.size()]
+		random_marker = markers[1]
+	
+	var quest_item = base_item_mesh.instantiate()
+	quest_item.item_type = npc_quest_item
+	quest_item.position = random_marker.position
+	level_items.add_child(quest_item)
+
+@rpc("any_peer")
+func _on_quest_accepted_remote(): # Client version of _on_quest_accepted()
+	print("starting individual quest")
+	if target: npc_quest.player = target
+	quest_manager.accept_quest(npc_quest)
 	# Spawn Quest Item 
 	# Pick a random Marker3D child from level
 	# Place Item Mesh at Marker3D position
@@ -204,13 +234,15 @@ func _on_quest_rejected():
 
 func _on_chat_over():
 	if npc_quest.is_completed:
-		npc_quest_reward()
+		npc_quest_reward.rpc()
 		if quests_popup.window.visible: 
 			await get_tree().create_timer(2.0).timeout
 			quests_popup.toggle_quest_menu(false)
 		
 	elif quest_manager.has_quest(npc_quest.id):
-		if !quests_popup.window.visible: quests_popup.toggle_quest_menu(true)
+		if !quests_popup.window.visible: 
+			if shared_quest: quests_popup.toggle_quest_menu_remote.rpc(true)
+			else: quests_popup.toggle_quest_menu(true)
 
 func _on_chatzone_entered(body):
 	if body.is_in_group("Player"):

@@ -1,7 +1,7 @@
 {
 	"quest_dialogue": [
 		{"name": "Wizard Apprentice", "text": "WHATS GOOD BRUV"},
-		{"name": "Wizard Apprentice", "text": "I lost something of mine ... could you help me find it?", "accept": "Sure!", "reject": "Not yet..", "quest": {"part" : 1}},
+		{"name": "Wizard Apprentice", "text": "I lost something of mine ... could you help me find it?", "accept": "Sure!", "reject": "Not yet..", "quest": {"part" : 1}, "quest_type": 0},
 		{"name": "Wizard Apprentice", "text": "", "accepted": "Oh that's GREAT! I'll wait here while you look", "rejected": "That's okay! Thanks though.."}
 	],
 	"return_dialogue": [
