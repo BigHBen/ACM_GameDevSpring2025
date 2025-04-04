@@ -12,3 +12,4 @@ class_name Quest
 
 var player: PlayerCharacter
 var progress : int = 0
+var shared : bool = true

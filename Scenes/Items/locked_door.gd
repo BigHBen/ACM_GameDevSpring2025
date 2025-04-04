@@ -72,6 +72,7 @@ func load_quest():
 	npc_quest_item.mesh = quest_item_mesh
 	npc_quest_item.icon = quest_item_icon
 	npc_quest_item.info = "A rusty key"
+	npc_quest_item.multiplayer_sync = true
 
 func interact(talk):
 	if talk:
@@ -89,7 +90,7 @@ func interact(talk):
 func quest_check():
 	if npc_quest == null: return
 	if target:
-		print("Looking for %s... from %s" % [npc_quest.desired_item.info.to_lower(),target])
+		print(self.name,": Looking for QuestItem [%s] from %s" % [npc_quest.desired_item.info.to_lower(),target])
 		var detected_q_items : int = player_inventory.get_number_of_item(npc_quest.desired_item)
 		if detected_q_items == npc_quest.desired_item_quantity:
 			player_inventory.remove_item(npc_quest.desired_item)
@@ -101,8 +102,12 @@ func npc_quest_finish():
 
 @rpc("any_peer","call_local")
 func _on_quest_accepted():
-	print("starting shared quest")
-	if target: npc_quest.player = target
+	#print("starting shared quest")
+	if get_tree().current_scene is GameManagerMultiplayer: 
+		var game = get_tree().current_scene
+		var player = game.find_player(str(multiplayer.get_unique_id()))
+		npc_quest.player = player
+	elif target: npc_quest.player = target
 	quest_manager.accept_quest(npc_quest)
 	# Spawn Quest Item 
 	# Pick a random Marker3D child from level
@@ -143,7 +148,7 @@ func _on_quest_accepted():
 
 @rpc("any_peer")
 func _on_quest_accepted_remote(): # Client version of _on_quest_accepted()
-	print("starting individual quest")
+	#print("starting individual quest")
 	var receiver_id = multiplayer.get_unique_id()
 	if target: npc_quest.player = get_tree().current_scene.find_player(str(receiver_id))
 	quest_manager.accept_quest(npc_quest)

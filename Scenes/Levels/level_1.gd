@@ -10,12 +10,15 @@ extends Node3D
 func _ready() -> void:
 	if get_tree().current_scene is GameManager: 
 		preview_camera.current = false
+	if get_tree().current_scene is GameManagerMultiplayer:
+		preview_camera.current = false
 
 func _on_end_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group("Player"): 
 		if owner is GameManager: 
 			owner.next_level()
-			pass
+		if owner is GameManagerMultiplayer:
+			owner.next_level()
 
 func _process(delta: float) -> void:
 	if preview_camera.current: preview_camera.rotate_y(delta * preview_camera_speed)

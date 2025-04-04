@@ -25,6 +25,7 @@ const ITEM_TYPE_NAMES := ["COIN", "POTION", "SPECIAL_POTION", "KEY", "QUEST_ITEM
 @export var special_name_type : String # For ITEM_TYPE.SPECIAL_POTION
 @export_category("Armor")
 @export var armor_type : String # For ITEM.TYPE.ARMOR
+@export var multiplayer_sync : bool
 
 func add_value(player: PlayerCharacter):
 	match type:

@@ -8,12 +8,12 @@ extends Node3D
 
 #More detection variables
 var target
-var game : GameManager
+var game
 
 signal interaction_done(area) # Signal to player_interact
 
 func _ready() -> void:
-	if get_tree().current_scene is GameManager:
+	if get_tree().current_scene is GameManager or get_tree().current_scene is GameManagerMultiplayer:
 		game = get_tree().current_scene
 	else: printerr($"."," Error: GameManager not detected - Cannot Transfer Player")
 

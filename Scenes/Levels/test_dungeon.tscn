@@ -58,6 +58,7 @@ info = "Old Iron Chestplate - Nothing Special.."
 max_stack_size = 0
 special_name_type = ""
 armor_type = ""
+multiplayer_sync = false
 
 [sub_resource type="Curve3D" id="Curve3D_ik5se"]
 _data = {
@@ -219,7 +220,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.117168, 1.57251, 0.42651)
 curve = SubResource("Curve3D_ik5se")
 
 [node name="PathFollow3D" type="PathFollow3D" parent="Enemies/EvilCube1"]
-transform = Transform3D(0.301879, 0.00411355, -0.95334, 0.013988, 0.99986, 0.00874371, 0.953244, -0.0159747, 0.301781, -0.0327999, -0.0768977, -27.1825)
+transform = Transform3D(0.301879, 0.00411355, -0.95334, 0.013988, 0.99986, 0.00874371, 0.953244, -0.0159748, 0.301781, -0.0327999, -0.0768977, -27.1825)
 progress = 1.67233
 
 [node name="EvilCube" parent="Enemies/EvilCube1/PathFollow3D" instance=ExtResource("3_ckahd")]

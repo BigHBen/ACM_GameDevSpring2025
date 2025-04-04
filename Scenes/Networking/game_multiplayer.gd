@@ -7,7 +7,11 @@ class_name  GameManagerMultiplayer
 var level_itr : int : # Iterate through levels array
 	set (val):
 		level_itr = val
-		if level_itr < levels.size(): change_level(levels[level_itr])
+		if level_itr < levels.size(): 
+			var scene_name = get_scene_name(levels[level_itr].resource_path)
+			print(self.name, ": Preparing to load ", scene_name)
+			change_level(levels[level_itr])
+			#if multiplayer.is_server(): request_level_change.rpc(levels[level_itr])
 		else: printerr($".", " Error: No more levels to load - Add more scene elements to 'levels' Array")
 	get: return level_itr
 
@@ -27,6 +31,9 @@ var level_itr : int : # Iterate through levels array
 @onready var ip_entry : LineEdit = $Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Remote
 @onready var name_entry : LineEdit = $Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/NameEntry
 @onready var lobby : Lobby = get_node("/root/MultiplayerLobby")
+
+# Sync
+@onready var multi_sync : MultiplayerSynchronizer = $MultiplayerSynchronizer
 
 var input_handling : bool = false
 #const PORT = 9999
@@ -59,28 +66,53 @@ func _ready() -> void:
 		printerr($".", " Error: No levels to load - Add scene elements to 'levels' Array")
 		await get_tree().create_timer(1.0).timeout
 		#get_tree().call_deferred("quit") # Removed for multiplayer testing
-	else: load_first_level()
+	#else: load_first_level()
+
+func get_scene_name(node_path : String):
+	return node_path.right(-node_path.rfind("/") - 1).left(-5)
 
 func _input(event: InputEvent) -> void:
 	if !input_handling: return
 	if event.is_action_pressed("pause_game"):
 		game_paused = !game_paused
+	if event.is_action_pressed("ui_accept"):
+		if level_itr > 0: next_level()
+		else: load_first_level()
+#@rpc
+#func request_level_change(level: PackedScene):
+	#for peer in get_tree().network_peer.get_peers():
+		#change_level.rpc_id(peer, level)
 
 func change_level(new_level_scene: PackedScene):
 	var current_level = get_child(0)
 	if current_level.is_in_group("Level"):
+		print(self.name,": deleting ", current_level)
 		current_level.call_deferred("queue_free")
 	
-	var new_level : Node3D = load(new_level_scene.resource_path).instantiate()
+	var path = new_level_scene.resource_path
+	var scene_name = get_scene_name(path)
+	var new_level : Node3D = load(path).instantiate()
+	
 	new_level.process_mode = Node.PROCESS_MODE_PAUSABLE
 	for player in players: 
 		player.position = new_level.player_spawn_point
 		player.interact.entered_areas.clear()
 	connect_debug_properties(new_level)
-	self.add_child(new_level)
+	self.add_child(new_level, true)
 	new_level.owner = get_tree().current_scene
+	#new_level.name = scene_name
 	self.move_child(new_level,0)
+	print(self.name," Added ",new_level)
+	
+	sync_level(new_level.get_path())
 
+func sync_level(new_level):
+	var replication_config = SceneReplicationConfig.new()
+	replication_config.add_property(new_level)
+	#print(replication_config.get_properties())
+	#multi_sync.replication_config = replication_config
+	#multi_sync.set_multiplayer_authority(str().to_int())
+	#print("MultiplayerSynchronizer for unit", unit.get_name(), ":", multiplayer_synchronizer)
 
 func load_first_level():
 	level_itr = start_level_idx
@@ -107,6 +139,9 @@ func _on_host_pressed() -> void:
 	direct_menu.hide()
 	lobby._on_host()
 	input_handling = true
+	
+	if level_itr > 0: next_level()
+	else: load_first_level()
 	#peer.create_server(PORT)
 	#multiplayer.multiplayer_peer = peer
 	#

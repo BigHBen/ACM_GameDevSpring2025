@@ -24,7 +24,7 @@ func _process(_delta: float) -> void:
 
 func collect(item : BaseItem):
 	var game = get_tree().current_scene is GameManagerMultiplayer
-	if game and !multiplayer.is_server(): inventory.add_item_remote(item,player)
+	if game and !item.multiplayer_sync and !multiplayer.is_server(): inventory.add_item_remote(item,player)
 	else: inventory.add_item(item,player)
 	
 	if item.ITEM_TYPE.QUEST_ITEM: quest_man.quest_check(item)

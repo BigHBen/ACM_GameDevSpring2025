@@ -185,11 +185,11 @@ metadata/_editor_floor_ = Vector3(0, 1, 0)
 
 [node name="Items" type="Node3D" parent="."]
 
-[node name="Marker3D" type="Marker3D" parent="Items"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -139.829, 1, 15.143)
-
 [node name="Marker3D2" type="Marker3D" parent="Items"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0486457, 1, 0.46397)
+
+[node name="Marker3D" type="Marker3D" parent="Items"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -139.829, 1, 15.143)
 
 [node name="coin_stack" type="Area3D" parent="Items"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64.9065, 1, 14.2014)
