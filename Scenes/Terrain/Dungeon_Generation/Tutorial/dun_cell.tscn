@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=4 uid="uid://cd12vp8wf1wmn"]
 
-[ext_resource type="Texture2D" uid="uid://cayomkui53eog" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/dungeon_texture.png" id="1_od47h"]
+[ext_resource type="Texture2D" uid="uid://bh2hn5mrcgskq" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/dungeon_texture.png" id="1_od47h"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fdyov"]
 resource_name = "texture"

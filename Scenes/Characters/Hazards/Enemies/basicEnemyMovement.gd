@@ -79,9 +79,6 @@ var defeated : bool = false
 func _ready():
 	anim_tree.animation_finished.connect(_on_animation_finished)
 	healthbar.init_health(health)
-	update_current_camera()
-
-func update_current_camera():
 	camera = get_viewport().get_camera_3d()
 
 func check_pathfinding():
@@ -100,9 +97,6 @@ func _process(_delta: float) -> void:
 	if camera != null: update_floating_healthbar()
 
 func update_floating_healthbar():
-	if !camera or !camera.is_visible_in_tree(): 
-		update_current_camera()
-		return
 	var screen_pos = camera.unproject_position(self.global_position + Vector3(0, 4, 0))
 	$EnemyUi/HealthBar.global_position = screen_pos 
 	$EnemyUi/HealthBar.global_position += Vector2(-$EnemyUi/HealthBar.size.x / 2, 0)
@@ -255,12 +249,14 @@ func _on_defeat():
 	defeated = true
 	set_process(false)
 	set_physics_process(false)
-	
-	
+	#var cur_module = self.modulate
+	#var tween = create_tween()
+	#tween.set_trans(Tween.TRANS_LINEAR)
+	#tween.set_ease(Tween.EASE_IN_OUT)
+	## Animate the modulate property to a fully transparent color (Alpha = 0)
+	#tween.tween_property(self, "modulate", Color(cur_module.r, cur_module.g, cur_module.b, 0), 2.0)
 	await get_tree().create_timer(2.0).timeout
 	if anim_state.get_current_node() == "Death_A": 
-		if multiplayer.is_server(): 
-			$MultiplayerSynchronizer.public_visibility = false
 		queue_free()
 
 func _on_animation_finished(_anim):
@@ -275,12 +271,11 @@ func _on_detection_area_body_entered(body: Node3D) -> void:
 			healthbar.show()
 
 func _on_detection_area_body_exited(body: Node3D) -> void:
-	if body.is_in_group("Player"):
-		if target:
-			target = null
-			if body==target: 
-				update_floating_healthbar()
-		healthbar.hide()
+	if body.is_in_group("Player") and target:
+		target = null
+		if body==target: 
+			update_floating_healthbar()
+			healthbar.hide()
 
 func _on_attack_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group("Player") and target == null:

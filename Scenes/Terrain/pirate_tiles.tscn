@@ -23,7 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://djv5ewgifxury" path="res://Assets/kenney_pirate-kit/Models/GLB format/grass-plant.glb" id="21_5nvwu"]
 [ext_resource type="PackedScene" uid="uid://4srmyut2hd3i" path="res://Assets/kenney_pirate-kit/Models/GLB format/grass.glb" id="22_n08yx"]
 [ext_resource type="PackedScene" uid="uid://5jjcg8bpsdna" path="res://Assets/kenney_pirate-kit/Models/GLB format/hole.glb" id="23_nao1o"]
-[ext_resource type="Texture2D" uid="uid://tme4o0bntlrq" path="res://Assets/kenney_pirate-kit/Models/GLB format/Textures/colormap.png" id="24_j7knh"]
+[ext_resource type="Texture2D" uid="uid://cdow8t41ss8lk" path="res://Assets/kenney_pirate-kit/Models/GLB format/Textures/colormap.png" id="24_j7knh"]
 [ext_resource type="PackedScene" uid="uid://bp30gsp51tvfw" path="res://Assets/kenney_pirate-kit/Models/GLB format/ship-large.glb" id="25_tubkl"]
 [ext_resource type="PackedScene" uid="uid://buv3kleabr6sf" path="res://Assets/kenney_pirate-kit/Models/GLB format/ship-medium.glb" id="26_msndr"]
 [ext_resource type="PackedScene" uid="uid://cuttxvvklblvj" path="res://Assets/kenney_pirate-kit/Models/GLB format/ship-pirate-large.glb" id="27_5eg2n"]

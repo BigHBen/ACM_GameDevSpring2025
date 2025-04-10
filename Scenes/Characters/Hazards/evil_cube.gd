@@ -24,9 +24,6 @@ func _process(_delta: float) -> void:
 	if camera != null: update_floating_healthbar()
 
 func update_floating_healthbar():
-	if !camera or !camera.is_visible_in_tree(): 
-		update_current_camera()
-		return
 	var screen_pos = camera.unproject_position(self.global_position + Vector3(0, 4, 0))
 	$EnemyUi/HealthBar.global_position = screen_pos 
 	$EnemyUi/HealthBar.global_position += Vector2(-$EnemyUi/HealthBar.size.x / 2, 0)
@@ -47,19 +44,12 @@ func _physics_process(delta: float) -> void:
 
 func take_damage(damage):
 	healthbar._set_health(health - damage)
-	#if multiplayer.is_server(): take_damage_client.rpc(damage)
 	health -= damage
-
-#func take_damage_client(damage):
-	#healthbar._set_health(health - damage)
-	#health -= damage
 
 func _on_defeat():
 	defeated = true
 	set_process(false)
 	set_physics_process(false)
-	if multiplayer.is_server(): 
-		$MultiplayerSynchronizer.public_visibility = false
 	queue_free()
 
 
@@ -69,6 +59,7 @@ func _on_detection_area_body_entered(body: Node3D) -> void:
 		if !healthbar.visible: 
 			update_current_camera()
 			healthbar.show()
+		
 
 
 func _on_detection_area_body_exited(body: Node3D) -> void:
@@ -76,8 +67,3 @@ func _on_detection_area_body_exited(body: Node3D) -> void:
 		if body==target: 
 			update_current_camera()
 			healthbar.hide()
-
-func _on_tree_exiting() -> void:
-	# Disable multiplayersyncronizer when deleting self
-	if multiplayer.is_server(): 
-		$MultiplayerSynchronizer.public_visibility = false

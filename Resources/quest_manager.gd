@@ -11,24 +11,17 @@ var rewards_json : String = "res://Resources/npc_rewards.json"
 
 func accept_quest(quest: Quest):
 	if quest.id not in active_quests: active_quests[quest.id] = quest
-<<<<<<< Updated upstream
-	print("You Accepted Quest -> ",get_quest_as_dict(quest))
-
-func quest_finish(quest_id: int):
-	if quest_id in active_quests:
-=======
-	print(self.name,": ", "[",quest.player,"]"," Accepted Quest -> ",get_quest_as_dict(quest)['title'])
+	print(self.name,": You Accepted Quest -> ",get_quest_as_dict(quest)['title'])
 
 func quest_finish(quest_id: int, player):
-	if quest_id in active_quests and player:
->>>>>>> Stashed changes
+	if quest_id in active_quests:
 		var quest = active_quests[quest_id]
 		quest.is_completed = true
 		completed_quests[quest_id] = quest
 		active_quests.erase(quest_id)
 		if pop_menu.window.visible: 
 			pop_menu.quest_completion()
-		print("Completed quest: ", quest.title)
+		print(self.name,": Player[%s]" % [player.name.capitalize()], " Completed Quest: ", quest.title.to_upper())
 		#give_rewards(quest.player,quest.rewards)
 
 func give_rewards(to: PlayerCharacter, rewards: Dictionary):

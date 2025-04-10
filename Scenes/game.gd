@@ -3,7 +3,7 @@ class_name GameManager
 
 @export var debug : TestDebug
 
-@onready var level_container : Node = $Level
+
 var level_itr : int : # Iterate through levels array
 	set (val):
 		level_itr = val
@@ -35,24 +35,20 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_game"):
 		game_paused = !game_paused
-	if event.is_action_pressed("test_level_skip"): # Autoskip levels - Testing
-		if level_itr >= 0: next_level()
-		else: load_first_level()
 
 func change_level(new_level_scene: PackedScene):
-	var current_level = level_container.get_child(0) if level_container.get_child_count() > 0 else null
-	if current_level and current_level.is_in_group("Level"):
+	var current_level = get_child(0)
+	if current_level.is_in_group("Level"):
 		current_level.call_deferred("queue_free")
 	
 	var new_level : Node3D = load(new_level_scene.resource_path).instantiate()
-	for player in players:
-		if player != null: 
-			player.position = new_level.player_spawn_point
-			player.interact.entered_areas.clear()
-	
-	level_container.add_child(new_level)
+	connect_debug_properties(new_level)
+	for player in players: 
+		player.position = new_level.player_spawn_point
+		player.interact.entered_areas.clear()
+	self.add_child(new_level)
 	new_level.owner = get_tree().current_scene
-	#self.move_child(new_level,0)
+	self.move_child(new_level,0)
 
 
 func load_first_level():
@@ -60,3 +56,13 @@ func load_first_level():
 
 func next_level():
 	level_itr += 1
+
+# Set up a signal for when player spawns in level - Load its properties on debug menu
+func connect_debug_properties(from) -> bool:
+	for child in from.get_children():
+		if child.is_in_group("Player"): 
+			var _player : PlayerCharacter = child
+			child.queue_free()
+			#player.ready.connect(debug.get_player_properties.bind(player))
+			return true
+	return false

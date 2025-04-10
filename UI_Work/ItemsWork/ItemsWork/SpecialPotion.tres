@@ -15,6 +15,3 @@ removeable = true
 player_removable = true
 info = ""
 max_stack_size = 3
-special_name_type = ""
-armor_type = ""
-multiplayer_sync = false

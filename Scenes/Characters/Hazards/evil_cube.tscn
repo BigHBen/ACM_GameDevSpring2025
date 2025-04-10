@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dxcmlu5im4msx"]
+[gd_scene load_steps=15 format=3 uid="uid://dxcmlu5im4msx"]
 
 [ext_resource type="Script" path="res://Scenes/Characters/Hazards/evil_cube.gd" id="1_3dsqp"]
 [ext_resource type="Script" path="res://Scripts/hitbox.gd" id="1_ijaqi"]
@@ -26,14 +26,6 @@ bg_color = Color(0.853569, 0.109188, 0, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_w0nlv"]
 radius = 12.0
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_qfweb"]
-properties/0/path = NodePath("EnemyUi/HealthBar:value")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath(".:health")
-properties/1/spawn = true
-properties/1/replication_mode = 1
 
 [node name="EvilCube" type="CharacterBody3D" groups=["Enemy"]]
 script = ExtResource("1_3dsqp")
@@ -108,10 +100,6 @@ shape = SubResource("SphereShape3D_w0nlv")
 [node name="detection_scan" type="Timer" parent="detection_area"]
 autostart = true
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_qfweb")
-
-[connection signal="tree_exiting" from="." to="." method="_on_tree_exiting"]
 [connection signal="timeout" from="HurtBox/Timer" to="HurtBox" method="_on_timer_timeout"]
 [connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]

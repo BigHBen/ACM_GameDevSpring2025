@@ -19,23 +19,23 @@ var player_response : bool = false
 var quest_lock : bool = false : set=set_quest_lock # Don't restart dialogue if player has accepted quest
 var end_early : bool = false
 
+var quest_types : Dictionary =  {"shared"=0,"individual"=1}
+
 func _ready() -> void:
 	if d_file:
 		d_active = false # Turn off chat
+		if !is_multiplayer_authority(): $Test.hide()
 		dialogue = load_dialogue()
-		
 		$PlayerResponse/HBoxContainer/Accept.pressed.connect(_on_player_accept)
 		$PlayerResponse/HBoxContainer/Reject.pressed.connect(_on_player_reject)
 
+# Setter functions
 func set_dialogue_id(val):
 	dialogue_id = val
-	if is_multiplayer_authority(): set_dialogue_label.rpc(str(dialogue_id))
+	id_label.text = "DIALOGUE_ID: " + str(val) + " | (%s)" % [get_parent().target.name]
+	#print("Dialogue ID changes by ",get_parent().target.name)
+	set_dialogue_id_remote.rpc(val) # Update client
 
-<<<<<<< Updated upstream
-@rpc("call_local")
-func set_dialogue_label(val:String):
-	id_label.text = "DIALOGUE_ID: "+str(val)
-=======
 @rpc("any_peer")
 func set_dialogue_id_remote(val):
 	#if multiplayer.is_server(): return
@@ -43,19 +43,14 @@ func set_dialogue_id_remote(val):
 	var receiver_id = multiplayer.get_unique_id()
 	var game = get_tree().current_scene if get_tree().current_scene is GameManagerMultiplayer else null
 	var player = game.find_player(str(receiver_id))
-	if player != null: id_label.text = "DIALOGUE_ID: " + str(val) + " | (%s)" % [player.name]
+	id_label.text = "DIALOGUE_ID: " + str(val) + " | (%s)" % [player.name]
 	#print("Dialogue ID Label Text Sent to ",str(receiver_id))
->>>>>>> Stashed changes
 
 func set_talk_status(val):
 	talk_status = val
-	if is_multiplayer_authority(): set_talk_label.rpc(talk_status)
+	talk_status_label.text = "TALK_STATUS: " + str(val) + " | (%s)" % [get_parent().target.name]
+	set_talk_status_remote.rpc(val)
 
-<<<<<<< Updated upstream
-@rpc("call_local")
-func set_talk_label(val:String):
-	talk_status_label.text = "TALK_STATUS: "+val
-=======
 @rpc("any_peer")
 func set_talk_status_remote(val):
 	#if multiplayer.is_server(): return
@@ -63,18 +58,14 @@ func set_talk_status_remote(val):
 	var receiver_id = multiplayer.get_unique_id()
 	var game = get_tree().current_scene if get_tree().current_scene is GameManagerMultiplayer else null
 	var player = game.find_player(str(receiver_id))
-	if player != null: talk_status_label.text = "TALK_STATUS: " + str(val) + " | (%s)" % [player.name]
->>>>>>> Stashed changes
+	talk_status_label.text = "TALK_STATUS: " + str(val) + " | (%s)" % [player.name]
 
 func set_quest_lock(val:bool):
 	quest_lock = val
-	if is_multiplayer_authority(): set_lock_label.rpc(str(quest_lock).capitalize())
+	lock_label.text = "QUEST LOCK: " + str(val).capitalize() + " | (%s)" % [get_parent().target.name]
+	
+	set_quest_lock_remote.rpc(val)
 
-<<<<<<< Updated upstream
-@rpc("call_local")
-func set_lock_label(val:String):
-	lock_label.text = "QUEST LOCK: "+ val
-=======
 @rpc("any_peer")
 func set_quest_lock_remote(val):
 	#if multiplayer.is_server(): return
@@ -82,8 +73,7 @@ func set_quest_lock_remote(val):
 	var receiver_id = multiplayer.get_unique_id()
 	var game = get_tree().current_scene if get_tree().current_scene is GameManagerMultiplayer else null
 	var player = game.find_player(str(receiver_id))
-	if player: lock_label.text = "QUEST LOCK: " + str(val).capitalize() + " | (%s)" % [player.name]
->>>>>>> Stashed changes
+	lock_label.text = "QUEST LOCK: " + str(val).capitalize() + " | (%s)" % [player.name]
 
 func load_dialogue():
 	var file = d_file.resource_path
@@ -117,7 +107,7 @@ func start():
 				talk_status = "return_dialogue"
 				dialogue_id = get_return_dialogue_index("in_progress")
 			else: pass # will go to quest_dialogue
-	update_client_dialogue.rpc(talk_status,dialogue_id)
+	#update_client_dialogue.rpc(talk_status,dialogue_id)
 	$NinePatchRect/Name.text = dialogue[talk_status][dialogue_id]["name"]
 	$NinePatchRect/Chatbox.text = dialogue[talk_status][dialogue_id]["text"]
 	d_active = true
@@ -127,7 +117,7 @@ func progress():
 	#if dialogue_id >= dialogue.size()-1: $ChatEndDelay.start()
 	elif !$ChatEndDelay.is_stopped(): $ChatEndDelay.timeout.emit()
 	else: $ChatEndDelay.start()
-	update_client_dialogue.rpc(talk_status,dialogue_id)
+	#update_client_dialogue.rpc(talk_status,dialogue_id)
 	var cur_dialogue = dialogue[talk_status][dialogue_id]
 	if talk_status == "return_dialogue" and quest_lock:
 		if talk_status in dialogue and dialogue_id + 1 < len(dialogue[talk_status]):
@@ -194,10 +184,14 @@ func set_response_focus(val):
 
 func quest_auto_accept():
 	var cur_line = dialogue[talk_status][dialogue_id]
-	update_client_dialogue.rpc(talk_status,dialogue_id)
+	#update_client_dialogue.rpc(talk_status,dialogue_id)
 	if cur_line.has("quest"):
 		if cur_line.quest: 
-			get_parent().quest_accepted.emit()
+			if get_tree().current_scene is GameManagerMultiplayer and cur_line.has("quest_type"):
+				var type = cur_line["quest_type"]
+				if type == quest_types["shared"]: get_parent().quest_accepted.emit()
+				elif type == quest_types["individual"]: get_parent().quest_accepted_remote.emit()
+			else: get_parent().quest_accepted.emit()
 			quest_lock = true
 			
 	$NinePatchRect/Name.text = dialogue[talk_status][dialogue_id]["name"]
@@ -208,7 +202,11 @@ func _on_player_accept():
 	var cur_line = dialogue[talk_status][dialogue_id]
 	if cur_line.has("quest"):
 		if cur_line.quest: 
-			get_parent().quest_accepted.emit()
+			if get_tree().current_scene is GameManagerMultiplayer and cur_line.has("quest_type"):
+				var type = cur_line["quest_type"]
+				if type == quest_types["shared"]: get_parent().quest_accepted.emit()
+				elif type == quest_types["individual"]: get_parent().quest_accepted_remote.emit()
+			else: get_parent().quest_accepted.emit()
 			quest_lock = true
 	progress()
 

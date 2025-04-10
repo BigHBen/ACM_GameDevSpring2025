@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://ce6f63gm7gwoq"]
+[gd_scene load_steps=18 format=3 uid="uid://ce6f63gm7gwoq"]
 
 [ext_resource type="PackedScene" uid="uid://bc0tjookvac0o" path="res://Assets/RPG/KayKit_Skeletons_1.0_FREE/KayKit_Skeletons_1.0_FREE/characters/gltf/Skeleton_Warrior.glb" id="1_qm2rv"]
 [ext_resource type="ArrayMesh" uid="uid://ck2oi3hodigeh" path="res://Assets/RPG/KayKit_Skeletons_1.0_FREE/KayKit_Skeletons_1.0_FREE/assets/obj/Skeleton_Blade.obj" id="2_3h8r3"]
@@ -39,14 +39,6 @@ height = 2.06303
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_08u58"]
 bg_color = Color(0.853569, 0.109188, 0, 1)
 
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fvf1v"]
-properties/0/path = NodePath(".:health")
-properties/0/spawn = true
-properties/0/replication_mode = 1
-properties/1/path = NodePath("EnemyUi/HealthBar:value")
-properties/1/spawn = true
-properties/1/replication_mode = 1
-
 [node name="Skeleton_Warrior" groups=["Enemy"] instance=ExtResource("1_qm2rv")]
 script = ExtResource("2_m42y6")
 
@@ -75,10 +67,10 @@ bones/35/rotation = Quaternion(-0.391084, -6.885e-08, -6.56287e-08, 0.920355)
 bones/41/rotation = Quaternion(0.5, -0.5, -0.5, -0.5)
 
 [node name="Skeleton_Warrior_Helmet" parent="Rig/Skeleton3D" index="0"]
-transform = Transform3D(0.105977, -0.961743, -0.252624, 0.30657, -0.210077, 0.928376, -0.94593, -0.175833, 0.272578, 0.0444385, 0.0414593, -0.61443)
+transform = Transform3D(0.999999, -0.00169153, 6.70029e-05, 0.00169247, 0.999833, -0.0181709, -3.62582e-05, 0.018171, 0.999835, -0.00104584, 1.30746, 0.00995319)
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Rig/Skeleton3D" index="10"]
-transform = Transform3D(-0.684956, 0.705325, -0.182622, -0.248446, 0.00951719, 0.968598, 0.684915, 0.708819, 0.168716, -2.1452, -0.610189, 0.148859)
+transform = Transform3D(-0.93276, -0.34294, -0.111128, -0.0797246, -0.104395, 0.991335, -0.35157, 0.933538, 0.0700345, -0.784301, 1.08953, 0.0623037)
 bone_name = "handslot.r"
 bone_idx = 13
 
@@ -149,7 +141,6 @@ one_shot = true
 layer = 0
 
 [node name="HealthBar" parent="EnemyUi" index="0" instance=ExtResource("8_hprgt")]
-visible = false
 offset_left = 187.0
 offset_top = 62.0
 offset_right = 687.0
@@ -173,9 +164,6 @@ vertical_alignment = 2
 [node name="ScanRaycast" type="RayCast3D" parent="." index="9"]
 target_position = Vector3(0, 1, -25)
 debug_shape_custom_color = Color(1, 0, 0, 1)
-
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." index="10"]
-replication_config = SubResource("SceneReplicationConfig_fvf1v")
 
 [connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]

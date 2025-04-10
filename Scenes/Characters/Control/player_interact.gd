@@ -35,7 +35,6 @@ func _process(_delta: float) -> void:
 			else: interact_button.text = interact_text
 
 func _on_npc_chat_end():
-	print("chat over")
 	interacted = false
 
 func _on_interaction_end(area):
@@ -65,12 +64,10 @@ func _on_interact_body_exited(body: Node3D) -> void:
 		interact_button.visible = false
 
 func _on_interact_pressed():
-	var node_to_check
-	if !entered_areas.is_empty():
-		if entered_areas.front() == detected_npc: node_to_check = detected_npc
-		elif entered_areas.front() == detected_chest: node_to_check = detected_chest
-		elif entered_areas.front() == detected_door: node_to_check = detected_door
-		if node_to_check and node_to_check.has_method("interact"):
+	if entered_areas.is_empty(): return
+	var node_to_check = entered_areas.front()
+	if node_to_check == detected_npc or node_to_check == detected_chest or node_to_check == detected_door:
+		if node_to_check.has_method("interact"):
 			if node_to_check == detected_npc:
 				if !node_to_check.chat_end.is_connected(_on_npc_chat_end):
 					node_to_check.chat_end.connect(_on_npc_chat_end)
@@ -81,6 +78,7 @@ func _on_interact_pressed():
 				node_to_check.interact()
 			entered_areas.erase(node_to_check)
 			interacted = true
+
 
 	#elif detected_chest and detected_chest.has_method("interact"):
 		#detected_chest.interact()
@@ -95,9 +93,10 @@ func set_interacted(val):
 		interact_button.visible = false
 	else: 
 		interact_button.visible = true
+		
 
 func _on_area_entered(area: Area3D) -> void:
-	if !get_parent().is_multiplayer_authority(): return
+	if get_tree().current_scene is GameManagerMultiplayer and !get_parent().is_multiplayer_authority(): return
 	if area.owner:
 		if area.owner.is_in_group("NPC"):
 			detected_npc = area.owner
@@ -111,19 +110,11 @@ func _on_area_entered(area: Area3D) -> void:
 			detected_chest = area.owner
 			#if !detected_chest.opened and detected_chest.target != null: interacted = false
 			if !entered_areas.has(area.owner) and !detected_chest.opened: entered_areas.append(area.owner)
-<<<<<<< Updated upstream
 		if area.owner.is_in_group("Door"):
+			
 			detected_door = area.owner
 			#if detected_door.target != null: interacted = false
-			if !entered_areas.has(area.owner):
-				entered_areas.append(area.owner)
-=======
-		if area.get_parent().is_in_group("Door"):
-			
-			detected_door = area.get_parent()
-			#if detected_door.target != null: interacted = false
-			if !entered_areas.has(area.get_parent()): entered_areas.append(area.get_parent())
->>>>>>> Stashed changes
+			if !entered_areas.has(area.owner): entered_areas.append(area.owner)
 
 func _on_area_exited(area: Area3D) -> void:
 	if area.owner:
@@ -132,29 +123,20 @@ func _on_area_exited(area: Area3D) -> void:
 				if detected_npc.chat_end.is_connected(_on_npc_chat_end):
 					detected_npc.chat_end.disconnect(_on_npc_chat_end)
 				detected_npc.interact(false)
-				detected_npc = null
 				if entered_areas.has(detected_npc): entered_areas.erase(detected_npc)
+				detected_npc = null
 			interact_button.visible = false
 		if area.owner.is_in_group("Chest"):
 			if area.owner == detected_chest:
-				detected_chest = null
 				if entered_areas.has(detected_chest): 
 					entered_areas.erase(detected_chest)
 					print("Removed %s from entered_areas" % [detected_chest])
+			detected_chest = null
 			interact_button.visible = false
-<<<<<<< Updated upstream
 		if area.owner.is_in_group("Door"):
 			if area.owner == detected_door:
-				detected_door = null
 				if entered_areas.has(detected_door): 
 					entered_areas.erase(detected_door)
 					print("Removed %s from entered_areas" % [detected_door])
-=======
-		if area.get_parent().is_in_group("Door"):
-			if area.get_parent() == detected_door:
-				if entered_areas.has(detected_door): 
-					entered_areas.erase(detected_door)
-					#print("Removed %s from entered_areas" % [detected_door])
 				detected_door = null
->>>>>>> Stashed changes
 		if entered_areas.is_empty(): interacted = true
