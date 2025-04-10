@@ -1,6 +1,6 @@
 [gd_scene load_steps=194 format=4 uid="uid://bf1t1pr5vljug"]
 
-[ext_resource type="Texture2D" uid="uid://b0tibnodp0hb6" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/dungeon_texture.png" id="1_whmml"]
+[ext_resource type="Texture2D" uid="uid://cayomkui53eog" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/dungeon_texture.png" id="1_whmml"]
 [ext_resource type="PackedScene" uid="uid://7sd3ygd1hjhn" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_big_spikes.gltf" id="17_4umpu"]
 [ext_resource type="PackedScene" uid="uid://dyckdstyosn87" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_extralarge_grates.gltf" id="18_sv61g"]
 [ext_resource type="PackedScene" uid="uid://bfre02ifeuh48" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/floor_tile_extralarge_grates_open.gltf" id="19_ln6yv"]

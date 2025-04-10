@@ -6,8 +6,8 @@ extends Node3D
 # Autoload Quest PopuMenu scene
 @onready var quests_popup : QuestPopMenu = get_node("/root/QuestPopupMenu")
 
-# Autoload Inventory scene
-@onready var player_inventory : Inventory = get_node("/root/PlayerInventory")
+# Autoload Inventory scene *Not in use*
+#@onready var player_inventory : Inventory
 
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
 
@@ -45,6 +45,7 @@ func _ready():
 	quest_accepted_remote.connect(_on_quest_accepted_remote)
 	quest_rejected.connect(_on_quest_rejected)
 	load_quest()
+	#process_mode = PROCESS_MODE_DISABLED
 
 func load_quest():
 	if !npc_quest: npc_quest = Quest.new()
@@ -90,10 +91,16 @@ func interact(talk):
 func quest_check():
 	if npc_quest == null: return
 	if target:
-		print(self.name,": Looking for QuestItem [%s] from %s" % [npc_quest.desired_item.info.to_lower(),target])
+<<<<<<< Updated upstream
+		print("Looking for %s..." % [npc_quest.desired_item.info.to_lower()])
 		var detected_q_items : int = player_inventory.get_number_of_item(npc_quest.desired_item)
+=======
+		print(self.name,": Looking for QuestItem [%s] from %s" % [npc_quest.desired_item.info.to_lower(),target])
+		var player_inv = target.p_inv_controller.inventory
+		var detected_q_items : int = player_inv.get_number_of_item(npc_quest.desired_item)
+>>>>>>> Stashed changes
 		if detected_q_items == npc_quest.desired_item_quantity:
-			player_inventory.remove_item(npc_quest.desired_item)
+			player_inv.remove_item(npc_quest.desired_item)
 			npc_quest_finish()
 
 func npc_quest_finish():
@@ -102,30 +109,36 @@ func npc_quest_finish():
 
 @rpc("any_peer","call_local")
 func _on_quest_accepted():
+<<<<<<< Updated upstream
+	if target: npc_quest.player = target
+=======
 	#print("starting shared quest")
 	if get_tree().current_scene is GameManagerMultiplayer: 
 		var game = get_tree().current_scene
 		var player = game.find_player(str(multiplayer.get_unique_id()))
 		npc_quest.player = player
 	elif target: npc_quest.player = target
-	quest_manager.accept_quest(npc_quest)
-	# Spawn Quest Item 
-	# Pick a random Marker3D child from level
-	# Place Item Mesh at Marker3D position
-	var level = get_parent() if get_parent().is_in_group("Level") else null
-	var level_items : Node = level.get_node_or_null("Items")
-	var markers : Array = []
-	var random_marker
-	for child in level_items.get_children():
-		if child is Marker3D: markers.append(child)
-	if markers.size() > 0:
-		#random_marker = markers[randi() % markers.size()]
-		random_marker = markers[1]
 	
-	var quest_item = base_item_mesh.instantiate()
-	quest_item.item_type = npc_quest_item
-	quest_item.position = random_marker.position
-	level_items.add_child(quest_item)
+	if npc_quest.player != null:
+		quest_manager.accept_quest(npc_quest)
+		
+		# Spawn Quest Item 
+		# Pick a random Marker3D child from level
+		# Place Item Mesh at Marker3D position
+		var level = get_parent() if get_parent().is_in_group("Level") else null
+		var level_items : Node = level.get_node_or_null("Items")
+		var markers : Array = []
+		var random_marker
+		for child in level_items.get_children():
+			if child is Marker3D: markers.append(child)
+		if markers.size() > 0:
+			#random_marker = markers[randi() % markers.size()]
+			random_marker = markers[1]
+		
+		var quest_item = base_item_mesh.instantiate()
+		quest_item.item_type = npc_quest_item
+		quest_item.position = random_marker.position
+		level_items.add_child(quest_item)
 	
 	#if multiplayer.is_server(): update_quest_accepted_remote.rpc()
 
@@ -151,6 +164,7 @@ func _on_quest_accepted_remote(): # Client version of _on_quest_accepted()
 	#print("starting individual quest")
 	var receiver_id = multiplayer.get_unique_id()
 	if target: npc_quest.player = get_tree().current_scene.find_player(str(receiver_id))
+>>>>>>> Stashed changes
 	quest_manager.accept_quest(npc_quest)
 	# Spawn Quest Item 
 	# Pick a random Marker3D child from level
@@ -224,3 +238,9 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 			#anim_player.play("Sit_Floor_Down")
 		#"Sit_Floor_Down":
 			#anim_player.play("Sit_Floor_Idle")
+
+
+func _on_multiplayer_synchronizer_tree_exiting() -> void:
+	# Disable multiplayersyncronizer when deleting self
+	if multiplayer.is_server(): 
+		$MultiplayerSynchronizer.public_visibility = false

@@ -32,48 +32,27 @@ func _ready() -> void:
 # Setter functions
 func set_dialogue_id(val):
 	dialogue_id = val
-	id_label.text = "DIALOGUE_ID: " + str(val) + " | (%s)" % [get_parent().target.name]
-	#print("Dialogue ID changes by ",get_parent().target.name)
-	set_dialogue_id_remote.rpc(val) # Update client
+	if is_multiplayer_authority(): set_dialogue_label.rpc(str(dialogue_id))
 
-@rpc("any_peer")
-func set_dialogue_id_remote(val):
-	#if multiplayer.is_server(): return
-	#dialogue_id = val
-	var receiver_id = multiplayer.get_unique_id()
-	var game = get_tree().current_scene if get_tree().current_scene is GameManagerMultiplayer else null
-	var player = game.find_player(str(receiver_id))
-	id_label.text = "DIALOGUE_ID: " + str(val) + " | (%s)" % [player.name]
-	#print("Dialogue ID Label Text Sent to ",str(receiver_id))
+@rpc("call_local")
+func set_dialogue_label(val:String):
+	id_label.text = "DIALOGUE_ID: "+str(val)
 
 func set_talk_status(val):
 	talk_status = val
-	talk_status_label.text = "TALK_STATUS: " + str(val) + " | (%s)" % [get_parent().target.name]
-	set_talk_status_remote.rpc(val)
+	if is_multiplayer_authority(): set_talk_label.rpc(talk_status)
 
-@rpc("any_peer")
-func set_talk_status_remote(val):
-	#if multiplayer.is_server(): return
-	#talk_status = val
-	var receiver_id = multiplayer.get_unique_id()
-	var game = get_tree().current_scene if get_tree().current_scene is GameManagerMultiplayer else null
-	var player = game.find_player(str(receiver_id))
-	talk_status_label.text = "TALK_STATUS: " + str(val) + " | (%s)" % [player.name]
+@rpc("call_local")
+func set_talk_label(val:String):
+	talk_status_label.text = "TALK_STATUS: "+val
 
 func set_quest_lock(val:bool):
 	quest_lock = val
-	lock_label.text = "QUEST LOCK: " + str(val).capitalize() + " | (%s)" % [get_parent().target.name]
-	
-	set_quest_lock_remote.rpc(val)
+	if is_multiplayer_authority(): set_lock_label.rpc(str(quest_lock).capitalize())
 
-@rpc("any_peer")
-func set_quest_lock_remote(val):
-	#if multiplayer.is_server(): return
-	#quest_lock = val
-	var receiver_id = multiplayer.get_unique_id()
-	var game = get_tree().current_scene if get_tree().current_scene is GameManagerMultiplayer else null
-	var player = game.find_player(str(receiver_id))
-	lock_label.text = "QUEST LOCK: " + str(val).capitalize() + " | (%s)" % [player.name]
+@rpc("call_local")
+func set_lock_label(val:String):
+	lock_label.text = "QUEST LOCK: "+ val
 
 func load_dialogue():
 	var file = d_file.resource_path

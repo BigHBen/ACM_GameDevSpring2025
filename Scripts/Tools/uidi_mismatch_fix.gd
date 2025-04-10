@@ -2,7 +2,7 @@
 extends EditorScript
 
 var files: Array[String]
-
+var extensions: Array[String] = ["tscn","tres","glb","obj"]
 func _run() -> void:
 	files = []
 	
@@ -15,7 +15,7 @@ func _run() -> void:
 
 func add_files(dir: String):
 	for file in DirAccess.get_files_at(dir):
-		if file.get_extension() == "tscn" or file.get_extension() == "tres" or file.get_extension() == "glb":
+		if file.get_extension() in extensions:
 			files.append(dir.path_join(file))
 	
 	for dr in DirAccess.get_directories_at(dir):
