@@ -5,12 +5,13 @@ var quantity : int
 @onready var item_icon : TextureRect = $TextureRect
 @onready var quantity_text : Label = $Quantity
 @onready var slot_options = $Options
-@onready var inventory : Inventory = get_node("/root/PlayerInventory")
+@onready var inventory : Inventory
 
 var slot_options_hovering : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if get_parent() is Inventory: inventory = get_parent()
 	self.pressed.connect(_on_pressed)
 	if slot_options.get_child_count() == 2:
 		slot_options.mouse_entered.connect(_on_slotoptions_hovered)

@@ -29,7 +29,7 @@ func toggle_quest_menu(open : bool):
 func set_menu_active(active):
 	menu_active = active
 	
-	if active:
+	if active and !quest_manager.active_quests.is_empty():
 		var active_quests_arr = quest_manager.active_quests
 		var cur_quest_id = active_quests_arr.keys()[-1]
 		var cur_quest = active_quests_arr[cur_quest_id]

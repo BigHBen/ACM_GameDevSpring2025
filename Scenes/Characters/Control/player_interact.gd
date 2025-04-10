@@ -35,6 +35,7 @@ func _process(_delta: float) -> void:
 			else: interact_button.text = interact_text
 
 func _on_npc_chat_end():
+	print("chat over")
 	interacted = false
 
 func _on_interaction_end(area):
@@ -94,7 +95,6 @@ func set_interacted(val):
 		interact_button.visible = false
 	else: 
 		interact_button.visible = true
-		
 
 func _on_area_entered(area: Area3D) -> void:
 	if !get_parent().is_multiplayer_authority(): return
@@ -111,11 +111,19 @@ func _on_area_entered(area: Area3D) -> void:
 			detected_chest = area.owner
 			#if !detected_chest.opened and detected_chest.target != null: interacted = false
 			if !entered_areas.has(area.owner) and !detected_chest.opened: entered_areas.append(area.owner)
+<<<<<<< Updated upstream
 		if area.owner.is_in_group("Door"):
 			detected_door = area.owner
 			#if detected_door.target != null: interacted = false
 			if !entered_areas.has(area.owner):
 				entered_areas.append(area.owner)
+=======
+		if area.get_parent().is_in_group("Door"):
+			
+			detected_door = area.get_parent()
+			#if detected_door.target != null: interacted = false
+			if !entered_areas.has(area.get_parent()): entered_areas.append(area.get_parent())
+>>>>>>> Stashed changes
 
 func _on_area_exited(area: Area3D) -> void:
 	if area.owner:
@@ -134,10 +142,19 @@ func _on_area_exited(area: Area3D) -> void:
 					entered_areas.erase(detected_chest)
 					print("Removed %s from entered_areas" % [detected_chest])
 			interact_button.visible = false
+<<<<<<< Updated upstream
 		if area.owner.is_in_group("Door"):
 			if area.owner == detected_door:
 				detected_door = null
 				if entered_areas.has(detected_door): 
 					entered_areas.erase(detected_door)
 					print("Removed %s from entered_areas" % [detected_door])
+=======
+		if area.get_parent().is_in_group("Door"):
+			if area.get_parent() == detected_door:
+				if entered_areas.has(detected_door): 
+					entered_areas.erase(detected_door)
+					#print("Removed %s from entered_areas" % [detected_door])
+				detected_door = null
+>>>>>>> Stashed changes
 		if entered_areas.is_empty(): interacted = true

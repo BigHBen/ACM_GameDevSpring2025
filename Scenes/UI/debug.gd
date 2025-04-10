@@ -53,9 +53,9 @@ func get_target_player():
 		return game.players.front()
 	return null
 
-# Returns all characterbodies from current level
-func find_characters_in_level(node):
-	var level = node.get_child(0)
+# Returns all character bodies from current level
+func find_characters_in_level(root_scene):
+	var level = root_scene.get_child(0)
 	# Assume current scene is Level if root isn't GameManager
 	if !level.is_in_group("Level"): level = get_tree().current_scene 
 	var players = []

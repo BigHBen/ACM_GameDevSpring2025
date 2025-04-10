@@ -63,7 +63,9 @@ var rayEnd = Vector3()
 # Player UI
 @onready var player_ui = $PlayerUi
 @onready var healthbar = $PlayerUi/HealthBar
+@onready var healthbar2 = $PlayerUi/FloatingNamePanel/HealthBar2
 @onready var name_label : Label = $PlayerUi/PlayerName
+@onready var name_label2 : Label = $PlayerUi/FloatingNamePanel/PlayerName2
 
 # Player meshes (for armor mainly)
 @onready var helm_mesh : MeshInstance3D = $Rig/Skeleton3D/Knight_Helmet/Knight_Helmet
@@ -92,8 +94,18 @@ var potionAmount : int = 1
 
 var defeated : bool = false
 
+var camera_viewport : Camera3D
+
 # Multiplayer
 var nickname : String
+<<<<<<< Updated upstream
+=======
+var ping_time : float = 2.0
+var ping_timer : float = 0.0
+var enter_location : Vector3 = Vector3.ZERO :
+	set (val):
+		enter_location = val
+>>>>>>> Stashed changes
 
 func _enter_tree() -> void:
 	if get_tree().current_scene is GameManagerMultiplayer:
@@ -102,13 +114,30 @@ func _enter_tree() -> void:
 func _ready():
 	anim_tree.animation_finished.connect(_on_animation_finished)
 	healthbar.init_health(health)
+	healthbar2.init_health(health)
+	
+	# Remove test player that's in level by default
+	if get_parent() is not GameManager and get_parent() is not GameManagerMultiplayer:
+		self.queue_free()
 	
 	# Multiplayer startup functions
 	if get_tree().current_scene is GameManagerMultiplayer:
 		var game_root = get_tree().current_scene
 		#test_authority()
 		if not is_multiplayer_authority(): 
+<<<<<<< Updated upstream
 			player_ui.hide()
+=======
+			lobby.player_disconnected.connect(update_player_despawn.rpc)
+			
+			# Hide all children except floating healthbar
+			for child in player_ui.get_children():
+				if child.name == "FloatingNamePanel": 
+					child.show()
+					continue
+				child.hide()
+			
+>>>>>>> Stashed changes
 			#trail_effects_anim.active = false
 			#trail.hide()
 			return
@@ -118,11 +147,57 @@ func _ready():
 		if !game_root.name_entry.text.is_empty():
 			nickname = game_root.name_entry.text
 			change_name.rpc(nickname)
+<<<<<<< Updated upstream
 		else: change_name.rpc(self.name)
 		
 	
 	camera.current = true
 	set_camera()
+=======
+			change_floating_name.rpc(nickname)
+		else: 
+			change_name.rpc(self.name)
+			change_floating_name.rpc(self.name)
+		
+		randomize() # For randomized spawn points
+		update_spawn_position.rpc(null)
+		creation_animation.rpc()
+		update_current_camera()
+	return true
+>>>>>>> Stashed changes
+
+# Move player to level-specific spawn location
+@rpc("any_peer","call_local")
+func update_spawn_position(new_level_pos): 
+	var game = get_tree().current_scene
+	var random_x = randf_range(-0.5 , 0.5)
+	var random_z = randf_range(-0.5 , 0.5)
+	var spawn_pos 
+	
+	# Randomize spawn points slightly
+	# Otherwise players collisions will cause physics issues
+	if new_level_pos:
+		spawn_pos = new_level_pos + Vector3(random_x, 0, random_z) 
+		position = spawn_pos
+	elif game.level_container.get_child_count() > 0: # Retrieve default spawn from level node
+		var level = game.level_container.get_child(0)
+		new_level_pos = level.player_spawn_point
+		spawn_pos = new_level_pos + Vector3(random_x, 0, random_z) 
+		position = spawn_pos
+	#print("Moved %s to %s" % [self,new_level_pos])
+
+func update_current_camera():
+	camera_viewport = get_viewport().get_camera_3d()
+
+func _process(_delta: float) -> void:
+	if is_multiplayer_authority(): update_floating_healthbar.rpc()
+	#if camera_viewport != null: update_floating_healthbar.rpc()
+
+@rpc("call_local")
+func update_floating_healthbar():
+	var screen_pos = get_viewport().get_camera_3d().unproject_position(self.global_position + Vector3(0, 4, 0))
+	$PlayerUi/FloatingNamePanel.global_position = screen_pos 
+	$PlayerUi/FloatingNamePanel.global_position += Vector2(-$PlayerUi/FloatingNamePanel.size.x / 2, 0)
 
 # _Ready() runs once for both server and client
 # Show which is running and player authority mode
@@ -135,6 +210,12 @@ func test_authority():
 func change_name(val):
 	#print("Changing name for ", val)
 	name_label.text = val
+	name_label2.text = val
+
+@rpc("any_peer")
+func change_floating_name(_val):
+	var sender_id = multiplayer.get_remote_sender_id()
+	name_label2.text = str(sender_id)
 
 # Movement is HEAVILY modified code from KidsCanCode
 # https://www.youtube.com/@Kidscancode/featured
@@ -344,7 +425,6 @@ func update_animations():
 	pass
 	#anim_player.play(anim_state.get_current_node().animation)
 
-
 func take_damage(damage):
 	#print($Rig/Skeleton3D/Knight_Head.get("surface_material_override/0"))
 	var armor_reduction
@@ -355,6 +435,7 @@ func take_damage(damage):
 	if blocking: damage *= block_damage_multiplier
 	else: update_damage_anim()
 	healthbar._set_health(health - (damage * armor_reduction))
+	healthbar2._set_health(health - (damage * armor_reduction))
 	health -= damage
 
 func update_damage_anim():
@@ -364,10 +445,28 @@ func _on_defeat():
 	defeated = true
 	set_process(false)
 	set_physics_process(false)
+	
+	if is_multiplayer_authority(): death_animation.rpc()
 	await get_tree().create_timer(2.0).timeout
 	if anim_state.get_current_node() == "Death_A": 
-		#debug.debug_pause_game()
+		camera.current = false
+		if is_multiplayer_authority(): delete_player.rpc()
+		else: queue_free()
+
+@rpc("call_local")
+func delete_player():
+	# Disable multiplayersyncronizer
+		if self.name.to_int() == multiplayer.get_unique_id():
+			$PlayerInputSynchronizer.public_visibility = false
+			
+		#Server has to queue_free() to avoid debug error
+		if !multiplayer.is_server():
+			return
 		queue_free()
+
+@rpc("call_local")
+func death_animation():
+	anim_state.travel("Death_A")
 
 func pause_anim_tree():
 	anim_tree.active = false
