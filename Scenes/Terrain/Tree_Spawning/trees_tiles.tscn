@@ -1,6 +1,6 @@
 [gd_scene load_steps=54 format=4 uid="uid://bsg8vy0upgp4t"]
 
-[ext_resource type="Texture2D" uid="uid://dcnfvm24osvkv" path="res://Assets/KayKit_HalloweenBits_1.0_FREE/KayKit_HalloweenBits_1.0_FREE/Assets/gltf/halloweenbits_texture.png" id="1_mnb22"]
+[ext_resource type="Texture2D" uid="uid://drcct5dt1jd6o" path="res://Assets/KayKit_HalloweenBits_1.0_FREE/KayKit_HalloweenBits_1.0_FREE/Assets/gltf/halloweenbits_texture.png" id="1_mnb22"]
 [ext_resource type="Texture2D" uid="uid://ciby0hb7xirb6" path="res://Assets/KayKit_HalloweenBits_1.0_FREE/KayKit_HalloweenBits_1.0_FREE/Assets/gltf/halloweenbits_texture_green_tree.png" id="2_gknp2"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hfix0"]

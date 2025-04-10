@@ -1,10 +1,15 @@
-[gd_scene load_steps=8 format=3 uid="uid://ckstcle8h8g1f"]
+[gd_scene load_steps=10 format=3 uid="uid://ckstcle8h8g1f"]
 
 [ext_resource type="Texture2D" uid="uid://dec45t4ti1i1o" path="res://Scenes/Characters/Character_UI/PlaceHolderCircle.png" id="1_p8dyf"]
 [ext_resource type="PackedScene" uid="uid://nsjluf8e1piw" path="res://Scenes/Characters/Character_UI/health_bar.tscn" id="2_ew8yr"]
 [ext_resource type="FontFile" uid="uid://hxqlvug5a3dn" path="res://Assets/Fonts/Sagewold-Regular.ttf" id="4_70alr"]
 [ext_resource type="Texture2D" uid="uid://bvsjj4mutwpxx" path="res://Assets/UI_Assets/Potion.png" id="5_p7aqn"]
 [ext_resource type="Texture2D" uid="uid://bqxnxaapy31pt" path="res://Assets/UI_Assets/Coins.png" id="6_vl2xv"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_or0jx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_08u58"]
+bg_color = Color(0.853569, 0.109188, 0, 1)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_peqn2"]
 bg_color = Color(0.458824, 0.458824, 0.458824, 1)
@@ -26,6 +31,8 @@ offset_left = 187.0
 offset_top = 62.0
 offset_right = 687.0
 offset_bottom = 89.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_or0jx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_08u58")
 
 [node name="Potions" type="Panel" parent="."]
 offset_left = 233.0

@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://bfus4uk4so1fb"]
 
 [ext_resource type="PackedScene" uid="uid://b0lhuuaetl7ga" path="res://Scenes/Terrain/Dungeon_Generation/Custom/gen_map_custom.tscn" id="2_7onqn"]
-[ext_resource type="MeshLibrary" uid="uid://5x51gbr435bp" path="res://Tileset/tiles.tres" id="2_xe7fd"]
+[ext_resource type="MeshLibrary" uid="uid://5x51gbr435bp" path="res://Tileset/tiles_w_characters.tres" id="2_xe7fd"]
 [ext_resource type="PackedScene" uid="uid://bfxdlah1qyj45" path="res://Scenes/Terrain/Dungeon_Generation/Custom/wall_grid_map.tscn" id="3_56l6u"]
 [ext_resource type="MeshLibrary" uid="uid://cupdum2h3or0d" path="res://Tileset/tiles2.tres" id="3_ln2n0"]
 [ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="4_qgx5i"]
