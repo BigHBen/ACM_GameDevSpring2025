@@ -34,7 +34,7 @@ var target = null
 # Shared vs Individual (For popup)
 var shared_quest : bool = true
 
-signal chat_end(response) # When player exits out of dialogue box
+signal chat_end(response,node) # When player exits out of dialogue box
 signal quest_accepted()
 signal quest_accepted_remote()
 signal quest_rejected()
@@ -91,14 +91,9 @@ func interact(talk):
 func quest_check():
 	if npc_quest == null: return
 	if target:
-<<<<<<< Updated upstream
-		print("Looking for %s..." % [npc_quest.desired_item.info.to_lower()])
-		var detected_q_items : int = player_inventory.get_number_of_item(npc_quest.desired_item)
-=======
 		print(self.name,": Looking for QuestItem [%s] from %s" % [npc_quest.desired_item.info.to_lower(),target])
 		var player_inv = target.p_inv_controller.inventory
 		var detected_q_items : int = player_inv.get_number_of_item(npc_quest.desired_item)
->>>>>>> Stashed changes
 		if detected_q_items == npc_quest.desired_item_quantity:
 			player_inv.remove_item(npc_quest.desired_item)
 			npc_quest_finish()
@@ -109,9 +104,6 @@ func npc_quest_finish():
 
 @rpc("any_peer","call_local")
 func _on_quest_accepted():
-<<<<<<< Updated upstream
-	if target: npc_quest.player = target
-=======
 	#print("starting shared quest")
 	if get_tree().current_scene is GameManagerMultiplayer: 
 		var game = get_tree().current_scene
@@ -164,7 +156,6 @@ func _on_quest_accepted_remote(): # Client version of _on_quest_accepted()
 	#print("starting individual quest")
 	var receiver_id = multiplayer.get_unique_id()
 	if target: npc_quest.player = get_tree().current_scene.find_player(str(receiver_id))
->>>>>>> Stashed changes
 	quest_manager.accept_quest(npc_quest)
 	# Spawn Quest Item 
 	# Pick a random Marker3D child from level
@@ -200,9 +191,11 @@ func _on_chat_over():
 			else: quests_popup.toggle_quest_menu(true)
 
 func npc_quest_reward():
-	# Reward animation
-	anim_player.play("open")
-	update_door_open_remote.rpc()
+	if target and !npc_quest_over:
+		# Reward animation
+		anim_player.play("open")
+		update_door_open_remote.rpc()
+		npc_quest_over = true
 
 @rpc("any_peer")
 func update_door_open_remote(): # Open door on clients as well

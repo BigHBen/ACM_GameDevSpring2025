@@ -46,6 +46,7 @@ var attacks = [
 	#"1H_Melee_Attack_Slice_Diagonal",
 	"1H_Melee_Attack_Chop"
 ]
+var hit_animations = ["Hit_A","Hit_B"]
 var rayOrigin = Vector3()
 var rayEnd = Vector3()
 
@@ -70,6 +71,7 @@ var nav_pathfinding_enabled : bool = false
 # Action variables
 var attacking = false
 var blocking = false
+var hit : bool = false
 
 # For healthbar positioning
 var camera: Camera3D
@@ -103,6 +105,7 @@ func update_floating_healthbar():
 	if !camera or !camera.is_visible_in_tree(): 
 		update_current_camera()
 		return
+	#if get_tree().current_scene.players.has(self): # Make sure player isnt deleted
 	var screen_pos = camera.unproject_position(self.global_position + Vector3(0, 4, 0))
 	$EnemyUi/HealthBar.global_position = screen_pos 
 	$EnemyUi/HealthBar.global_position += Vector2(-$EnemyUi/HealthBar.size.x / 2, 0)
@@ -132,6 +135,12 @@ func state_transitions() -> void:
 			distance_to_player <= max_attack_distance:
 				state = States.ATTACK
 			else: pass
+		#if state == States.ATTACK and (!target or target.defeated):
+			#if $attack_area.has_overlapping_bodies(): 
+				#target = $attack_area.get_overlapping_bodies().back()
+				##print("New Skele target: ",target)
+			#else: target = null
+			#state = States.IDLE
 
 func state_actions(delta_time):
 	match state:
@@ -181,6 +190,9 @@ func target_position():
 # When enemy exceeds combo length (ex: 3) stop attacking for a couple seconds
 # Repeat
 func handle_attack(delta):
+	if hit: # abort attack combo if hit
+		anim_player.stop()
+		return
 	if combo_over:
 		if combo_cooldown_elapsed > combo_cooldown: 
 			combo_count = 0
@@ -233,8 +245,15 @@ func apply_friction(delta,friction):
 	velocity.z = lerp(velocity.z, 0.0, friction * base_friction_multiplier * delta)
 
 func take_damage(damage):
-	healthbar._set_health(health - damage)
-	health -= damage
+	if !hit and !defeated:
+		healthbar._set_health(health - damage)
+		health -= damage
+		hit = true
+		if is_multiplayer_authority(): update_damage_anim.rpc()
+
+@rpc("call_local")
+func update_damage_anim():
+	anim_state.travel(hit_animations.pick_random())
 
 func change_anim_parameters():
 	if is_on_floor() and not last_floor:
@@ -253,15 +272,30 @@ func can_move():
 
 func _on_defeat():
 	defeated = true
-	set_process(false)
-	set_physics_process(false)
 	
+	
+	set_physics_process(false)
+	$"Hit_Hurt Boxes/HurtBox".monitorable = false
+	$"Hit_Hurt Boxes/HitBox1".monitorable = false
+	$"Hit_Hurt Boxes/HurtBox".monitoring = false
+	$"Hit_Hurt Boxes/HitBox1".monitoring = false
 	
 	await get_tree().create_timer(2.0).timeout
 	if anim_state.get_current_node() == "Death_A": 
-		if multiplayer.is_server(): 
-			$MultiplayerSynchronizer.public_visibility = false
-		queue_free()
+		#camera.current = false
+		set_process(false)
+		$Physics.disabled = true
+		$EnemyUi.hide()
+		delete_enemy()
+		delete_enemy.rpc()
+		#queue_free()
+
+@rpc("any_peer")
+func delete_enemy():
+	$MultiplayerSynchronizer.public_visibility = false
+	#if multiplayer.is_server(): 
+	#print("CLIENT: ",multiplayer.get_unique_id()," SKELE DEAD")
+	#$MultiplayerSynchronizer.public_visibility = false
 
 func _on_animation_finished(_anim):
 	if attacking: 
@@ -271,7 +305,7 @@ func _on_detection_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group("Player"):
 		if is_on_floor() and state == States.INACTIVE: wake_up = true
 		if !healthbar.visible: 
-			update_floating_healthbar()
+			update_current_camera()
 			healthbar.show()
 
 func _on_detection_area_body_exited(body: Node3D) -> void:
@@ -279,8 +313,8 @@ func _on_detection_area_body_exited(body: Node3D) -> void:
 		if target:
 			target = null
 			if body==target: 
-				update_floating_healthbar()
-		healthbar.hide()
+				update_current_camera()
+				healthbar.hide()
 
 func _on_attack_area_body_entered(body: Node3D) -> void:
 	if body.is_in_group("Player") and target == null:
@@ -298,3 +332,12 @@ func _on_detection_scan_timeout() -> void:
 				if col.is_in_group("Player"): 
 					wake_up = true
 					return
+	if state == States.ATTACK:
+		var collisions = $attack_area.get_overlapping_bodies()
+		if !collisions.is_empty():
+			for col in collisions:
+				if col.is_in_group("Player"): 
+					target = col
+
+func _on_animation_tree_animation_finished(_anim_name: StringName) -> void:
+	if hit: hit = false

@@ -4,9 +4,14 @@ class_name NPCDialogue
 @export var d_file : JSON
 
 # Test UI - For Multiplayer Sync
+@onready var title_label : Label = $Test/PanelContainer/MarginContainer/VBoxContainer/title
+@onready var current_label : Label = $Test/PanelContainer/MarginContainer/VBoxContainer/current
 @onready var talk_status_label : Label = $Test/PanelContainer/MarginContainer/VBoxContainer/talk_status
 @onready var id_label : Label = $Test/PanelContainer/MarginContainer/VBoxContainer/id
 @onready var lock_label : Label = $Test/PanelContainer/MarginContainer/VBoxContainer/lock
+
+# Debug 
+@onready var dialogue_debug_ui : Control = $Test
 
 var d_active : bool : set=set_chat_active
 
@@ -44,6 +49,7 @@ func set_talk_status(val):
 
 @rpc("call_local")
 func set_talk_label(val:String):
+	current_label.text = "TALKING TO: "+str(get_parent())
 	talk_status_label.text = "TALK_STATUS: "+val
 
 func set_quest_lock(val:bool):

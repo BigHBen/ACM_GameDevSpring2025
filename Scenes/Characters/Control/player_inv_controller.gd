@@ -25,10 +25,7 @@ func _process(_delta: float) -> void:
 	pass
 
 func collect(item : BaseItem):
-<<<<<<< Updated upstream
-=======
-	var game = get_tree().current_scene is GameManagerMultiplayer
->>>>>>> Stashed changes
+	var _game = get_tree().current_scene is GameManagerMultiplayer
 	inventory.add_item(item,player)
 	if item.ITEM_TYPE.QUEST_ITEM: quest_man.quest_check(item)
 	player.anim_state.travel("PickUp")

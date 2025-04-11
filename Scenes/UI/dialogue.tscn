@@ -6,6 +6,7 @@
 [ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="3_u3308"]
 
 [node name="Dialogue" type="CanvasLayer"]
+layer = 0
 script = ExtResource("1_cxgqx")
 d_file = ExtResource("2_bsms5")
 
@@ -81,6 +82,7 @@ text = "REJECT
 flat = true
 
 [node name="Test" type="Control" parent="."]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -105,6 +107,14 @@ theme_override_constants/margin_bottom = 5
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Test/PanelContainer/MarginContainer"]
 layout_mode = 2
+
+[node name="title" type="Label" parent="Test/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "DIALOGUE_PLAYER DEBUG"
+
+[node name="current" type="Label" parent="Test/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "TALKING TO:"
 
 [node name="talk_status" type="Label" parent="Test/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2

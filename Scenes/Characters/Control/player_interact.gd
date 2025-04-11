@@ -34,8 +34,8 @@ func _process(_delta: float) -> void:
 			if button_test: interact_button_button.text = interact_text + " " + detected_door.name
 			else: interact_button.text = interact_text
 
-func _on_npc_chat_end():
-	print("chat over")
+func _on_npc_chat_end(node):
+	print(node,": Dialogue End")
 	interacted = false
 
 func _on_interaction_end(area):
@@ -71,7 +71,7 @@ func _on_interact_pressed():
 		if node_to_check.has_method("interact"):
 			if node_to_check == detected_npc:
 				if !node_to_check.chat_end.is_connected(_on_npc_chat_end):
-					node_to_check.chat_end.connect(_on_npc_chat_end)
+					node_to_check.chat_end.connect(_on_npc_chat_end.bind(node_to_check))
 					node_to_check.interact(true)
 			else:
 				if !node_to_check.interaction_done.is_connected(_on_interaction_end): 
@@ -110,19 +110,11 @@ func _on_area_entered(area: Area3D) -> void:
 			detected_chest = area.owner
 			#if !detected_chest.opened and detected_chest.target != null: interacted = false
 			if !entered_areas.has(area.owner) and !detected_chest.opened: entered_areas.append(area.owner)
-<<<<<<< Updated upstream
-		if area.owner.is_in_group("Door"):
-			
-			detected_door = area.owner
-			#if detected_door.target != null: interacted = false
-			if !entered_areas.has(area.owner): entered_areas.append(area.owner)
-=======
 		if area.get_parent().is_in_group("Door"):
 			
 			detected_door = area.get_parent()
 			#if detected_door.target != null: interacted = false
 			if !entered_areas.has(area.get_parent()): entered_areas.append(area.get_parent())
->>>>>>> Stashed changes
 
 func _on_area_exited(area: Area3D) -> void:
 	if area.owner:
@@ -141,18 +133,10 @@ func _on_area_exited(area: Area3D) -> void:
 					print("Removed %s from entered_areas" % [detected_chest])
 			detected_chest = null
 			interact_button.visible = false
-<<<<<<< Updated upstream
-		if area.owner.is_in_group("Door"):
-			if area.owner == detected_door:
-				if entered_areas.has(detected_door): 
-					entered_areas.erase(detected_door)
-					print("Removed %s from entered_areas" % [detected_door])
-=======
 		if area.get_parent().is_in_group("Door"):
 			if area.get_parent() == detected_door:
 				if entered_areas.has(detected_door): 
 					entered_areas.erase(detected_door)
 					#print("Removed %s from entered_areas" % [detected_door])
 				detected_door = null
->>>>>>> Stashed changes
 		if entered_areas.is_empty(): interacted = true

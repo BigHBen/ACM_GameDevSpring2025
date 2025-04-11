@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://0udrovh0uwjn"]
+[gd_scene load_steps=14 format=3 uid="uid://0udrovh0uwjn"]
 
 [ext_resource type="Script" path="res://Scenes/game.gd" id="1_3plxs"]
 [ext_resource type="PackedScene" uid="uid://pojgr1oyd3ob" path="res://Scenes/Levels/level_1.tscn" id="2_kwsbf"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://ceqd0t76gybje" path="res://Scenes/UI/debug.tscn" id="5_87yrw"]
 [ext_resource type="Script" path="res://Scenes/game_manager_ui.gd" id="5_m2k5e"]
 [ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="5_wmtf2"]
+[ext_resource type="PackedScene" uid="uid://b2evaamwjguvm" path="res://Scenes/UI/defeat_menu.tscn" id="9_hm2jv"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fyedd"]
 shader = ExtResource("4_hcraj")
@@ -50,6 +51,9 @@ color = Color(0, 0, 0, 1)
 [node name="PauseMenu" parent="UI" node_paths=PackedStringArray("game_manager") instance=ExtResource("2_yxgdt")]
 game_manager = NodePath("../..")
 
+[node name="DefeatMenu" parent="UI" node_paths=PackedStringArray("game_manager") instance=ExtResource("9_hm2jv")]
+game_manager = NodePath("../..")
+
 [node name="StatsDisplay" type="Control" parent="UI"]
 layout_mode = 3
 anchors_preset = 15
@@ -82,3 +86,5 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(1, 1, 1, 0)
+
+[connection signal="child_entered_tree" from="Level" to="." method="_on_level_child_entered_tree"]

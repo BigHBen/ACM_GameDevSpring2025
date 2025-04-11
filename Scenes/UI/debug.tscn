@@ -23,7 +23,7 @@ anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -195.0
 offset_right = 195.0
-offset_bottom = 100.0
+offset_bottom = 151.0
 grow_horizontal = 2
 mouse_filter = 1
 
@@ -55,6 +55,22 @@ layout_mode = 2
 button_pressed = true
 text = "Show Ping
 "
+flat = true
+alignment = 2
+text_direction = 2
+
+[node name="FriendlyFire" type="CheckButton" parent="Panel/VBoxContainer"]
+layout_direction = 3
+layout_mode = 2
+text = "Friendly Fire"
+flat = true
+alignment = 2
+text_direction = 2
+
+[node name="DialogueDebug" type="CheckButton" parent="Panel/VBoxContainer"]
+layout_direction = 3
+layout_mode = 2
+text = "Dialogue Debug"
 flat = true
 alignment = 2
 text_direction = 2

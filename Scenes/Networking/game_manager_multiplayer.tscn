@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://cpcb18xsmydxv"]
+[gd_scene load_steps=17 format=3 uid="uid://cpcb18xsmydxv"]
 
 [ext_resource type="Script" path="res://Scenes/Networking/game_multiplayer.gd" id="1_0ow8d"]
 [ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="2_kgsw3"]
@@ -12,6 +12,7 @@
 [ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="5_p3xl0"]
 [ext_resource type="Script" path="res://Scenes/game_manager_ui.gd" id="7_prup7"]
 [ext_resource type="Script" path="res://Scenes/Networking/multiplayer_ui.gd" id="10_82eih"]
+[ext_resource type="PackedScene" uid="uid://b2evaamwjguvm" path="res://Scenes/UI/defeat_menu.tscn" id="10_so2ek"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_fyedd"]
 shader = ExtResource("2_r406e")
@@ -23,8 +24,6 @@ font = ExtResource("5_p3xl0")
 [sub_resource type="LabelSettings" id="LabelSettings_yhqjo"]
 font = ExtResource("5_p3xl0")
 font_size = 52
-
-[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_2raki"]
 
 [node name="Game" type="Node" node_paths=PackedStringArray("debug", "ui_control")]
 process_mode = 3
@@ -41,11 +40,7 @@ levels = Array[PackedScene]([ExtResource("3_njy1e"), ExtResource("4_h6712")])
 
 [node name="Lobby" parent="." instance=ExtResource("4_i2hvu")]
 
-<<<<<<< Updated upstream
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-=======
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
->>>>>>> Stashed changes
 _spawnable_scenes = PackedStringArray("res://Scenes/Characters/knight.tscn")
 spawn_path = NodePath("..")
 
@@ -68,6 +63,9 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="PauseMenu" parent="UI" node_paths=PackedStringArray("game_manager") instance=ExtResource("3_48p10")]
+game_manager = NodePath("../..")
+
+[node name="DefeatMenu" parent="UI" node_paths=PackedStringArray("game_manager") instance=ExtResource("10_so2ek")]
 game_manager = NodePath("../..")
 
 [node name="StatsDisplay" type="Control" parent="UI"]
@@ -189,10 +187,8 @@ theme_override_fonts/font = ExtResource("5_p3xl0")
 theme_override_font_sizes/font_size = 42
 text = "Connect"
 
-[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
-replication_config = SubResource("SceneReplicationConfig_2raki")
-
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
+[connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]
 [connection signal="child_entered_tree" from="Level" to="." method="_on_level_child_entered_tree"]
 [connection signal="spawned" from="PlayerSpawner" to="." method="_on_multiplayer_spawner_spawned"]
 [connection signal="spawned" from="LevelSpawner" to="." method="_on_level_spawner_spawned"]

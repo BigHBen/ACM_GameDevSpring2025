@@ -56,11 +56,22 @@ func take_damage(damage):
 
 func _on_defeat():
 	defeated = true
-	set_process(false)
 	set_physics_process(false)
+	$HurtBox.monitorable = false
+	$HitBox.monitorable = false
+	$HurtBox.monitoring = false
+	$HitBox.monitoring = false
+	await get_tree().create_timer(2.0).timeout
+	set_process(false)
+	$Physics/CollisionShape3D.disabled = true
+	
+	
+	$EnemyUi.hide()
+	
 	if multiplayer.is_server(): 
 		$MultiplayerSynchronizer.public_visibility = false
-	queue_free()
+		$MultiplayerSynchronizer.queue_free()
+	#queue_free()
 
 
 func _on_detection_area_body_entered(body: Node3D) -> void:

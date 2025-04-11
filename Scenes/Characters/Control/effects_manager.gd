@@ -63,12 +63,17 @@ func load_armor(type: String):
 		
 		var item_consumption = 1.0
 		var dress_timer = 0.0
-		player.anim_state.travel("Use_Item")
+		use_item_animation()
+		if player.is_multiplayer_authority(): use_item_animation.rpc()
 		while dress_timer < item_consumption:
 			item_consuming = true
 			dress_timer += get_process_delta_time()
 			await get_tree().process_frame
 		item_consuming = false
+
+@rpc("call_local")
+func use_item_animation():
+	player.anim_state.travel("Use_Item")
 
 func find_item_dict(type:String, types_dict : Dictionary) -> Array:
 	var key_to_find = type
@@ -96,20 +101,21 @@ func speed_boost():
 	print("Blitz em")
 	var item_consumption = 1.0
 	var drinking_timer = 0.0
-	player.anim_state.travel("Use_Item")
+	use_item_animation()
+	if player.is_multiplayer_authority(): use_item_animation.rpc()
 	
 	var p_mat : ParticleProcessMaterial = orb_particles.process_material
 	var _default_mat_color = p_mat.color
 	
 	while drinking_timer < item_consumption:
 		item_consuming = true
-		launch_particles(p_mat,Color.GREEN)
+		spawn_orbs_effect(p_mat,Color.GREEN)
 		drinking_timer += get_process_delta_time()
 		
 		await get_tree().process_frame
 	item_consuming = false
 	stop_particles(p_mat)
-	
+	if player.is_multiplayer_authority(): stop_particles.rpc(p_mat)
 	# Start speed boost buff
 	speed_boost_active = true
 	if speed_boost_active: 
@@ -117,15 +123,13 @@ func speed_boost():
 		start_speed_boost_timer()
 
 func start_speed_boost_timer():
-	glow_light.light_color = Color.KHAKI
-	glow_light.light_energy = 5.0
+	glow_light_effects.rpc(Color.KHAKI, 5.0)
 	await get_tree().create_timer(6).timeout
-	glow_light.light_color = Color.WHITE
-	glow_light.light_energy = 0.0
-	
+	glow_light_effects.rpc(Color.WHITE, 0.0)
 	player.speed = player.speed / 2
 	speed_boost_active = false
 	print("Speed boost over")
+
 
 func slow_debuff():
 	print("Slow player speed for duration")
@@ -133,16 +137,30 @@ func slow_debuff():
 func freeze_status():
 	print("Freeze player for duration")
 
-func launch_particles(mat,c : Color):
-	
-	mat.color = c
+func spawn_orbs_effect(_mat,c : Color):
+	_mat.color = c
+	if player.is_multiplayer_authority(): launch_particles.rpc(c)
+	#orb_particles.emitting = true
+	#glow_light.light_color = c
+	#if glow_light.light_energy < 1.0:
+		#glow_light.light_energy = lerp(glow_light.light_energy, 1.0, get_process_delta_time() * 2)
+
+@rpc("call_local")
+func launch_particles(c : Color):
+	orb_particles.process_material.color = c
 	orb_particles.emitting = true
 	glow_light.light_color = c
 	if glow_light.light_energy < 1.0:
 		glow_light.light_energy = lerp(glow_light.light_energy, 1.0, get_process_delta_time() * 2)
 
+@rpc("call_local")
 func stop_particles(_mat):
 	orb_particles.emitting = false
 	while glow_light.light_energy > 0.0:
 		glow_light.light_energy = lerp(glow_light.light_energy, 0.0, get_process_delta_time() * 2)
 		await get_tree().process_frame
+
+@rpc("call_local")
+func glow_light_effects(c : Color, energy):
+	glow_light.light_color = c
+	glow_light.light_energy = energy

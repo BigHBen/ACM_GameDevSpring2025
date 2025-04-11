@@ -12,7 +12,7 @@
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_7eciw"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_j67w5"]
-graph_offset = Vector2(-366, 46)
+graph_offset = Vector2(-664, 162)
 nodes/AnimationNodeStateMachine/node = ExtResource("4_cl545")
 nodes/AnimationNodeStateMachine/position = Vector2(-180, 120)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_7eciw")
@@ -42,13 +42,14 @@ bg_color = Color(0.853569, 0.109188, 0, 1)
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fvf1v"]
 properties/0/path = NodePath(".:health")
 properties/0/spawn = true
-properties/0/replication_mode = 1
+properties/0/replication_mode = 2
 properties/1/path = NodePath("EnemyUi/HealthBar:value")
 properties/1/spawn = true
-properties/1/replication_mode = 1
+properties/1/replication_mode = 2
 
 [node name="Skeleton_Warrior" groups=["Enemy"] instance=ExtResource("1_qm2rv")]
 script = ExtResource("2_m42y6")
+health = 50
 
 [node name="Skeleton3D" parent="Rig" index="0"]
 bones/4/rotation = Quaternion(-0.514121, -0.485468, -0.485468, 0.514122)
@@ -177,6 +178,7 @@ debug_shape_custom_color = Color(1, 0, 0, 1)
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." index="10"]
 replication_config = SubResource("SceneReplicationConfig_fvf1v")
 
+[connection signal="animation_finished" from="AnimationTree" to="." method="_on_animation_tree_animation_finished"]
 [connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
 [connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]
 [connection signal="timeout" from="detection_area/detection_scan" to="." method="_on_detection_scan_timeout"]

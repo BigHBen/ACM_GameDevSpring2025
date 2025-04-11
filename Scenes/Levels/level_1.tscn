@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://pojgr1oyd3ob"]
+[gd_scene load_steps=29 format=3 uid="uid://pojgr1oyd3ob"]
 
 [ext_resource type="Script" path="res://Scenes/Levels/level_1.gd" id="1_i3j8r"]
 [ext_resource type="PackedScene" uid="uid://cevkutkrmlhnv" path="res://Scenes/Terrain/Dungeon_Generation/Custom/trees_grid_map.tscn" id="2_o5aaj"]
@@ -63,6 +63,20 @@ size = Vector3(17.0806, 3.3418, 5)
 size = Vector3(1, 4, 3)
 
 [sub_resource type="BoxMesh" id="BoxMesh_4li1b"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_x5vg7"]
+properties/0/path = NodePath("Enemies/EvilCube1/PathFollow3D:progress")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("Enemies/EvilCube1/PathFollow3D:progress_ratio")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Enemies/EvilCube2/PathFollow3D:progress")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("Enemies/EvilCube2/PathFollow3D:progress_ratio")
+properties/3/spawn = true
+properties/3/replication_mode = 1
 
 [node name="level_1" type="Node3D" groups=["Level"]]
 script = ExtResource("1_i3j8r")
@@ -196,7 +210,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0486457, 1, 0.46397)
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -139.829, 1, 15.143)
 
 [node name="coin_stack" type="Area3D" parent="Items"]
-transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, -64.9065, 1, 14.2014)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -64.9065, 1, 14.2014)
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("15_vyy77")
@@ -210,7 +224,7 @@ shape = SubResource("BoxShape3D_kiw2r")
 mesh = ExtResource("17_d6xsj")
 
 [node name="coin_stack2" type="Area3D" parent="Items"]
-transform = Transform3D(0.125, 0, 0, 0, 0.125, 0, 0, 0, 0.125, 4.71723, 1, -10.9783)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.71723, 1, -10.9783)
 collision_layer = 0
 collision_mask = 8
 script = ExtResource("15_vyy77")
@@ -283,6 +297,9 @@ current = true
 visible = false
 mesh = SubResource("BoxMesh_4li1b")
 skeleton = NodePath("")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_x5vg7")
 
 [connection signal="body_entered" from="Items/coin_stack" to="Items/coin_stack" method="_on_body_entered"]
 [connection signal="body_entered" from="Items/coin_stack2" to="Items/coin_stack2" method="_on_body_entered"]

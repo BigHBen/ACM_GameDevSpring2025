@@ -93,6 +93,7 @@ func _input(event: InputEvent) -> void:
 		var game = get_tree().current_scene
 		if !game.input_handling: return
 	if event.is_action_pressed("inventory"): #E
+		if get_tree().current_scene.game_paused: return
 		toggle_window(!window.visible)
 
 # Add item directly to inventory via script

@@ -45,7 +45,8 @@ func tween_shader_property(param:String,target_value: float, duration: float):
 	tween.tween_property($"../ColorRect", "material:shader_parameter/"+param, target_value, duration)
 
 func _on_game_paused(is_paused):
-	set_process(is_paused)
+	if game_manager is GameManager: # Only pause game in single-player
+		set_process(is_paused)
 	if is_paused: 
 		show()
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -55,9 +56,8 @@ func _on_game_paused(is_paused):
 		# Close inventory if open
 		if game_manager:
 			for player in game_manager.players:
-				if player.inventory.window.visible: player.inventory.window.visible = false
-	
-		
+				if player and player.p_inv_controller.inventory.window.visible: 
+					player.p_inv_controller.inventory.window.visible = false
 	else: 
 		hide()
 		tween_shader_property("lod",0.0, 0.25)

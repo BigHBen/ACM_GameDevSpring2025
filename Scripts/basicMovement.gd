@@ -98,14 +98,11 @@ var camera_viewport : Camera3D
 
 # Multiplayer
 var nickname : String
-<<<<<<< Updated upstream
-=======
 var ping_time : float = 2.0
 var ping_timer : float = 0.0
 var enter_location : Vector3 = Vector3.ZERO :
 	set (val):
 		enter_location = val
->>>>>>> Stashed changes
 
 func _enter_tree() -> void:
 	if get_tree().current_scene is GameManagerMultiplayer:
@@ -149,9 +146,6 @@ func multiplayer_startup():
 		
 		self.process_mode = Node.PROCESS_MODE_PAUSABLE
 		if not is_multiplayer_authority(): 
-<<<<<<< Updated upstream
-			player_ui.hide()
-=======
 			lobby.player_disconnected.connect(update_player_despawn.rpc)
 			
 			# Hide all children except floating healthbar
@@ -161,7 +155,6 @@ func multiplayer_startup():
 					continue
 				child.hide()
 			
->>>>>>> Stashed changes
 			#trail_effects_anim.active = false
 			#trail.hide()
 			return false
@@ -172,13 +165,6 @@ func multiplayer_startup():
 		if !game_root.name_entry.text.is_empty():
 			nickname = game_root.name_entry.text
 			change_name.rpc(nickname)
-<<<<<<< Updated upstream
-		else: change_name.rpc(self.name)
-		
-	
-	camera.current = true
-	set_camera()
-=======
 			change_floating_name.rpc(nickname)
 		else: 
 			change_name.rpc(self.name)
@@ -189,11 +175,11 @@ func multiplayer_startup():
 		creation_animation.rpc()
 		update_current_camera()
 	return true
->>>>>>> Stashed changes
 
 # Move player to level-specific spawn location
 @rpc("any_peer","call_local")
 func update_spawn_position(new_level_pos): 
+	if !is_multiplayer_authority(): return
 	var game = get_tree().current_scene
 	var random_x = randf_range(-0.5 , 0.5)
 	var random_z = randf_range(-0.5 , 0.5)
@@ -209,7 +195,7 @@ func update_spawn_position(new_level_pos):
 		new_level_pos = level.player_spawn_point
 		spawn_pos = new_level_pos + Vector3(random_x, 0, random_z) 
 		position = spawn_pos
-	#print("Moved %s to %s" % [self,new_level_pos])
+	#print("%s Moved to %s" % [self,spawn_pos])
 
 func update_current_camera():
 	camera_viewport = get_viewport().get_camera_3d()
@@ -320,18 +306,19 @@ func handle_rotation(_delta):
 	var target_position = model.global_transform.origin + controller_3d_rot
 	target_position.y = model.global_transform.origin.y
 	var direction = (target_position - model.global_transform.origin).normalized()
-	if CONTROLLER:
-		if controller_right_input != Vector2.ZERO: # Character Controller Rotation
-			var target_rotation = Transform3D.IDENTITY.looking_at(direction, Vector3.UP).basis.get_euler()
-			var _angle_diff = model.rotation.angle_to(target_rotation)
-			
-			model.rotation.y = lerp_angle(model.rotation.y, target_rotation.y, 0.1)
-			$"Hit_Hurt Boxes".rotation.y = lerp_angle($"Hit_Hurt Boxes".rotation.y, target_rotation.y, 0.1)
-	else:
-		if not intersection.is_empty(): # Character Mouse Rotation
-			var pos = intersection.position
-			model.look_at(Vector3(pos.x, position.y, pos.z), Vector3.UP)
-			$"Hit_Hurt Boxes".look_at(Vector3(pos.x, position.y, pos.z), Vector3.UP)
+	if can_move():
+		if CONTROLLER:
+			if controller_right_input != Vector2.ZERO: # Character Controller Rotation
+				var target_rotation = Transform3D.IDENTITY.looking_at(direction, Vector3.UP).basis.get_euler()
+				var _angle_diff = model.rotation.angle_to(target_rotation)
+				
+				model.rotation.y = lerp_angle(model.rotation.y, target_rotation.y, 0.1)
+				$"Hit_Hurt Boxes".rotation.y = lerp_angle($"Hit_Hurt Boxes".rotation.y, target_rotation.y, 0.1)
+		else:
+			if not intersection.is_empty(): # Character Mouse Rotation
+				var pos = intersection.position
+				model.look_at(Vector3(pos.x, position.y, pos.z), Vector3.UP)
+				$"Hit_Hurt Boxes".look_at(Vector3(pos.x, position.y, pos.z), Vector3.UP)
 	
 	# Smooth rotation using rotation_speed
 	#if velocity.length() > 0.0:
@@ -410,7 +397,7 @@ func _set_animation_state_params(params,val):
 	anim_tree.set(params,val)
 
 func _input(event):
-	if not is_multiplayer_authority(): return
+	if not is_multiplayer_authority() or not can_move(): return
 	if event.is_action_pressed("attack") and can_attack():
 		handle_attack()
 	if event.is_action_pressed("block") and can_block(): # Blocking
@@ -420,6 +407,8 @@ func _input(event):
 		blocking = false
 
 func can_move():
+	if get_tree().current_scene is GameManager or get_tree().current_scene is GameManagerMultiplayer:
+		if get_tree().current_scene.game_paused: return false
 	return !(blocking or defeated or p_effects.item_consuming)
 
 func can_attack():
@@ -450,6 +439,7 @@ func update_animations():
 	pass
 	#anim_player.play(anim_state.get_current_node().animation)
 
+@rpc("call_local")
 func take_damage(damage):
 	#print($Rig/Skeleton3D/Knight_Head.get("surface_material_override/0"))
 	var armor_reduction
@@ -458,32 +448,39 @@ func take_damage(damage):
 		1: armor_reduction = block_multipliers["gold"]
 		2: armor_reduction = block_multipliers["diamond"]
 	if blocking: damage *= block_damage_multiplier
-	else: update_damage_anim()
+	elif is_multiplayer_authority(): 
+		print(self, " taking damage")
+		update_damage_anim.rpc()
 	healthbar._set_health(health - (damage * armor_reduction))
 	healthbar2._set_health(health - (damage * armor_reduction))
 	health -= damage
 
+@rpc("call_local")
 func update_damage_anim():
 	anim_state.travel(hit_animations.pick_random()) # Animations
 
 func _on_defeat():
 	defeated = true
-	set_process(false)
 	set_physics_process(false)
 	
 	if is_multiplayer_authority(): death_animation.rpc()
 	await get_tree().create_timer(2.0).timeout
 	if anim_state.get_current_node() == "Death_A": 
+		set_process(false)
 		camera.current = false
-		if is_multiplayer_authority(): delete_player.rpc()
-		else: queue_free()
+		delete_player.rpc()
+		get_tree().current_scene.player_defeat = [self,true] # For game over screen
+		queue_free()
 
-@rpc("call_local")
+@rpc("any_peer")
 func delete_player():
 	# Disable multiplayersyncronizer
 		if self.name.to_int() == multiplayer.get_unique_id():
 			$PlayerInputSynchronizer.public_visibility = false
-			
+		#$"Hit_Hurt Boxes/HitBox1".monitoring = false
+		#$"Hit_Hurt Boxes/HurtBox".monitoring = false
+		#$"Hit_Hurt Boxes/HitBox1".monitorable = false
+		#$"Hit_Hurt Boxes/HurtBox".monitorable = false
 		#Server has to queue_free() to avoid debug error
 		if !multiplayer.is_server():
 			return

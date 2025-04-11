@@ -213,8 +213,6 @@ func _on_quest_accepted():
 		quest_item.position = random_marker.position
 		level_items.add_child(quest_item)
 
-<<<<<<< Updated upstream
-=======
 @rpc("any_peer")
 func _on_quest_accepted_remote(): # Client version of _on_quest_accepted()
 	#print("starting individual quest")
@@ -238,7 +236,6 @@ func _on_quest_accepted_remote(): # Client version of _on_quest_accepted()
 	quest_item.position = random_marker.position
 	level_items.add_child(quest_item)
 
->>>>>>> Stashed changes
 func _on_quest_rejected():
 	print("quest rejected") # Do nothing
 

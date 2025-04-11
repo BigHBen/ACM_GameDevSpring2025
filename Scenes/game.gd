@@ -4,6 +4,11 @@ class_name GameManager
 @export var debug : TestDebug
 
 @onready var level_container : Node = $Level
+var cur_level : Node3D = null :
+	set(val):
+		cur_level = val
+		debug.load_dialogue_nodes()
+
 var level_itr : int : # Iterate through levels array
 	set (val):
 		level_itr = val
@@ -25,6 +30,17 @@ var game_paused : bool = false :
 	get:
 		return game_paused
 
+var dialogue_debug_active : bool = false
+
+signal _on_player_defeat(p_defeat_info : Array)
+var player_defeat : Array = []:
+	set(val):
+		if val.size() > 1: player_defeat = [val[0],val[1]]
+		else: player_defeat = []
+		_on_player_defeat.emit(player_defeat)
+	get:
+		return player_defeat
+
 func _ready() -> void:
 	if levels.is_empty(): 
 		printerr($".", " Error: No levels to load - Add scene elements to 'levels' Array")
@@ -45,6 +61,7 @@ func change_level(new_level_scene: PackedScene):
 		current_level.call_deferred("queue_free")
 	
 	var new_level : Node3D = load(new_level_scene.resource_path).instantiate()
+	new_level.process_mode = Node.PROCESS_MODE_PAUSABLE
 	for player in players:
 		if player != null: 
 			player.position = new_level.player_spawn_point
@@ -60,3 +77,26 @@ func load_first_level():
 
 func next_level():
 	level_itr += 1
+
+func find_player(player_name : String):
+	for player in players:
+		if player != null and player.name == player_name:
+			return player
+	return null
+
+func get_npcs():
+	var npcs : Array
+	if cur_level: 
+		for child in cur_level.get_children():
+			if child.is_in_group("NPC"):
+				npcs.append(child)
+	return npcs
+
+
+func get_players():
+	return players
+
+
+func _on_level_child_entered_tree(node: Node) -> void:
+	if node.is_in_group("Level"):
+		cur_level = node

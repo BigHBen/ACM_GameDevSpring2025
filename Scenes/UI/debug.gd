@@ -4,6 +4,9 @@ class_name TestDebug
 var target_player : CharacterBody3D = null : set = set_target_player
 @onready var fps_toggle : CheckButton = $Panel/VBoxContainer/FPSmode 
 @onready var ping_toggle : CheckButton = $Panel/VBoxContainer/PINGmode
+@onready var multiplayer_pvp_toggle : CheckButton = $Panel/VBoxContainer/FriendlyFire
+@onready var dialogue_debug_toggle : CheckButton = $Panel/VBoxContainer/DialogueDebug
+
 @onready var game : Node
 
 var panel_size : Vector2
@@ -19,6 +22,13 @@ var ping_show: bool = false
 var labels = {}
 var sliders = {}
 
+var dialogue_boxes : Array[NPCDialogue]
+var dialogue_debug_active : bool = false :
+	set(val):
+		dialogue_debug_active = val
+		update_dialogue_debug(val)
+	get: return dialogue_debug_active
+
 signal fps_vis(active)
 signal ping_vis(active)
 
@@ -29,9 +39,13 @@ func _ready() -> void:
 	$Panel.size_flags_vertical = SIZE_EXPAND | SIZE_FILL
 	hide()
 	fps_toggle.toggled.connect(_on_fps_show_toggle)
+	dialogue_debug_toggle.toggled.connect(_on_dialogue_debug_toggle)
 	if game is GameManagerMultiplayer:
 		ping_toggle.toggled.connect(_on_ping_show_toggle)
-	else: ping_toggle.hide()
+		multiplayer_pvp_toggle.toggled.connect(_on_pvp_toggle)
+	else: 
+		ping_toggle.hide()
+		multiplayer_pvp_toggle.hide()
 
 func set_target_player(val):
 	target_player = val
@@ -148,10 +162,28 @@ func create_property_labels(player,properties):
 func update_panel_size(vbox_height,separation):
 	$Panel.size.y = vbox_height + separation
 
+# NPC Dialogue Section
+func load_dialogue_nodes():
+	dialogue_boxes.clear()
+	if game:
+		for npc in game.get_npcs():
+			for child in npc.get_children(): 
+				if child is NPCDialogue: dialogue_boxes.append(child)
+	#print("New level dialouge boxes: ",dialogue_boxes)
+
+func update_dialogue_debug(on):
+	if on: 
+		for dialogue_box in dialogue_boxes:
+			dialogue_box.dialogue_debug_ui.show()
+	else: 
+		for dialogue_box in dialogue_boxes:
+			dialogue_box.dialogue_debug_ui.hide()
+
 func _input(event: InputEvent) -> void:
 	if game is GameManagerMultiplayer and !game.input_handling: return
 	# Show/Hide Debug Interface
 	if event.is_action_pressed("debug"):
+		if game and game.game_paused: return
 		self.visible = !self.visible
 		debug_active = !debug_active
 		set_process(debug_active)
@@ -189,3 +221,9 @@ func _on_fps_show_toggle(active):
 func _on_ping_show_toggle(active):
 	ping_show = active
 	ping_vis.emit(ping_show)
+
+func _on_pvp_toggle(active):
+	if game: game.multiplayer_pvp = active
+
+func _on_dialogue_debug_toggle(active):
+	if game: dialogue_debug_active = active

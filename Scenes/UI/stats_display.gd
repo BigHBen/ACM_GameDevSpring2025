@@ -25,7 +25,6 @@ func _process(_delta: float) -> void:
 	fps.text = "FPS - " + str(Engine.get_frames_per_second())
 
 func update_ping_text(val):
-	
 	ping_val = val
 	ping.text = "PING - " + str(ping_val)
 
