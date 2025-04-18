@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://6sdlrjdhwkij"]
+
+[ext_resource type="Script" path="res://Scenes/Terrain/Dungeon_Generation/Custom/custom_rooms.gd" id="1_nm0ww"]
+[ext_resource type="MeshLibrary" uid="uid://c2vlwkg4hclve" path="res://Scenes/Terrain/Dungeon_Generation/Tutorial/dungeon_tiles_resized.tres" id="1_owjf1"]
+[ext_resource type="Texture2D" uid="uid://cub7do4hkgu10" path="res://Assets/Other/custom_room_message.png" id="3_y3sb8"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_vxkeb"]
+size = Vector2(40, 40)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lfxhy"]
+transparency = 1
+blend_mode = 1
+albedo_color = Color(1, 1, 1, 0.196078)
+albedo_texture = ExtResource("3_y3sb8")
+
+[node name="CustomRooms" type="GridMap" node_paths=PackedStringArray("room_edit_grid_map", "create_room_area")]
+script = ExtResource("1_nm0ww")
+room_edit_grid_map = NodePath("RoomSpaces")
+create_room_area = NodePath("CreateRoomsHere")
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="CreateRoomsHere" type="GridMap" parent="."]
+mesh_library = ExtResource("1_owjf1")
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="RoomSpaces" type="GridMap" parent="."]
+mesh_library = ExtResource("1_owjf1")
+data = {
+"cells": PackedInt32Array(65535, 65535, 5, 65535, 20, 5, 20, 65535, 5, 0, 65535, 5, 0, 20, 5, 20, 0, 5, 65535, 0, 5, 1, 65535, 5, 1, 20, 5, 20, 1, 5, 65535, 1, 5, 2, 65535, 5, 2, 20, 5, 20, 2, 5, 65535, 2, 5, 3, 65535, 5, 3, 20, 5, 20, 3, 5, 65535, 3, 5, 4, 65535, 5, 4, 20, 5, 20, 4, 5, 65535, 4, 5, 5, 65535, 5, 5, 20, 5, 20, 5, 5, 65535, 5, 5, 6, 65535, 5, 6, 20, 5, 20, 6, 5, 65535, 6, 5, 7, 65535, 5, 7, 20, 5, 20, 7, 5, 65535, 7, 5, 8, 65535, 5, 8, 20, 5, 20, 8, 5, 65535, 8, 5, 9, 65535, 5, 9, 20, 5, 20, 9, 5, 65535, 9, 5, 10, 65535, 5, 10, 20, 5, 20, 10, 5, 65535, 10, 5, 11, 65535, 5, 11, 20, 5, 20, 11, 5, 65535, 11, 5, 12, 65535, 5, 12, 20, 5, 20, 12, 5, 65535, 12, 5, 13, 65535, 5, 13, 20, 5, 20, 13, 5, 65535, 13, 5, 14, 65535, 5, 14, 20, 5, 20, 14, 5, 65535, 14, 5, 15, 65535, 5, 15, 20, 5, 20, 15, 5, 65535, 15, 5, 16, 65535, 5, 16, 20, 5, 20, 16, 5, 65535, 16, 5, 17, 65535, 5, 17, 20, 5, 20, 17, 5, 65535, 17, 5, 18, 65535, 5, 18, 20, 5, 20, 18, 5, 65535, 18, 5, 19, 65535, 5, 19, 20, 5, 20, 19, 5, 65535, 19, 5, 20, 20, 5)
+}
+metadata/_editor_floor_ = Vector3(0, 0, 0)
+
+[node name="Placeholder" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 20, 0, 20)
+mesh = SubResource("PlaneMesh_vxkeb")
+surface_material_override/0 = SubResource("StandardMaterial3D_lfxhy")

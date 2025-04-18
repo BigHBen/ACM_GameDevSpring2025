@@ -81,7 +81,7 @@ func set_start(val:bool)->void:
 		# Lastly, move player into first room
 		var player_pos = Vector3(room_positions[0].x * 2,2,room_positions[0].z * 2)
 		var npc_pos = Vector3(room_positions[1].x * 2,1,room_positions[1].z * 2)
-		if level.is_in_group("Level"):
+		if level and level.is_in_group("Level"):
 			for child in level.get_children():
 				if child.is_in_group("Player"):
 					child.position = player_pos

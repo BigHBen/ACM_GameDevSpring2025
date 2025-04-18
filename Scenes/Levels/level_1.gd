@@ -4,7 +4,7 @@ extends Node3D
 #@export var dungeon_level_1 : PackedScene = preload("res://Scenes/Levels/test_dungeon.tscn")
 
 #@export var player_spawn_point = Vector3(0,2,-16)
-@export var player_spawn_point = Vector3(-155,1,-6)
+@export var player_spawn_point = Vector3(0,2,0)
 
 @onready var preview_camera : Camera3D = $Level_Preview/TestCamera3D2
 @export_range(0,2) var preview_camera_speed : float = 0.25
