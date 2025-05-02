@@ -39,6 +39,7 @@ func add_value(player: PlayerCharacter):
 			player.p_inv_controller.collect(self)
 		ITEM_TYPE.QUEST_ITEM:
 			player.p_inv_controller.collect(self)
+			
 		ITEM_TYPE.ARMOR:
 			player.p_inv_controller.collect(self)
 

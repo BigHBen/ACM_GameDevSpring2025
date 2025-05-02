@@ -44,6 +44,7 @@ func load_effect_item(type:String):
 	
 	if e_type_arr.size() > 0: 
 		start_effect(e_type_arr[0], e_type_arr[1])
+		active_effects.append(e_type_arr)
 		return true
 	else: printerr("Item Used has no EffectType")
 	return false
@@ -51,15 +52,21 @@ func load_effect_item(type:String):
 func load_armor(type: String):
 	var a_type_arr = find_item_dict(type,armor_types)
 	if a_type_arr: 
-		var new_mesh : ArrayMesh = load(a_type_arr.back())
+		var new_mesh : ArrayMesh = load(a_type_arr[2])
 		if armor_types_names[a_type_arr[0]].to_lower().find("chest") != -1:
+			if !player.chest_mesh: return
 			player.chest_mesh.mesh = new_mesh
 			player.chest_mesh.force_update_transform()
 			current_armor = a_type_arr[0]
 		elif armor_types_names[a_type_arr[0]].to_lower().find("helm") != -1:
+			if !player.helm_mesh: return
 			if !player.helm_mesh.visible: player.helm_mesh.visible = true
 			player.helm_mesh.mesh = new_mesh
 			player.helm_mesh.force_update_transform()
+		
+		if player.game_root: # Sync with other players
+			for id in GameManagerMultiplayer.get_active_players_multiplayer():
+				sync_armor.rpc_id(id,type)
 		
 		var item_consumption = 1.0
 		var dress_timer = 0.0
@@ -70,6 +77,20 @@ func load_armor(type: String):
 			dress_timer += get_process_delta_time()
 			await get_tree().process_frame
 		item_consuming = false
+
+@rpc("call_local")
+func sync_armor(type):
+	var a_type_arr = find_item_dict(type,armor_types)
+	if a_type_arr: 
+		var new_mesh : ArrayMesh = load(a_type_arr[2])
+		if armor_types_names[a_type_arr[0]].to_lower().find("chest") != -1:
+			player.chest_mesh.mesh = new_mesh
+			player.chest_mesh.force_update_transform()
+			current_armor = a_type_arr[0]
+		elif armor_types_names[a_type_arr[0]].to_lower().find("helm") != -1:
+			if !player.helm_mesh.visible: player.helm_mesh.visible = true
+			player.helm_mesh.mesh = new_mesh
+			player.helm_mesh.force_update_transform()
 
 @rpc("call_local")
 func use_item_animation():
@@ -85,7 +106,7 @@ func find_item_dict(type:String, types_dict : Dictionary) -> Array:
 			dict[key_to_find] = i_dict[key_to_find]
 			#print("PlayerEffectsManager: EffectType: ", effect_types_names[effect_type], \
 			#" | Key:", key_to_find, " | Func:", effects_dict[key_to_find])
-			return [i_type, key_to_find, dict[key_to_find]]
+			return [i_type, key_to_find, dict[key_to_find],false]
 	return []
 	
 func start_effect(type: EffectType, e_name: String):
@@ -116,20 +137,28 @@ func speed_boost():
 	item_consuming = false
 	stop_particles(p_mat)
 	if player.is_multiplayer_authority(): stop_particles.rpc(p_mat)
+	
 	# Start speed boost buff
-	speed_boost_active = true
-	if speed_boost_active: 
-		player.speed = player.speed * 2
-		start_speed_boost_timer()
+	if !active_effects.front().is_empty() and active_effects.front()[1].contains("speed"):
+		active_effects.front()[-1] = true
+		#speed_boost_active = true
+		
+		if active_effects.front()[-1] == true: 
+			player.speed = player.speed * 2
+			start_speed_boost_timer()
 
 func start_speed_boost_timer():
 	glow_light_effects.rpc(Color.KHAKI, 5.0)
 	await get_tree().create_timer(6).timeout
 	glow_light_effects.rpc(Color.WHITE, 0.0)
 	player.speed = player.speed / 2
-	speed_boost_active = false
-	print("Speed boost over")
-
+	#speed_boost_active = false
+	
+	if !active_effects.front().is_empty() and active_effects.front()[1].contains("speed"):
+		active_effects.front()[-1] = false
+		active_effects.erase(active_effects.front())
+		print("Speed boost over")
+		print()
 
 func slow_debuff():
 	print("Slow player speed for duration")

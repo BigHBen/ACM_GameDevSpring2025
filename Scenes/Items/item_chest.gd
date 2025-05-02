@@ -69,13 +69,19 @@ func give_item(item,to):
 
 func _on_chest_entered(body):
 	if body.is_in_group("Player"):
-		if target:
-			return
 		target = body
+		
+		# Connect to player interaction manager - Allows player to interact w NPC
+		if target.interact_manager and !opened:
+			if !target.interact_manager.entered_areas.has(self): target.interact_manager.add_area(self)
 
 func _on_chest_exited(_body):
-	#if body == target:
-		#target = null
+	
+	# Connect to player interaction manager - Allows player to interact w NPC
+	if target != null and target.interact_manager:
+		if target.interact_manager.entered_areas.has(self): target.interact_manager.remove_area(self)
+	
+	#target = null
 	if opened: pass #anim_player.play("close")
 
 func _on_area_entered(area: Area3D) -> void:

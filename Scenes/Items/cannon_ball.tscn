@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://c3fa0vv8xdtg4"]
+
+[ext_resource type="Script" path="res://Scenes/Items/enemy_projectile.gd" id="1_q3vig"]
+[ext_resource type="ArrayMesh" uid="uid://cmd6y51byyhu7" path="res://Assets/kenney_pirate-kit/Models/OBJ format/cannon-ball.obj" id="2_ey2aw"]
+[ext_resource type="Script" path="res://Scripts/hitbox.gd" id="2_ld2ym"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v7bgn"]
+radius = 1.03152
+height = 2.06303
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_yk21b"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="Projectile" type="RayCast3D" groups=["EnemyProjectile"]]
+top_level = true
+target_position = Vector3(0, 0, -0.1)
+script = ExtResource("1_q3vig")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+mesh = ExtResource("2_ey2aw")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 30.0
+one_shot = true
+autostart = true
+
+[node name="HitBox" type="Area3D" parent="."]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("2_ld2ym")
+damage = 15
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+shape = SubResource("CapsuleShape3D_v7bgn")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_yk21b")

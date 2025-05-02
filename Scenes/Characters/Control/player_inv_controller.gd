@@ -2,7 +2,7 @@ extends Node3D
 class_name PlayerInventoryController
 
 @onready var player : = $".."
-@onready var interactions_node : Area3D = $"../Interact"
+@onready var interactions_node : PlayerInteractManager = $"../PlayerUi/InteractionsManager"
 
 # Autoload Inventory scene
 #@onready var inventory : Inventory = get_node("/root/PlayerInventory")
@@ -13,6 +13,7 @@ class_name PlayerInventoryController
 
 # Autoload Quest Menu Scene
 @onready var quest_pop : QuestPopMenu = get_node("/root/QuestPopupMenu")
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -29,6 +30,7 @@ func collect(item : BaseItem):
 	inventory.add_item(item,player)
 	if item.ITEM_TYPE.QUEST_ITEM: quest_man.quest_check(item)
 	player.anim_state.travel("PickUp")
+	#print(multiplayer.get_unique_id()," Picked up ",item.info)
 
 func inventory_window_toggled():
 	if inventory_close_conditions(): inventory.window.visible = false
@@ -40,7 +42,7 @@ func close_inventory():
 	inventory.toggle_window(false)
 
 func inventory_close_conditions():
-	return interactions_node.detected_npc
+	return !interactions_node.entered_areas.is_empty()
 
 func get_baseitem_as_dict(item : BaseItem) -> Dictionary:
 	var dict = {}

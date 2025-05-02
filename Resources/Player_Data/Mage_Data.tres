@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PlayerData" load_steps=2 format=3 uid="uid://bwympbw1n5ao5"]
+
+[ext_resource type="Script" path="res://Scenes/Characters/PlayerData.gd" id="1_vajh8"]
+
+[resource]
+script = ExtResource("1_vajh8")
+type = 3
+display_name = "Mage"
+description = "Spam Caster"
+hp = 50
+speed = 4.0

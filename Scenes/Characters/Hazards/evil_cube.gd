@@ -12,6 +12,8 @@ var camera: Camera3D
 var defeated : bool = false
 var path_dir : bool = true
 
+@onready var synchronizer : MultiplayerSynchronizer = $MultiplayerSynchronizer
+
 var target
 func _ready() -> void:
 	healthbar.init_health(health)
@@ -45,6 +47,7 @@ func _physics_process(delta: float) -> void:
 			else: p.progress -= SPEED * delta
 		else: p.progress += SPEED * delta
 
+@rpc("call_local")
 func take_damage(damage):
 	healthbar._set_health(health - damage)
 	#if multiplayer.is_server(): take_damage_client.rpc(damage)
@@ -57,20 +60,24 @@ func take_damage(damage):
 func _on_defeat():
 	defeated = true
 	set_physics_process(false)
-	$HurtBox.monitorable = false
-	$HitBox.monitorable = false
-	$HurtBox.monitoring = false
-	$HitBox.monitoring = false
+	$HurtBox.set_deferred("monitorable", false)
+	$HitBox.set_deferred("monitorable", false)
+	$HurtBox.set_deferred("monitoring", false)
+	$HitBox.set_deferred("monitoring", false)
 	await get_tree().create_timer(2.0).timeout
 	set_process(false)
-	$Physics/CollisionShape3D.disabled = true
+	set_deferred("process_mode", PROCESS_MODE_DISABLED)
+	$Physics/CollisionShape3D.set_deferred("disabled",true)
 	
 	
-	$EnemyUi.hide()
+	
 	
 	if multiplayer.is_server(): 
 		$MultiplayerSynchronizer.public_visibility = false
 		$MultiplayerSynchronizer.queue_free()
+	
+	$EnemyUi.hide() # Finally, hide enemy and its healthbar
+	hide()
 	#queue_free()
 
 
@@ -89,6 +96,8 @@ func _on_detection_area_body_exited(body: Node3D) -> void:
 			healthbar.hide()
 
 func _on_tree_exiting() -> void:
+	pass
 	# Disable multiplayersyncronizer when deleting self
-	if multiplayer.is_server(): 
-		$MultiplayerSynchronizer.public_visibility = false
+	#if multiplayer.is_server(): 
+		#pass
+		#if synchronizer: synchronizer.public_visibility = false

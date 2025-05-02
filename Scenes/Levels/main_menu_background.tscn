@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://bmufjv7v7pw2e"]
+[gd_scene load_steps=23 format=3 uid="uid://bmufjv7v7pw2e"]
 
 [ext_resource type="Script" path="res://Scenes/Levels/main_menu_background.gd" id="1_gatis"]
 [ext_resource type="PackedScene" uid="uid://dg62lovogyqry" path="res://Scenes/Items/item_chest.tscn" id="2_oup3o"]
@@ -6,15 +6,8 @@
 [ext_resource type="MeshLibrary" uid="uid://cupdum2h3or0d" path="res://Tileset/tiles2.tres" id="4_udoho"]
 [ext_resource type="Script" path="res://Scenes/Levels/level_torches.gd" id="5_5bvs2"]
 [ext_resource type="PackedScene" uid="uid://clxrfo8h6ft4m" path="res://Scenes/Effects/vfx_fire.tscn" id="6_htdrl"]
-[ext_resource type="Script" path="res://UI_Work/ItemsWork/ItemsWork/item.gd" id="7_28ax0"]
-[ext_resource type="Resource" uid="uid://u003bnn0wiex" path="res://UI_Work/ItemsWork/ItemsWork/Coin.tres" id="8_dgbyo"]
 [ext_resource type="ArrayMesh" uid="uid://c0y7f2ki77eqy" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/obj/coin_stack_small.obj" id="9_fpsbh"]
-[ext_resource type="Resource" uid="uid://c3g48hahsp065" path="res://UI_Work/ItemsWork/ItemsWork/SpecialPotion.tres" id="10_p0kaj"]
 [ext_resource type="ArrayMesh" uid="uid://c77wl1kqscixj" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/obj/bottle_A_labeled_green.obj" id="11_5jvg6"]
-[ext_resource type="PackedScene" uid="uid://cr2r7g0o06it3" path="res://UI_Work/ItemsWork/ItemsWork/item.tscn" id="12_vo7c8"]
-[ext_resource type="Texture2D" uid="uid://dp7hao8e7sbke" path="res://Assets/UI_Assets/knight_chest_base.png" id="13_2gqyp"]
-[ext_resource type="ArrayMesh" uid="uid://c3knpq68ioaou" path="res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/knight_body.res" id="14_n1641"]
-[ext_resource type="Script" path="res://UI_Work/ItemsWork/ItemsWork/BaseItem.gd" id="15_ejwee"]
 [ext_resource type="PackedScene" uid="uid://dnkqbx5hdo273" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/table_long_decorated_A.gltf" id="16_ht1ys"]
 [ext_resource type="PackedScene" uid="uid://cbt5oqkrdj0ec" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/banner_blue.gltf" id="17_6isp6"]
 [ext_resource type="PackedScene" uid="uid://ujsvcxh7uwvs" path="res://Assets/KayKit_DungeonRemastered_1.1_FREE/Assets/gltf/chair.gltf" id="18_kor0d"]
@@ -43,21 +36,6 @@ glow_hdr_scale = 1.5
 [sub_resource type="BoxShape3D" id="BoxShape3D_68d0f"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_s63xw"]
-
-[sub_resource type="Resource" id="Resource_awwl5"]
-script = ExtResource("15_ejwee")
-value = 1
-mesh = ExtResource("14_n1641")
-type = 5
-icon = ExtResource("13_2gqyp")
-usable = true
-removeable = true
-player_removable = false
-info = "Old Iron Chestplate - Nothing Special.."
-max_stack_size = 0
-special_name_type = ""
-armor_type = ""
-multiplayer_sync = false
 
 [sub_resource type="BoxMesh" id="BoxMesh_mt5sn"]
 
@@ -153,8 +131,6 @@ mesh = SubResource("BoxMesh_0evcb")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.539, 1, -4.762)
 collision_layer = 0
 collision_mask = 8
-script = ExtResource("7_28ax0")
-item_type = ExtResource("8_dgbyo")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Items/coin_stack"]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0.35, 0)
@@ -167,8 +143,6 @@ mesh = ExtResource("9_fpsbh")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 0)
 collision_layer = 0
 collision_mask = 8
-script = ExtResource("7_28ax0")
-item_type = ExtResource("10_p0kaj")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Items/speed_potion"]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0.35, 0)
@@ -181,8 +155,6 @@ mesh = ExtResource("11_5jvg6")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 1, 3.30518)
 collision_layer = 0
 collision_mask = 8
-script = ExtResource("7_28ax0")
-item_type = ExtResource("10_p0kaj")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Items/speed_potion2"]
 transform = Transform3D(0.6, 0, 0, 0, 0.6, 0, 0, 0, 0.6, 0, 0.35, 0)
@@ -190,10 +162,6 @@ shape = SubResource("BoxShape3D_s63xw")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Items/speed_potion2"]
 mesh = ExtResource("11_5jvg6")
-
-[node name="Armor" parent="Items" instance=ExtResource("12_vo7c8")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.667051, 1.3121, 4.29974)
-item_type = SubResource("Resource_awwl5")
 
 [node name="Item_Chest" parent="Items" instance=ExtResource("2_oup3o")]
 transform = Transform3D(0.841435, 0, -0.540358, 0, 1, 0, 0.540358, 0, 0.841435, 4.25439, 1.05, -4.40343)

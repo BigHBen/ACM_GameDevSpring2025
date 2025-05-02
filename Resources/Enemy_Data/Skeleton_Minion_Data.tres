@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3 uid="uid://jsnnrcc31ges"]
+
+[ext_resource type="Script" path="res://Scenes/Characters/Hazards/Enemies/EnemyData.gd" id="1_w08tk"]
+
+[resource]
+script = ExtResource("1_w08tk")
+type = 1
+display_name = "Skeleton Minion"
+description = ""
+hp = 35
+speed = 4.0

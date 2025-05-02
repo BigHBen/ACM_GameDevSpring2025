@@ -1,15 +1,15 @@
 [gd_scene load_steps=17 format=3 uid="uid://cpcb18xsmydxv"]
 
 [ext_resource type="Script" path="res://Scenes/Networking/game_multiplayer.gd" id="1_0ow8d"]
-[ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="2_kgsw3"]
 [ext_resource type="Shader" path="res://Shaders/blur_effect.gdshader" id="2_r406e"]
 [ext_resource type="PackedScene" uid="uid://dnxbomjfrdbl1" path="res://Scenes/UI/pause_menu.tscn" id="3_48p10"]
 [ext_resource type="PackedScene" uid="uid://pojgr1oyd3ob" path="res://Scenes/Levels/level_1.tscn" id="3_njy1e"]
 [ext_resource type="PackedScene" uid="uid://ceqd0t76gybje" path="res://Scenes/UI/debug.tscn" id="4_4thev"]
 [ext_resource type="Script" path="res://Scenes/UI/stats_display.gd" id="4_75rof"]
 [ext_resource type="PackedScene" uid="uid://glmmqlidn4d" path="res://Scenes/Levels/test_dungeon.tscn" id="4_h6712"]
-[ext_resource type="PackedScene" uid="uid://cboy0p71ik6gj" path="res://Scenes/Networking/multiplayer_lobby.tscn" id="4_i2hvu"]
 [ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="5_p3xl0"]
+[ext_resource type="PackedScene" uid="uid://bmufjv7v7pw2e" path="res://Scenes/Levels/main_menu_background.tscn" id="5_vme6n"]
+[ext_resource type="PackedScene" uid="uid://c8mdtoq08anvd" path="res://Scenes/Characters/player_selection_multiplayer.tscn" id="6_d86m5"]
 [ext_resource type="Script" path="res://Scenes/game_manager_ui.gd" id="7_prup7"]
 [ext_resource type="Script" path="res://Scenes/Networking/multiplayer_ui.gd" id="10_82eih"]
 [ext_resource type="PackedScene" uid="uid://b2evaamwjguvm" path="res://Scenes/UI/defeat_menu.tscn" id="10_so2ek"]
@@ -25,31 +25,34 @@ font = ExtResource("5_p3xl0")
 font = ExtResource("5_p3xl0")
 font_size = 52
 
-[node name="Game" type="Node" node_paths=PackedStringArray("debug", "ui_control")]
+[node name="Game" type="Node" node_paths=PackedStringArray("debug", "ui_control", "player_selection")]
 process_mode = 3
 script = ExtResource("1_0ow8d")
 debug = NodePath("Debug")
 ui_control = NodePath("UI")
-players_scenes = Array[PackedScene]([ExtResource("2_kgsw3"), ExtResource("2_kgsw3")])
-start_level_idx = 1
 levels = Array[PackedScene]([ExtResource("3_njy1e"), ExtResource("4_h6712")])
+player_selection = NodePath("PlayerSelection")
 
 [node name="Level" type="Node" parent="."]
 
-[node name="Debug" parent="." instance=ExtResource("4_4thev")]
+[node name="PlayerSelection" parent="." instance=ExtResource("6_d86m5")]
 
-[node name="Lobby" parent="." instance=ExtResource("4_i2hvu")]
+[node name="mainmenubackground" parent="." instance=ExtResource("5_vme6n")]
+
+[node name="Debug" parent="." node_paths=PackedStringArray("game") instance=ExtResource("4_4thev")]
+game = NodePath("..")
 
 [node name="PlayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://Scenes/Characters/knight.tscn")
+_spawnable_scenes = PackedStringArray("res://Scenes/Characters/knight.tscn", "res://Scenes/Characters/barbarian.tscn", "res://Scenes/Characters/rogue_hooded.tscn", "res://Scenes/Characters/mage.tscn")
 spawn_path = NodePath("..")
 
 [node name="LevelSpawner" type="MultiplayerSpawner" parent="."]
 _spawnable_scenes = PackedStringArray("res://Scenes/Levels/level_1.tscn", "res://Scenes/Levels/test_dungeon.tscn")
 spawn_path = NodePath("../Level")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." node_paths=PackedStringArray("color_rect2")]
 script = ExtResource("7_prup7")
+color_rect2 = NodePath("StatsDisplay/ColorRect2")
 
 [node name="ColorRect" type="ColorRect" parent="UI"]
 z_index = -1
@@ -63,12 +66,15 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="PauseMenu" parent="UI" node_paths=PackedStringArray("game_manager") instance=ExtResource("3_48p10")]
+visible = false
 game_manager = NodePath("../..")
 
 [node name="DefeatMenu" parent="UI" node_paths=PackedStringArray("game_manager") instance=ExtResource("10_so2ek")]
+visible = false
 game_manager = NodePath("../..")
 
-[node name="StatsDisplay" type="Control" parent="UI"]
+[node name="StatsDisplay" type="Control" parent="UI" node_paths=PackedStringArray("game_root", "debug")]
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -77,6 +83,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("4_75rof")
+game_root = NodePath("../..")
+debug = NodePath("../../Debug")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UI/StatsDisplay"]
 layout_mode = 1
@@ -146,9 +154,9 @@ layout_mode = 2
 theme_override_constants/separation = 10
 alignment = 1
 
-[node name="Label" type="Label" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Options"]
+[node name="Header" type="Label" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Options"]
 layout_mode = 2
-text = "Direct Connect (WORK IN PROGRESS)"
+text = "Direct Connect"
 label_settings = SubResource("LabelSettings_yhqjo")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/Options"]
@@ -158,9 +166,10 @@ layout_mode = 2
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_p3xl0")
 theme_override_font_sizes/font_size = 32
-placeholder_text = "IP Address"
+placeholder_text = "ENTER IP Address"
 alignment = 1
 expand_to_text_length = true
+flat = true
 
 [node name="NameEntry" type="LineEdit" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -169,6 +178,7 @@ theme_override_font_sizes/font_size = 32
 placeholder_text = "Enter Player Name"
 alignment = 1
 expand_to_text_length = true
+flat = true
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
@@ -180,12 +190,26 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("5_p3xl0")
 theme_override_font_sizes/font_size = 42
 text = "Host"
+flat = true
 
 [node name="Connect" type="Button" parent="Multiplayer_UI/UI/PanelContainer/MarginContainer/VBoxContainer/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_p3xl0")
 theme_override_font_sizes/font_size = 42
 text = "Connect"
+flat = true
+
+[node name="Back_to_Main" type="Button" parent="Multiplayer_UI/UI"]
+layout_mode = 0
+offset_left = 25.0
+offset_top = 27.0
+offset_right = 193.0
+offset_bottom = 82.0
+theme_override_fonts/font = ExtResource("5_p3xl0")
+theme_override_font_sizes/font_size = 50
+text = "Back
+"
+flat = true
 
 [connection signal="child_entered_tree" from="." to="." method="_on_child_entered_tree"]
 [connection signal="child_exiting_tree" from="." to="." method="_on_child_exiting_tree"]

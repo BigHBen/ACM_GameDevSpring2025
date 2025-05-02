@@ -8,18 +8,28 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if game_manager is GameManager:
+		debug_menu = game_manager.debug
+		game_manager._on_game_paused.connect(_on_game_paused)
+		resume_button.pressed.connect(_on_resume_button_pressed)
+		exit_button.pressed.connect(_on_exit_button_pressed)
+	elif game_manager is GameManagerMultiplayer:
+		debug_menu = game_manager.debug
+		game_manager._on_game_paused.connect(_on_game_paused)
+		resume_button.pressed.connect(_on_resume_button_pressed)
+		exit_button.pressed.connect(_on_exit_button_pressed)
+	else:
+		if get_tree().current_scene is GameManager: 
+			debug_menu = game_manager.debug
+			game_manager._on_game_paused.connect(_on_game_paused)
+			resume_button.pressed.connect(_on_resume_button_pressed)
+			exit_button.pressed.connect(_on_exit_button_pressed)
+		if get_tree().current_scene is GameManagerMultiplayer: 
+			debug_menu = game_manager.debug
+			game_manager._on_game_paused.connect(_on_game_paused)
+			resume_button.pressed.connect(_on_resume_button_pressed)
+			exit_button.pressed.connect(_on_exit_button_pressed)
 	hide()
-	if get_tree().current_scene is GameManager: 
-		debug_menu = game_manager.debug
-		game_manager._on_game_paused.connect(_on_game_paused)
-		resume_button.pressed.connect(_on_resume_button_pressed)
-		exit_button.pressed.connect(_on_exit_button_pressed)
-	if get_tree().current_scene is GameManagerMultiplayer: 
-		debug_menu = game_manager.debug
-		game_manager._on_game_paused.connect(_on_game_paused)
-		resume_button.pressed.connect(_on_resume_button_pressed)
-		exit_button.pressed.connect(_on_exit_button_pressed)
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -71,4 +81,12 @@ func _on_resume_button_pressed() -> void:
 	get_tree().current_scene.game_paused = false
 
 func _on_exit_button_pressed() -> void:
-	get_tree().quit()
+	if game_manager:
+		#get_tree().paused = true
+		if game_manager is GameManagerMultiplayer: 
+			var player = game_manager.find_player(str(multiplayer.get_unique_id()))
+			if player: 
+				player.set_process(false)
+				player.set_physics_process(false)
+			#MultiplayerLobby._on_player_disconnected(multiplayer.get_unique_id())
+		game_manager.switch_to_main_menu()

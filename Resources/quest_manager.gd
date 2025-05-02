@@ -1,6 +1,5 @@
 extends Node
 
-# This global scene accessing another (things weren’t complicated enough already)
 @onready var pop_menu : QuestPopMenu = get_node("/root/QuestPopupMenu")
 
 var active_quests: Dictionary = {} : set = set_active_quests # Stores accepted quests by ID
@@ -9,9 +8,24 @@ var id_count = 0
 
 var rewards_json : String = "res://Resources/npc_rewards.json"
 
-func accept_quest(quest: Quest):
+func accept_quest(quest: Quest,peer_id: int = -1) -> bool:
 	if quest.id not in active_quests: active_quests[quest.id] = quest
-	print(self.name,": ", "[",quest.player,"]"," Accepted Quest -> ",get_quest_as_dict(quest)['title'])
+	else: return false
+	if peer_id != -1:
+		print(self.name,": ", "[",peer_id,"]"," Accepted Quest -> ",get_quest_as_dict(quest)['title'])
+	else:
+		print(self.name,": ", "[",quest.player,"]"," Accepted Quest -> ",get_quest_as_dict(quest)['title'])
+	return true
+
+#@rpc("any_peer")
+#func accept_quest_multiplayer(quest: Quest,peer_id: int = -1) -> bool:
+	#if quest.id not in active_quests: active_quests[quest.id] = quest
+	#else: return false
+	#if peer_id != -1:
+		#print(self.name,": ", "[",peer_id,"]"," Accepted Quest -> ",get_quest_as_dict(quest)['title'])
+	#else:
+		#print(self.name,": ", "[",quest.player,"]"," Accepted Quest -> ",get_quest_as_dict(quest)['title'])
+	#return true
 
 func quest_finish(quest_id: int, player):
 	if quest_id in active_quests and player:
@@ -19,8 +33,11 @@ func quest_finish(quest_id: int, player):
 		quest.is_completed = true
 		completed_quests[quest_id] = quest
 		active_quests.erase(quest_id)
-		if pop_menu.window.visible: 
-			pop_menu.quest_completion()
+		#if pop_menu.window.visible: 
+		if pop_menu.menu_windows.has(quest_id):
+			if pop_menu.menu_windows[quest_id].visible:
+				pop_menu.quest_complete_id = quest_id
+				pop_menu.quest_completion()
 		print(self.name,": Player[%s]" % [player.name.capitalize()], " Completed Quest: ", quest.title.to_upper())
 		#give_rewards(quest.player,quest.rewards)
 
@@ -77,10 +94,18 @@ func quest_check(item : BaseItem):
 		if quest.desired_item == item:
 			quest_progress_update(quest)
 			if quest.progress >= quest.desired_item_quantity:
+				pop_menu.items_acquired_quest = quest.id
 				pop_menu.items_acquired = true
+
 	#var detected_q_items : int = inventory.get_number_of_item(npc_quest.desired_item)
 	#if detected_q_items == npc_quest.desired_item_quantity:
 		#player_inventory.remove_item(npc_quest.desired_item)
 
 func quest_progress_update(quest : Quest) -> void:
 	quest.progress += 1
+
+@rpc("any_peer","call_local")
+func reset():
+	active_quests.clear()
+	completed_quests.clear()
+	id_count = 0

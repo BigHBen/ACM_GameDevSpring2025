@@ -21,16 +21,28 @@ func _process(_delta: float) -> void:
 	if detected_npc:
 		if !entered_areas.is_empty() and entered_areas.front() == detected_npc:
 			interacted = false if detected_npc.target != null else true
+			
+			#if detected_npc.target != null: 
+				#if entered_areas.has(detected_npc): 
+					#entered_areas.erase(detected_npc)
 			if button_test: interact_button_button.text = interact_text + " " + detected_npc.name
 			else: interact_button.text = interact_text
 	if detected_chest:
 		if !entered_areas.is_empty() and entered_areas.front() == detected_chest:
 			interacted = false if (detected_chest.target != null and !detected_chest.opened) else true
+			
+			if detected_chest.target != null: 
+				if entered_areas.has(detected_chest): 
+					entered_areas.erase(detected_chest)
 			if button_test: interact_button_button.text = interact_text + " " + detected_chest.name
 			else: interact_button.text = interact_text
 	if detected_door:
 		if !entered_areas.is_empty() and entered_areas.front() == detected_door:
 			interacted = false if detected_door.target != null else true
+			
+			if detected_door.target != null: 
+				if entered_areas.has(detected_door): 
+					entered_areas.erase(detected_door)
 			if button_test: interact_button_button.text = interact_text + " " + detected_door.name
 			else: interact_button.text = interact_text
 
@@ -65,7 +77,10 @@ func _on_interact_body_exited(body: Node3D) -> void:
 		interact_button.visible = false
 
 func _on_interact_pressed():
-	if entered_areas.is_empty(): return
+	
+	if entered_areas.is_empty(): 
+		printerr("No detected NPCs to interact: Entered_Areas: ",entered_areas)
+		return
 	var node_to_check = entered_areas.front()
 	if node_to_check == detected_npc or node_to_check == detected_chest or node_to_check == detected_door:
 		if node_to_check.has_method("interact"):
@@ -105,16 +120,15 @@ func _on_area_entered(area: Area3D) -> void:
 			# Close inventory if player starts chatting
 			player_inventory.close_inventory()
 			
-			if !entered_areas.has(area.owner): entered_areas.append(area.owner)
+			#if !entered_areas.has(area.owner): entered_areas.append(area.owner)
 		if area.owner.is_in_group("Chest"):
 			detected_chest = area.owner
 			#if !detected_chest.opened and detected_chest.target != null: interacted = false
-			if !entered_areas.has(area.owner) and !detected_chest.opened: entered_areas.append(area.owner)
+			#if !entered_areas.has(area.owner) and !detected_chest.opened: entered_areas.append(area.owner)
 		if area.get_parent().is_in_group("Door"):
-			
 			detected_door = area.get_parent()
 			#if detected_door.target != null: interacted = false
-			if !entered_areas.has(area.get_parent()): entered_areas.append(area.get_parent())
+			#if !entered_areas.has(area.get_parent()): entered_areas.append(area.get_parent())
 
 func _on_area_exited(area: Area3D) -> void:
 	if area.owner:
@@ -123,7 +137,7 @@ func _on_area_exited(area: Area3D) -> void:
 				if detected_npc.chat_end.is_connected(_on_npc_chat_end):
 					detected_npc.chat_end.disconnect(_on_npc_chat_end)
 				detected_npc.interact(false)
-				if entered_areas.has(detected_npc): entered_areas.erase(detected_npc)
+				#if entered_areas.has(detected_npc): entered_areas.erase(detected_npc)
 				detected_npc = null
 			interact_button.visible = false
 		if area.owner.is_in_group("Chest"):
@@ -135,8 +149,8 @@ func _on_area_exited(area: Area3D) -> void:
 			interact_button.visible = false
 		if area.get_parent().is_in_group("Door"):
 			if area.get_parent() == detected_door:
-				if entered_areas.has(detected_door): 
-					entered_areas.erase(detected_door)
+				#if entered_areas.has(detected_door): 
+					#entered_areas.erase(detected_door)
 					#print("Removed %s from entered_areas" % [detected_door])
 				detected_door = null
 		if entered_areas.is_empty(): interacted = true

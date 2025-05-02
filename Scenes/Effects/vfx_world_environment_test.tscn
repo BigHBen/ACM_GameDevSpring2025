@@ -2,7 +2,6 @@
 
 [ext_resource type="PackedScene" uid="uid://clxrfo8h6ft4m" path="res://Scenes/Effects/vfx_fire.tscn" id="1_suath"]
 
-
 [sub_resource type="Environment" id="Environment_1fnrd"]
 background_mode = 1
 background_color = Color(0.28485, 0.28485, 0.28485, 1)

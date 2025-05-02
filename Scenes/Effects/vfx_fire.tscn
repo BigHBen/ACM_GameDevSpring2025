@@ -7,7 +7,6 @@
 [ext_resource type="Shader" uid="uid://csob75j63l0l2" path="res://Shaders/simple_particles.tres" id="5_3cu5o"]
 [ext_resource type="Texture2D" uid="uid://cgry1qvuijsrt" path="res://Assets/Effects/Flare00.PNG" id="6_6wbi6"]
 
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_n5c7e"]
 render_priority = 0
 shader = ExtResource("1_jk8ap")
@@ -22,7 +21,7 @@ max_value = 15.0
 _data = [Vector2(0.25, 9.23077), 0.0, 0.0, 0, 0]
 point_count = 1
 
-[sub_resource type="CurveTexture" id="CurveTexture_6v8i6"]
+[sub_resource type="CurveTexture" id="CurveTexture_8osgv"]
 curve = SubResource("Curve_efvrt")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ytxos"]
@@ -30,7 +29,7 @@ gravity = Vector3(0, 0, 0)
 scale_min = 0.5
 scale_max = 0.5
 color = Color(4, 1.25, 0.6, 0.8)
-emission_curve = SubResource("CurveTexture_6v8i6")
+emission_curve = SubResource("CurveTexture_8osgv")
 
 [sub_resource type="QuadMesh" id="QuadMesh_shta2"]
 
@@ -48,14 +47,14 @@ max_value = 15.0
 _data = [Vector2(0.0879121, 0), 0.0, 0.0, 0, 0, Vector2(0.417582, 15), 0.0, 0.0, 0, 0, Vector2(0.989011, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_bfuvq"]
+[sub_resource type="CurveTexture" id="CurveTexture_0adx7"]
 curve = SubResource("Curve_y42hr")
 
 [sub_resource type="Curve" id="Curve_7bl6j"]
 _data = [Vector2(0, 0.076923), 0.0, 0.0, 0, 0, Vector2(0.21978, 0.791209), 0.0, 0.0, 0, 0, Vector2(1, 0.021978), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_seju5"]
+[sub_resource type="CurveTexture" id="CurveTexture_3av7x"]
 curve = SubResource("Curve_7bl6j")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_dxlrp"]
@@ -68,9 +67,9 @@ damping_min = 0.5
 damping_max = 1.0
 scale_min = 0.5
 scale_max = 1.5
-scale_curve = SubResource("CurveTexture_seju5")
+scale_curve = SubResource("CurveTexture_3av7x")
 color = Color(4.01176, 1.2549, 0.607843, 1)
-emission_curve = SubResource("CurveTexture_bfuvq")
+emission_curve = SubResource("CurveTexture_0adx7")
 
 [sub_resource type="QuadMesh" id="QuadMesh_a5gdb"]
 
@@ -78,7 +77,7 @@ emission_curve = SubResource("CurveTexture_bfuvq")
 offsets = PackedFloat32Array(0, 0.293785, 0.587571, 1)
 colors = PackedColorArray(1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
 
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_jfttl"]
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_h51xr"]
 gradient = SubResource("Gradient_m7i24")
 
 [sub_resource type="Curve" id="Curve_o5kpn"]
@@ -86,14 +85,14 @@ max_value = 15.0
 _data = [Vector2(0.0879121, 0), 0.0, 0.0, 0, 0, Vector2(0.417582, 15), 0.0, 0.0, 0, 0, Vector2(0.989011, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_l8p7r"]
+[sub_resource type="CurveTexture" id="CurveTexture_xbayw"]
 curve = SubResource("Curve_o5kpn")
 
 [sub_resource type="Curve" id="Curve_2yk8x"]
 _data = [Vector2(0, 0.076923), 0.0, 0.0, 0, 0, Vector2(0.21978, 0.791209), 0.0, 0.0, 0, 0, Vector2(1, 0.021978), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_hsapp"]
+[sub_resource type="CurveTexture" id="CurveTexture_lhtga"]
 curve = SubResource("Curve_2yk8x")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_e5hs4"]
@@ -105,10 +104,10 @@ gravity = Vector3(0, 5, 0)
 damping_min = 0.5
 damping_max = 1.0
 scale_max = 2.0
-scale_curve = SubResource("CurveTexture_hsapp")
+scale_curve = SubResource("CurveTexture_lhtga")
 color = Color(0.212305, 0.212305, 0.212305, 1)
-color_ramp = SubResource("GradientTexture1D_jfttl")
-emission_curve = SubResource("CurveTexture_l8p7r")
+color_ramp = SubResource("GradientTexture1D_h51xr")
+emission_curve = SubResource("CurveTexture_xbayw")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_guujs"]
 render_priority = 0
@@ -120,7 +119,7 @@ max_value = 15.0
 _data = [Vector2(0, 1.15384), 0.0, 0.0, 0, 0, Vector2(0.273171, 9.56044), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 3
 
-[sub_resource type="CurveTexture" id="CurveTexture_ydwjt"]
+[sub_resource type="CurveTexture" id="CurveTexture_6kn14"]
 curve = SubResource("Curve_hr3db")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_i7rp8"]
@@ -130,7 +129,7 @@ gravity = Vector3(0, 4, 0)
 scale_min = 0.01
 scale_max = 0.2
 color = Color(4.01176, 1.2549, 0.607843, 1)
-emission_curve = SubResource("CurveTexture_ydwjt")
+emission_curve = SubResource("CurveTexture_6kn14")
 turbulence_enabled = true
 turbulence_noise_scale = 5.0
 

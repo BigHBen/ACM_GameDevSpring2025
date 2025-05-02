@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="EnemyData" load_steps=2 format=3 uid="uid://c0an2n00xor56"]
+
+[ext_resource type="Script" path="res://Scenes/Characters/Hazards/Enemies/EnemyData.gd" id="1_1ayr7"]
+
+[resource]
+script = ExtResource("1_1ayr7")
+type = 0
+display_name = "Skeleton Warrior"
+description = ""
+hp = 50
+speed = 4.5

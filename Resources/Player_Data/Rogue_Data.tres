@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PlayerData" load_steps=2 format=3 uid="uid://bjyuhj4ljuebk"]
+
+[ext_resource type="Script" path="res://Scenes/Characters/PlayerData.gd" id="1_jtxsg"]
+
+[resource]
+script = ExtResource("1_jtxsg")
+type = 2
+display_name = "Rogue"
+description = "Sneaky Fella"
+hp = 50
+speed = 7.5

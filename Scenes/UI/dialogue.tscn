@@ -10,11 +10,26 @@ layer = 0
 script = ExtResource("1_cxgqx")
 d_file = ExtResource("2_bsms5")
 
-[node name="NinePatchRect" type="NinePatchRect" parent="."]
-offset_left = 384.0
-offset_top = 715.0
-offset_right = 1554.0
-offset_bottom = 974.0
+[node name="DialogueContainer" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="NinePatchRect" type="NinePatchRect" parent="DialogueContainer"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 205.0
+offset_top = -324.0
+offset_right = -205.0
+offset_bottom = -74.0
+grow_horizontal = 2
+grow_vertical = 0
 texture = ExtResource("3_2c1go")
 region_rect = Rect2(0, 0, 32, 32)
 patch_margin_left = 5
@@ -22,7 +37,7 @@ patch_margin_top = 5
 patch_margin_right = 5
 patch_margin_bottom = 5
 
-[node name="Name" type="RichTextLabel" parent="NinePatchRect"]
+[node name="Name" type="RichTextLabel" parent="DialogueContainer/NinePatchRect"]
 layout_mode = 0
 offset_left = 21.0
 offset_top = 19.0
@@ -32,7 +47,7 @@ theme_override_fonts/normal_font = ExtResource("3_u3308")
 theme_override_font_sizes/normal_font_size = 40
 text = "Name"
 
-[node name="Chatbox" type="RichTextLabel" parent="NinePatchRect"]
+[node name="Chatbox" type="RichTextLabel" parent="DialogueContainer/NinePatchRect"]
 layout_mode = 0
 offset_left = 30.0
 offset_top = 82.0
@@ -43,43 +58,51 @@ theme_override_fonts/normal_font = ExtResource("3_u3308")
 theme_override_font_sizes/normal_font_size = 40
 text = "Chatting"
 
-[node name="ChatEndDelay" type="Timer" parent="."]
-one_shot = true
-
-[node name="PlayerResponse" type="Control" parent="."]
+[node name="PlayerResponse" type="Control" parent="DialogueContainer"]
 visible = false
 layout_mode = 3
 anchors_preset = 0
-offset_left = -512.0
-offset_right = -472.0
-offset_bottom = 40.0
+offset_left = 702.0
+offset_top = 940.0
+offset_right = 1222.0
+offset_bottom = 1000.0
 focus_neighbor_left = NodePath("HBoxContainer/Accept")
 focus_neighbor_right = NodePath("HBoxContainer/Reject")
 focus_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="PlayerResponse"]
-layout_mode = 0
-offset_left = 1273.0
-offset_top = 916.0
-offset_right = 1629.0
-offset_bottom = 956.0
+[node name="HBoxContainer" type="HBoxContainer" parent="DialogueContainer/PlayerResponse"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -178.0
+offset_top = -20.0
+offset_right = 178.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 20
 alignment = 1
 
-[node name="Accept" type="Button" parent="PlayerResponse/HBoxContainer"]
+[node name="Accept" type="Button" parent="DialogueContainer/PlayerResponse/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_u3308")
 theme_override_font_sizes/font_size = 35
 text = "ACCEPT"
 flat = true
 
-[node name="Reject" type="Button" parent="PlayerResponse/HBoxContainer"]
+[node name="Reject" type="Button" parent="DialogueContainer/PlayerResponse/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_u3308")
 theme_override_font_sizes/font_size = 35
 text = "REJECT
 "
 flat = true
+
+[node name="ChatEndDelay" type="Timer" parent="."]
+one_shot = true
 
 [node name="Test" type="Control" parent="."]
 visible = false

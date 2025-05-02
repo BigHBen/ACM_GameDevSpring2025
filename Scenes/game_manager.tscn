@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://pojgr1oyd3ob" path="res://Scenes/Levels/level_1.tscn" id="2_kwsbf"]
 [ext_resource type="PackedScene" uid="uid://glmmqlidn4d" path="res://Scenes/Levels/test_dungeon.tscn" id="2_wbq3d"]
 [ext_resource type="PackedScene" uid="uid://dnxbomjfrdbl1" path="res://Scenes/UI/pause_menu.tscn" id="2_yxgdt"]
-[ext_resource type="PackedScene" uid="uid://6kakbhuggq26" path="res://Scenes/Characters/knight.tscn" id="4_61e57"]
 [ext_resource type="Shader" path="res://Shaders/blur_effect.gdshader" id="4_hcraj"]
+[ext_resource type="PackedScene" uid="uid://srdyiobu6tak" path="res://Scenes/Characters/player_selection.tscn" id="4_pglcr"]
 [ext_resource type="Script" path="res://Scenes/UI/stats_display.gd" id="5_8hb7y"]
 [ext_resource type="PackedScene" uid="uid://ceqd0t76gybje" path="res://Scenes/UI/debug.tscn" id="5_87yrw"]
 [ext_resource type="Script" path="res://Scenes/game_manager_ui.gd" id="5_m2k5e"]
@@ -24,18 +24,19 @@ process_mode = 3
 script = ExtResource("1_3plxs")
 debug = NodePath("Debug")
 ui_control = NodePath("UI")
-players = [NodePath("Knight")]
+players = [null]
 levels = Array[PackedScene]([ExtResource("2_kwsbf"), ExtResource("2_wbq3d")])
 
 [node name="Level" type="Node" parent="."]
 
-[node name="Knight" parent="." instance=ExtResource("4_61e57")]
-process_mode = 1
+[node name="PlayerSelection" parent="." instance=ExtResource("4_pglcr")]
 
-[node name="Debug" parent="." instance=ExtResource("5_87yrw")]
+[node name="Debug" parent="." node_paths=PackedStringArray("game") instance=ExtResource("5_87yrw")]
+game = NodePath("..")
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." node_paths=PackedStringArray("color_rect2")]
 script = ExtResource("5_m2k5e")
+color_rect2 = NodePath("StatsDisplay/ColorRect2")
 
 [node name="ColorRect" type="ColorRect" parent="UI"]
 z_index = -1
@@ -54,7 +55,7 @@ game_manager = NodePath("../..")
 [node name="DefeatMenu" parent="UI" node_paths=PackedStringArray("game_manager") instance=ExtResource("9_hm2jv")]
 game_manager = NodePath("../..")
 
-[node name="StatsDisplay" type="Control" parent="UI"]
+[node name="StatsDisplay" type="Control" parent="UI" node_paths=PackedStringArray("game_root", "debug")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -63,6 +64,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("5_8hb7y")
+game_root = NodePath("../..")
+debug = NodePath("../../Debug")
 
 [node name="FPS" type="Label" parent="UI/StatsDisplay"]
 layout_mode = 1

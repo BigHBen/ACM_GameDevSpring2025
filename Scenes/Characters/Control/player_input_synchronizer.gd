@@ -8,7 +8,13 @@ extends MultiplayerSynchronizer
 func _ready():
 	# Only process for the local player.
 	set_process(get_multiplayer_authority() == multiplayer.get_unique_id())
+	add_props()
 
+func add_props():
+	var _config := SceneReplicationConfig.new()
+	
+	#config.add_property("position", MultiplayerSynchronizer.PROCESS_MODE_ALWAYS)
+	#config.add_property("velocity", MultiplayerSynchronizer.PROCESS_MODE_ALWAYS)
 
 @rpc("call_local")
 func jump():

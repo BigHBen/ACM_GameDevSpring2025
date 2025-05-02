@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/cannon.glb-9a089f72036f7661092291cc9b67d600.s
 
 [params]
 
-nodes/root_type=""
+nodes/root_type="StaticBody3D"
 nodes/root_name=""
 nodes/apply_root_scale=true
 nodes/root_scale=1.0

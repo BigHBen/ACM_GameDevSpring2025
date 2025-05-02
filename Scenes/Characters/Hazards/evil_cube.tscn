@@ -34,10 +34,16 @@ properties/0/replication_mode = 2
 properties/1/path = NodePath(".:health")
 properties/1/spawn = true
 properties/1/replication_mode = 2
+properties/2/path = NodePath(".:position")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath(".:rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
 [node name="EvilCube" type="CharacterBody3D" groups=["Enemy"]]
 script = ExtResource("1_3dsqp")
-health = 1
+health = 30
 
 [node name="Physics" type="Area3D" parent="."]
 

@@ -4,9 +4,6 @@ extends CharacterBody3D
 @onready var new_attachment : Node3D = $Rig/Skeleton3D/Mage_Head
 @onready var anim_player : AnimationPlayer = $AnimationPlayer
 
-# Autoload Questmanager scene
-@onready var quest_manager : QuestManager = get_node("/root/QuestManager")
-
 # Autoload Quest PopuMenu scene
 @onready var quests_popup : QuestPopMenu = get_node("/root/QuestPopupMenu")
 
@@ -35,38 +32,46 @@ var npc_quest_over : bool = false
 
 #More detection variables
 @onready var head : MeshInstance3D = $Rig/Skeleton3D/Mage_Head
-var target
+var target : PlayerCharacter
 
 # Shared vs Individual (For popup)
 var shared_quest : bool = true
 
+signal interaction_done(area)
 signal chat_end(response) # When player exits out of dialogue box
 signal quest_accepted()
 signal quest_rejected()
 
 func _ready():
+	var game_multiplayer = get_tree().current_scene is GameManagerMultiplayer
+	if game_multiplayer: 
+		quest_accepted.connect(_on_quest_accepted)
+		chat_end.connect(_on_chat_over.rpc)
+	
 	chat_end.connect(_on_chat_over)
-	quest_accepted.connect(_on_quest_accepted.rpc)
+	if !quest_accepted.is_connected(_on_quest_accepted):
+		quest_accepted.connect(_on_quest_accepted)
 	quest_rejected.connect(_on_quest_rejected)
 	load_quest()
 	
-	# Mesh testing - not used
 	if skeleton:
-		# Get the index of the bone you want to attach the new object to
-		var bone_index = skeleton.find_bone("Spellbook")
+		start_head_basis = head.global_transform.basis # Store initial head rotation
 		
-		if bone_index != -1:
+		# Get the index of the bone you want to attach the new object to
+		#var bone_index = skeleton.find_bone("Spellbook")
+		#if bone_index != -1: # Testing - print bones
 			# Get the bone's global transform (position, rotation, scale)
-			var _bone_name_at_index = skeleton.get_bone_name(bone_index)
-			var _bone_rotation = skeleton.get_bone_pose_rotation(bone_index)
-			var _bone_transform = skeleton.get_bone_pose_position(bone_index)
+			#var _bone_name_at_index = skeleton.get_bone_name(bone_index)
+			#var _bone_rotation = skeleton.get_bone_pose_rotation(bone_index)
+			#var _bone_transform = skeleton.get_bone_pose_position(bone_index)
 			#print("Bone Rotation: ", bone_rotation)
 			# Optionally, make the new attachment a child of the skeleton so it follows the bone
 			#new_attachment.get_parent().add_child(new_attachment)
-		start_head_basis = head.global_transform.basis
 
+# Movement Section -
+# Scan for player position -> Move NPC head to face player
 func _process(delta: float) -> void:
-	var collisions = $Area3D.get_overlapping_bodies()
+	var collisions = $ScanForPlayers.get_overlapping_bodies()
 	if !collisions.is_empty() and target:
 		var player_pos = null
 		for col in collisions:
@@ -98,9 +103,22 @@ func look_away(target_basis,_weight):
 		head.global_transform.basis = start_basis.slerp(target_basis, head_rotation_weight)
 		await get_tree().process_frame
 
+# Chat Section - Interact w player -> Start Dialogue
+func interact(talk):
+	if talk:
+		if dialogue:
+			if QuestManager.has_quest(npc_quest.id): 
+				quest_check()
+				dialogue.start()
+			else: 
+				dialogue.start()
+		else: printerr("Make sure to assign Dialogue!")
+	else: dialogue.d_active = false
+
+# Quest Section - Load, Accept/Reject, Check (for QuestItem) and Finish/Reward
 func load_quest():
 	if !npc_quest: npc_quest = Quest.new()
-	npc_quest.id = quest_manager.get_next_quest_id()
+	npc_quest.id = QuestManager.get_next_quest_id()
 	npc_quest.title = "Lost Sauce!"
 	npc_quest.description = "The Wizard Apprentice needs help finding their sauce bottle!"
 	npc_quest.is_completed = false
@@ -110,7 +128,7 @@ func load_quest():
 	
 	# Configure reward (Speed Potion)
 	var potion_type = "Speed_Potion"
-	var quest_reward_dict = quest_manager.load_reward(potion_type)
+	var quest_reward_dict = QuestManager.load_reward(potion_type)
 	quest_reward.value = quest_reward_dict["quantity"]
 	quest_reward.icon = load(quest_reward_dict["ref"])
 	quest_reward.info = quest_reward_dict["info"]
@@ -125,20 +143,70 @@ func load_quest():
 	npc_quest_item.icon = quest_item_icon
 	npc_quest_item.info = "A bottle of mysterious sauce"
 
+func q_item_spawn_loc_condition(marker_name): # Marker Nodes within "Items" Node should include name of NPC
+	return self.name in marker_name
 
-func interact(talk):
-	if talk:
-		if dialogue:
-			if quest_manager.has_quest(npc_quest.id): 
-				quest_check.rpc()
-				dialogue.start()
-			else: dialogue.start()
-		else: printerr("Make sure to assign Dialogue!")
-	else: dialogue.d_active = false
+func _on_quest_accepted():
+	var level = get_parent() if get_parent().is_in_group("Level") else null
+	var level_items : Node = level.get_node_or_null("Items")
+	var markers : Array = []
+	var random_marker
+	var random_marker_pos
+	
+	for child in level_items.get_children(): # Set random location for quest item to spawn
+		if child is Marker3D and q_item_spawn_loc_condition(child.name): markers.append(child)
+	
+	if markers.size() > 0:
+		random_marker = markers[randi() % markers.size()]
+		random_marker_pos = random_marker.position
+	
+	if get_tree().current_scene is GameManagerMultiplayer: # Multiplayer Section
+		var peer_id := multiplayer.get_unique_id()
+		var game = get_tree().current_scene
+		var player = game.find_player(str(peer_id))
+		if player != null: npc_quest.player = player
+		QuestManager.accept_quest(npc_quest,peer_id)
+		for id in GameManagerMultiplayer.get_active_players_multiplayer():
+			if id != peer_id: sync_quest_accept.rpc_id(id,random_marker_pos)
+		
+	elif target: 
+		npc_quest.player = target # SinglepLayer Section
+		if !QuestManager.accept_quest(npc_quest): 
+			printerr("Failed to create Quest! (", npc_quest.title,")")
+			return
+	
+	if random_marker_pos != null: spawn_quest_item(random_marker_pos)
+	else: printerr("Failed to Spawn QuestItem")
+
+@rpc("any_peer","call_local")
+func sync_quest_accept(pos):
+	var peer_id := multiplayer.get_unique_id()
+	var game = get_tree().current_scene
+	var player = game.find_player(str(peer_id))
+	if player != null: npc_quest.player = player
+	QuestManager.accept_quest(npc_quest,peer_id)
+	dialogue.quest_lock = true # Update dialogue player for all peers
+	spawn_quest_item(pos)
+
+# Spawn Quest Item 
+# Pick a random Marker3D child from level
+# Place Item Mesh at Marker3D position
+func spawn_quest_item(pos : Vector3):
+	var level = get_parent() if get_parent().is_in_group("Level") else null
+	var level_items : Node = level.get_node_or_null("Items")
+	var quest_item = base_item_mesh.instantiate()
+	quest_item.item_type = npc_quest_item
+	quest_item.item_glow = true
+	quest_item.position = pos
+	level_items.add_child(quest_item)
+
+func _on_quest_rejected():
+	print("quest rejected") # Do nothing
 
 # Check for npc quest item in player inventory
 # Finish quest if player has desired amount of quest item
-@rpc("any_peer","call_local")
+#@rpc("any_peer","call_local") - Not Synced anymore
+
 func quest_check():
 	if npc_quest == null: return
 	if target:
@@ -147,14 +215,18 @@ func quest_check():
 		var detected_q_items : int = player_inv.get_number_of_item(npc_quest.desired_item)
 		if detected_q_items == npc_quest.desired_item_quantity:
 			player_inv.remove_item(npc_quest.desired_item)
-			npc_quest_finish()
-
-
-func npc_quest_finish():
-	quest_manager.quest_finish(npc_quest.id,npc_quest.player)
-	quest_manager.give_rewards(npc_quest.player,npc_quest.rewards)
+			var game_multiplayer = get_tree().current_scene is GameManagerMultiplayer
+			if game_multiplayer: # Multiplayer Section
+				var peer_id := multiplayer.get_unique_id()
+				for id in GameManagerMultiplayer.get_active_players_multiplayer():
+					if id != peer_id and shared_quest: npc_quest_finish.rpc_id(id) # If shared_quest, finish for both players
+		npc_quest_finish() # Run locally
 
 @rpc("any_peer","call_local")
+func npc_quest_finish():
+	QuestManager.quest_finish(npc_quest.id,npc_quest.player)
+	QuestManager.give_rewards(npc_quest.player,npc_quest.rewards)
+
 func npc_quest_reward():
 	# Reward animation
 	var quest_reward_mesh : Node
@@ -183,91 +255,51 @@ func npc_quest_reward():
 		if quest_reward_mesh and quest_reward_mesh.is_inside_tree():
 			quest_reward_mesh.queue_free()
 
-
+# Signals Section
 @rpc("any_peer","call_local")
-func _on_quest_accepted():
-	if get_tree().current_scene is GameManagerMultiplayer: 
-		var game = get_tree().current_scene
-		var player = game.find_player(str(multiplayer.get_unique_id()))
-		npc_quest.player = player
-	elif target: npc_quest.player = target
-	
-	if npc_quest.player != null:
-		quest_manager.accept_quest(npc_quest)
-		
-		# Spawn Quest Item 
-		# Pick a random Marker3D child from level
-		# Place Item Mesh at Marker3D position
-		var level = get_parent() if get_parent().is_in_group("Level") else null
-		var level_items : Node = level.get_node_or_null("Items")
-		var markers : Array = []
-		var random_marker
-		for child in level_items.get_children():
-			if child is Marker3D: markers.append(child)
-		if markers.size() > 0:
-			#random_marker = markers[randi() % markers.size()]
-			random_marker = markers[1]
-		
-		var quest_item = base_item_mesh.instantiate()
-		quest_item.item_type = npc_quest_item
-		quest_item.position = random_marker.position
-		level_items.add_child(quest_item)
-
-@rpc("any_peer")
-func _on_quest_accepted_remote(): # Client version of _on_quest_accepted()
-	#print("starting individual quest")
-	if target: npc_quest.player = target
-	quest_manager.accept_quest(npc_quest)
-	# Spawn Quest Item 
-	# Pick a random Marker3D child from level
-	# Place Item Mesh at Marker3D position
-	var level = get_parent() if get_parent().is_in_group("Level") else null
-	var level_items : Node = level.get_node_or_null("Items")
-	var markers : Array = []
-	var random_marker
-	for child in level_items.get_children():
-		if child is Marker3D: markers.append(child)
-	if markers.size() > 0:
-		#random_marker = markers[randi() % markers.size()]
-		random_marker = markers[1]
-	
-	var quest_item = base_item_mesh.instantiate()
-	quest_item.item_type = npc_quest_item
-	quest_item.position = random_marker.position
-	level_items.add_child(quest_item)
-
-func _on_quest_rejected():
-	print("quest rejected") # Do nothing
-
 func _on_chat_over():
+	interaction_done.emit(self)
 	if npc_quest.is_completed:
-		npc_quest_reward.rpc()
-		if quests_popup.window.visible: 
-			await get_tree().create_timer(2.0).timeout
-			if shared_quest: quests_popup.toggle_quest_menu_remote.rpc(false)
-			else: quests_popup.toggle_quest_menu(false)
-	elif quest_manager.has_quest(npc_quest.id):
-		if !quests_popup.window.visible: 
-			if shared_quest: quests_popup.toggle_quest_menu_remote.rpc(true)
-			else: quests_popup.toggle_quest_menu(true)
+		npc_quest_reward()
+		if quests_popup.menu_windows.has(npc_quest.id):
+			if quests_popup.menu_windows[npc_quest.id].visible:
+				await get_tree().create_timer(2.0).timeout
+				if shared_quest: quests_popup.toggle_quest_menu(false,npc_quest.id)
+					#quests_popup.toggle_quest_menu_remote.rpc(false,npc_quest.id)
+				else: quests_popup.toggle_quest_menu(false,npc_quest.id)
+	elif QuestManager.has_quest(npc_quest.id):
+		if quests_popup.menu_windows.has(npc_quest.id):
+			if quests_popup.menu_windows[npc_quest.id].visible: return
+		
+		if shared_quest: quests_popup.toggle_quest_menu(true,npc_quest.id)
+			#quests_popup.toggle_quest_menu_remote.rpc(true,npc_quest.id)
+		else: quests_popup.toggle_quest_menu(true,npc_quest.id)
 
 func _on_chatzone_entered(body):
 	if body.is_in_group("Player"):
 		if target:
 			return
 		target = body
+		
+		# Connect to player interaction manager - Allows player to interact w NPC
+		if target.interact_manager:
+			if !target.interact_manager.entered_areas.has(self): target.interact_manager.add_area(self)
+		
 		head_rotation_weight = 0.0
 		$ScanRaycast.position = Vector3.ZERO
 
 func _on_chatzone_exited(body):
 	if body == target:
+		
+		# Connect to player interaction manager - Allows player to interact w NPC
+		if target and target.interact_manager:
+			if target.interact_manager.entered_areas.has(self): target.interact_manager.remove_area(self)
+		
 		target = null
 		look_away(start_head_basis,head_rotation_weight)
-
-
-func _on_scan_timeout() -> void:
-	pass
-
+		if dialogue and dialogue.d_active: 
+			dialogue.cancel_dialogue()
+			_on_chat_over()
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	match anim_name:

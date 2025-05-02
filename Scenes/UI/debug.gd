@@ -7,7 +7,7 @@ var target_player : CharacterBody3D = null : set = set_target_player
 @onready var multiplayer_pvp_toggle : CheckButton = $Panel/VBoxContainer/FriendlyFire
 @onready var dialogue_debug_toggle : CheckButton = $Panel/VBoxContainer/DialogueDebug
 
-@onready var game : Node
+@export var game : Node
 
 var panel_size : Vector2
 var panel_initial : int = 50
@@ -35,7 +35,7 @@ signal ping_vis(active)
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if get_parent() is GameManager or get_parent() is GameManagerMultiplayer: game = get_parent()
-	get_player_properties(null)
+	#get_player_properties(null)
 	$Panel.size_flags_vertical = SIZE_EXPAND | SIZE_FILL
 	hide()
 	fps_toggle.toggled.connect(_on_fps_show_toggle)

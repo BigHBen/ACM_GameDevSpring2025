@@ -3,7 +3,7 @@ extends GridMap
 
 @export var start : bool = false : set = set_start
 @export var clear_fill : bool = false : set = set_clear
-@onready var grid_map2 : GridMap = $"../level1_Grid2"
+@onready var grid_map2 : GridMap = $"../../level1_Grid2"
 @export var border_size : int = 100 : set = set_border_size
 @export var fill_height : int = 4 : set = set_fill_height
 

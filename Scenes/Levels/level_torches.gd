@@ -2,6 +2,7 @@ extends Node3D
 
 #@export var start : bool = false : set = set_start
 #@export var clear_fill : bool = false : set = set_clear
+@export var disabled : bool = false
 @export var torch_grid_map: GridMap
 @export var flame_vfx_scene: PackedScene  # Drag in your GPUParticles scene
 @export var mesh_lib : MeshLibrary
@@ -9,6 +10,7 @@ extends Node3D
 @export_group("Torch Placement")
 @export var z_adjustment : float = 0.5
 @export var y_adjustment : float = 1
+
 
 const orthogonal_angles = [
 	Vector3(0, 0, 0),
@@ -54,6 +56,7 @@ const orthogonal_angles = [
 		#clear_fill = false
 
 func _ready() -> void:
+	if disabled: return
 	if torch_grid_map and flame_vfx_scene: 
 		add_flame_vfx(torch_grid_map, flame_vfx_scene)
 
@@ -64,7 +67,7 @@ func add_flame_vfx(map : GridMap,flame_scene : PackedScene):
 	var t_map = map.get_used_cells()
 	for tile in t_map:
 		var mesh_name = mesh_lib.get_item_mesh(map.get_cell_item(tile)).resource_name
-		if mesh_name.find("torch") == -1: return
+		if "torch" not in mesh_name: continue
 		#print(mesh_lib.get_item_mesh(map.get_cell_item(tile)).resource_name)
 		var t_position = map.map_to_local(tile)
 		var t_rotation = orthogonal_angles[map.get_cell_item_orientation(tile)]

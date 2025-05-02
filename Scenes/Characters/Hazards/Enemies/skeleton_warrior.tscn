@@ -1,9 +1,10 @@
-[gd_scene load_steps=19 format=3 uid="uid://ce6f63gm7gwoq"]
+[gd_scene load_steps=20 format=3 uid="uid://ce6f63gm7gwoq"]
 
 [ext_resource type="PackedScene" uid="uid://bc0tjookvac0o" path="res://Assets/RPG/KayKit_Skeletons_1.0_FREE/KayKit_Skeletons_1.0_FREE/characters/gltf/Skeleton_Warrior.glb" id="1_qm2rv"]
 [ext_resource type="ArrayMesh" uid="uid://ck2oi3hodigeh" path="res://Assets/RPG/KayKit_Skeletons_1.0_FREE/KayKit_Skeletons_1.0_FREE/assets/obj/Skeleton_Blade.obj" id="2_3h8r3"]
 [ext_resource type="Script" path="res://Scenes/Characters/Hazards/Enemies/basicEnemyMovement.gd" id="2_m42y6"]
 [ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="2_pri56"]
+[ext_resource type="Resource" uid="uid://c0an2n00xor56" path="res://Resources/Enemy_Data/Skeleton_Warrior_Data.tres" id="3_k7l4x"]
 [ext_resource type="AnimationNodeStateMachine" uid="uid://d17e0p6mwo5oi" path="res://Resources/skeleton_state.tres" id="4_cl545"]
 [ext_resource type="Script" path="res://Scripts/hitbox.gd" id="5_myeri"]
 [ext_resource type="PackedScene" uid="uid://nsjluf8e1piw" path="res://Scenes/Characters/Character_UI/health_bar.tscn" id="8_hprgt"]
@@ -12,7 +13,7 @@
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_7eciw"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_j67w5"]
-graph_offset = Vector2(-664, 162)
+graph_offset = Vector2(-659, 18)
 nodes/AnimationNodeStateMachine/node = ExtResource("4_cl545")
 nodes/AnimationNodeStateMachine/position = Vector2(-180, 120)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_7eciw")
@@ -46,9 +47,17 @@ properties/0/replication_mode = 2
 properties/1/path = NodePath("EnemyUi/HealthBar:value")
 properties/1/spawn = true
 properties/1/replication_mode = 2
+properties/2/path = NodePath("Rig:position")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("Rig:rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 2
 
 [node name="Skeleton_Warrior" groups=["Enemy"] instance=ExtResource("1_qm2rv")]
 script = ExtResource("2_m42y6")
+enemy_data = ExtResource("3_k7l4x")
+speed = 4.5
 health = 50
 
 [node name="Skeleton3D" parent="Rig" index="0"]
@@ -185,3 +194,4 @@ replication_config = SubResource("SceneReplicationConfig_fvf1v")
 [connection signal="body_entered" from="attack_area" to="." method="_on_attack_area_body_entered"]
 [connection signal="body_exited" from="attack_area" to="." method="_on_attack_area_body_exited"]
 [connection signal="timeout" from="Hit_Hurt Boxes/HurtBox/Timer" to="Hit_Hurt Boxes/HurtBox" method="_on_timer_timeout"]
+[connection signal="navigation_finished" from="NavigationAgent3D" to="." method="_on_navigation_agent_3d_navigation_finished"]

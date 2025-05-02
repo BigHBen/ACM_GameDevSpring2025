@@ -426,7 +426,7 @@ func spawn_custom_rooms(rec: int):
 		
 		if enable_room_alignment and room_tiles and !room_tiles.is_empty():
 			var last_checked_room = room_tiles.back()
-			var room_bounds = get_tile_are_bounds(last_checked_room)
+			var _room_bounds = get_tile_are_bounds(last_checked_room)
 			var room_grid_pos = get_next_room_grid(last_checked_room,size)
 			start_pos.x = room_grid_pos.x
 			start_pos.z = room_grid_pos.z

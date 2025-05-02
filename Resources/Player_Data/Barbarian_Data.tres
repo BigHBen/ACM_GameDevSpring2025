@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PlayerData" load_steps=2 format=3 uid="uid://cdek2hoyow8vc"]
+
+[ext_resource type="Script" path="res://Scenes/Characters/PlayerData.gd" id="1_wvfbq"]
+
+[resource]
+script = ExtResource("1_wvfbq")
+type = 1
+display_name = "Barbarian"
+description = "Tankier Build"
+hp = 100
+speed = 4.0

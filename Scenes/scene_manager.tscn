@@ -1,0 +1,16 @@
+[gd_scene load_steps=7 format=3 uid="uid://5fd7gyd0w3t0"]
+
+[ext_resource type="Script" path="res://Scenes/scenes_list.gd" id="1_3u2qn"]
+[ext_resource type="PackedScene" uid="uid://b7b7sfgkquv5w" path="res://Scenes/UI/main_menu.tscn" id="2_5gmfe"]
+[ext_resource type="PackedScene" uid="uid://srdyiobu6tak" path="res://Scenes/Characters/player_selection.tscn" id="3_06rww"]
+[ext_resource type="PackedScene" uid="uid://0udrovh0uwjn" path="res://Scenes/game_manager.tscn" id="3_fo616"]
+[ext_resource type="PackedScene" uid="uid://cpcb18xsmydxv" path="res://Scenes/Networking/game_manager_multiplayer.tscn" id="4_lg7xx"]
+[ext_resource type="PackedScene" uid="uid://duxc585hlqq0p" path="res://Scenes/UI/loading_screen.tscn" id="6_8xsv8"]
+
+[node name="SceneManager" type="Node"]
+script = ExtResource("1_3u2qn")
+main_menu_scene = ExtResource("2_5gmfe")
+player_selection_scene = ExtResource("3_06rww")
+single_player_scene = ExtResource("3_fo616")
+multi_player_scene = ExtResource("4_lg7xx")
+loading_screen = ExtResource("6_8xsv8")

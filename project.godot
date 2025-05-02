@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="GameDevSpring25"
-run/main_scene="res://Scenes/game_manager.tscn"
+run/main_scene="res://Scenes/UI/main_menu.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://acm_logo.svg"
 
@@ -20,6 +20,7 @@ config/icon="res://acm_logo.svg"
 QuestManager="*res://Resources/quest_manager.gd"
 QuestPopupMenu="*res://Scenes/UI/Quests/quest_popup_menu.tscn"
 MultiplayerLobby="*res://Scenes/Networking/multiplayer_lobby.tscn"
+SceneManager="*res://Scenes/scene_manager.tscn"
 
 [debug]
 
@@ -40,6 +41,8 @@ Level=""
 Enemy=""
 Chest=""
 Door=""
+PlayerProjectile=""
+EnemyProjectile=""
 
 [input]
 

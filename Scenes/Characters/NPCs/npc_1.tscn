@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://c07qpbybbbp40" path="res://Scenes/UI/dialogue.tscn" id="3_eoejf"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_dn65u"]
-radius = 5.0
+radius = 2.5
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_3xc2y"]
 height = 2.4
@@ -106,15 +106,11 @@ transform = Transform3D(0.996275, -5.14962e-09, 0.0862354, 5.13044e-09, 1, 4.440
 [node name="AnimationPlayer" parent="." index="1"]
 autoplay = "Idle"
 
-[node name="Area3D" type="Area3D" parent="." index="2"]
+[node name="ScanForPlayers" type="Area3D" parent="." index="2"]
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D" index="0"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ScanForPlayers" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 shape = SubResource("SphereShape3D_dn65u")
-
-[node name="Scan" type="Timer" parent="Area3D" index="1"]
-wait_time = 0.25
-autostart = true
 
 [node name="Physics" type="CollisionShape3D" parent="." index="3"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
@@ -125,9 +121,7 @@ target_position = Vector3(0, 1, -25)
 debug_shape_custom_color = Color(1, 0, 0, 1)
 
 [node name="Dialogue" parent="." index="5" instance=ExtResource("3_eoejf")]
-layer = 0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
-[connection signal="body_entered" from="Area3D" to="." method="_on_chatzone_entered"]
-[connection signal="body_exited" from="Area3D" to="." method="_on_chatzone_exited"]
-[connection signal="timeout" from="Area3D/Scan" to="." method="_on_scan_timeout"]
+[connection signal="body_entered" from="ScanForPlayers" to="." method="_on_chatzone_entered"]
+[connection signal="body_exited" from="ScanForPlayers" to="." method="_on_chatzone_exited"]

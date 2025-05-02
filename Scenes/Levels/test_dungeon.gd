@@ -2,6 +2,8 @@ extends Node3D
 
 @onready var game : Node = get_parent()
 @onready var nav_region : NavigationRegion3D = $Gridmaps/NavigationRegion3D
+@export var world_environment : WorldEnvironment
+
 @export var level_chest : PackedScene
 @export var player_spawn_point = Vector3(0,2,0)
 

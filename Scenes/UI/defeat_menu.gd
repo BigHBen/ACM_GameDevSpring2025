@@ -2,17 +2,26 @@ extends Control
 
 @export var game_manager : Node
 @onready var debug_menu
+@onready var continue_button : Button = $VBoxContainer/Continue
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if game_manager is GameManager:
+		debug_menu = game_manager.debug
+		game_manager._on_player_defeat.connect(_on_game_defeat_ui)
+	elif game_manager is GameManagerMultiplayer:
+		debug_menu = game_manager.debug
+		game_manager._on_player_defeat.connect(_on_game_defeat_ui)
+	else:
+		if get_tree().current_scene is GameManager: 
+			debug_menu = game_manager.debug
+			game_manager._on_player_defeat.connect(_on_game_defeat_ui)
+		if get_tree().current_scene is GameManagerMultiplayer: 
+			debug_menu = game_manager.debug
+			game_manager._on_player_defeat.connect(_on_game_defeat_ui)
+	
+	if continue_button: continue_button.pressed.connect(_on_continue)
 	hide()
-	if get_tree().current_scene is GameManager: 
-		debug_menu = game_manager.debug
-		game_manager._on_player_defeat.connect(_on_game_defeat_ui)
-	if get_tree().current_scene is GameManagerMultiplayer: 
-		debug_menu = game_manager.debug
-		game_manager._on_player_defeat.connect(_on_game_defeat_ui)
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -40,9 +49,13 @@ func _on_game_defeat_ui(node_info : Array):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		self.modulate = Color(1,1,1,0)
 		show()
+		if continue_button: continue_button.grab_focus()
 		tween_self_property("modulate",Color(1,1,1,1), 1.0)
 		tween_shader_property("lod",2.0, 0.25) # Blur effect - Tween that changes blur strength over 0.25 seconds
 		
 	else: 
 		hide()
 		tween_shader_property("lod",0.0, 0.25)
+
+func _on_continue():
+	if game_manager: game_manager.switch_to_main_menu()

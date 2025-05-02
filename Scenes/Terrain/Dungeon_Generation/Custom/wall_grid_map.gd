@@ -4,6 +4,7 @@ class_name WallGridSpawner
 
 
 @export var start : bool = false : set = set_start
+@export var start_rect : bool = false : set = set_start_rect
 @export var clear_fill : bool = false : set = set_clear
 @export var keep : bool = false
 
@@ -11,6 +12,8 @@ class_name WallGridSpawner
 @export var dun_gen : DunGen
 @export var source_gridmap : GridMap
 @export var border_size : int = 20 : set = set_border_size
+@export var border_size_x : int = 20 : set = set_border_size_x
+@export var border_size_y : int = 20 : set = set_border_size_y
 @export var fill_height : int = 4 : set = set_fill_height
 
 var center_x = 0  # Assuming 0 is the center in the x direction
@@ -44,12 +47,33 @@ func set_start(val:bool)->void:
 		print("Walls Generated")
 		start = false
 
+func set_start_rect(val:bool)->void:
+	start_rect = val
+	if Engine.is_editor_hint() and start_rect and source_gridmap:
+		iterate_grid_cells_rect()
+		print("Walls Generated")
+		start_rect = false
+
 # Clear wall tiles
 func set_clear(val:bool)->void:
 	clear_fill = val
 	if Engine.is_editor_hint() and clear_fill:
 		self.clear()
 		clear_fill = false
+
+func set_border_size_x(val : int) -> void:
+	border_size_x = val
+	if Engine.is_editor_hint() and !keep:
+		#center_x = int(border_size / 2)
+		#center_z = int(border_size / 2)
+		visualize_border_new()
+
+func set_border_size_y(val : int) -> void:
+	border_size_y = val
+	if Engine.is_editor_hint() and !keep:
+		#center_x = int(border_size / 2)
+		#center_z = int(border_size / 2)
+		visualize_border_new()
 
 # Sets size of the red border square
 # Tiles inside border are scanned for wall spawning
@@ -59,6 +83,20 @@ func set_border_size(val : int) -> void:
 		#center_x = int(border_size / 2)
 		#center_z = int(border_size / 2)
 		visualize_border()
+
+func visualize_border_new():
+	self.clear()
+	if dun_gen and source_gridmap: 
+		var _center = (border_size / 2) * cell_size.x
+		#self.position = Vector3(center,0,center)
+	for i in range(-border_size_x, border_size_x + 1):
+		self.set_cell_item(Vector3i(i, 0, -border_size_y), self.get_tile_index(TileType.BORDER))
+	for i in range(-border_size_x, border_size_x + 1):
+		self.set_cell_item(Vector3i(i, 0, border_size_y + 1), self.get_tile_index(TileType.BORDER))
+	for i in range(-border_size_y, border_size_y + 1):
+		self.set_cell_item(Vector3i(-border_size_x, 0, i), self.get_tile_index(TileType.BORDER))
+	for i in range(-border_size_y, border_size_y + 1):
+		self.set_cell_item(Vector3i(border_size_x + 1, 0, i), self.get_tile_index(TileType.BORDER))
 
 func visualize_border():
 	self.clear()
@@ -77,6 +115,7 @@ func clear_border(node : GridMap):
 		node.set_cell_item(Vector3i(i, 0, border_size + 1), -1)  # Top
 		node.set_cell_item(Vector3i(-border_size, 0, i), -1)  # Left
 		node.set_cell_item(Vector3i(border_size + 1, 0, i), -1)  # Right
+
 #func visualize_border_centered():
 		#self.clear()
 		#for i in range(-border_size, border_size + 1):
@@ -93,10 +132,47 @@ func set_fill_height(val : int) -> void:
 	fill_height = val
 
 
+func iterate_grid_cells_rect():
+	var positions = []
+	self.clear()
+	
+	# Get the GridMap's world position (its transform in the scene)
+	var gridmap_position = Vector3i(self.transform.origin)
+	
+	# Define the range for iterating based on border_size_x and border_size_y
+	var border_start_x = -border_size_x + gridmap_position.x/2
+	var border_end_x = border_size_x + gridmap_position.x/2
+	var border_start_z = -border_size_y + gridmap_position.z/2
+	var border_end_z = border_size_y + gridmap_position.z/2
+	
+	# Iterate over the grid in the defined rectangular area
+	for x in range(border_start_x, border_end_x + 1):
+		for z in range(border_start_z, border_end_z + 1):
+			var pos = Vector3i(x, 0, z)
+			
+			#print(pos+gridmap_position/2)
+			# If the grid cell is empty, place a wall block
+			if source_gridmap.get_cell_item(pos) == -1:  # If empty tile
+				# Adjust the position to take the GridMap's transform into account
+				#var world_pos = gridmap_position + Vector3(x, 0, z)
+				
+				self.set_cell_item(pos-gridmap_position/2, 0)  # Set the tile in the target gridmap
+				positions.append(pos-gridmap_position/2)  # Add position to the list of positions
+
+	for y in range(fill_height):
+		for t in positions:
+			t.y = y
+			if self.get_cell_item(t) == -1:
+				self.set_cell_item(t,0)
+				positions.append(t)
+	
+	#self.position = Vector3i.ZERO
+	print("Generated %s shadow boxes" % [positions.size()])
+
 func iterate_grid_cells():
 	var positions = []
 	self.clear()
-	visualize_border()
+	#visualize_border()
 	
 	#for x in range(-border_size + 1, border_size): # If centered
 		#for z in range(-border_size + 1, border_size):

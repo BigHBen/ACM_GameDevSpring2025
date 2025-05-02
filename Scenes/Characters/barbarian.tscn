@@ -1,18 +1,119 @@
-[gd_scene load_steps=12 format=3 uid="uid://tmflrvcq2dhv"]
+[gd_scene load_steps=59 format=3 uid="uid://tmflrvcq2dhv"]
 
 [ext_resource type="PackedScene" uid="uid://b8tgw0t31vcnp" path="res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/Barbarian.glb" id="1_qi1wv"]
 [ext_resource type="Script" path="res://Scripts/basicMovement.gd" id="2_q20by"]
-[ext_resource type="AnimationNodeStateMachine" uid="uid://brktypcshptqv" path="res://Resources/knight_state.tres" id="3_pnqpt"]
+[ext_resource type="Resource" uid="uid://cdek2hoyow8vc" path="res://Resources/Player_Data/Barbarian_Data.tres" id="3_d7x2n"]
+[ext_resource type="Script" path="res://Scenes/Characters/Control/player_inv_controller.gd" id="3_phb0u"]
 [ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="4_65adk"]
+[ext_resource type="Script" path="res://Scripts/hitbox.gd" id="4_gbch1"]
+[ext_resource type="Script" path="res://Scenes/Characters/Control/effects_manager.gd" id="4_nxleu"]
 [ext_resource type="PackedScene" uid="uid://ckstcle8h8g1f" path="res://Scenes/Characters/Character_UI/PlayerUI.tscn" id="5_3ysqs"]
+[ext_resource type="Shader" uid="uid://cx4toex8ia5gn" path="res://Shaders/fire_shader.tres" id="5_thuqf"]
+[ext_resource type="Texture2D" uid="uid://c55lnvr1yvbea" path="res://Assets/Effects/Flame02.png" id="6_5bd3u"]
+[ext_resource type="Script" path="res://Scenes/Characters/Control/player_camera.gd" id="6_hcq4y"]
 [ext_resource type="Texture2D" uid="uid://b0pidw1cbkwmk" path="res://Assets/UI_Assets/Barbarian.png" id="6_ve8c0"]
+[ext_resource type="Shader" uid="uid://csob75j63l0l2" path="res://Shaders/simple_particles.tres" id="7_mdntm"]
+[ext_resource type="Texture2D" uid="uid://cgry1qvuijsrt" path="res://Assets/Effects/Flare00.PNG" id="8_5f7ot"]
+[ext_resource type="PackedScene" uid="uid://nsjluf8e1piw" path="res://Scenes/Characters/Character_UI/health_bar.tscn" id="9_34qpp"]
+[ext_resource type="Shader" uid="uid://c38iiq7d6abkl" path="res://knight_sword_trail.tres" id="9_t1ib8"]
+[ext_resource type="FontFile" uid="uid://hxqlvug5a3dn" path="res://Assets/Fonts/Sagewold-Regular.ttf" id="10_1hhb1"]
+[ext_resource type="ArrayMesh" uid="uid://7yevd68g6hwl" path="res://Assets/Effects/slash_mesh_plane.res" id="10_888md"]
+[ext_resource type="PackedScene" uid="uid://buc3i1ysrljmw" path="res://Scenes/UI/Inventory/inventory.tscn" id="11_fmbgm"]
+[ext_resource type="Script" path="res://Scenes/Characters/Control/player_interact_manager.gd" id="12_2ndho"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://bes0ogvpaugh6" path="res://Resources/barbarian_state.tres" id="12_ixm8c"]
+[ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="13_7xqn3"]
+[ext_resource type="Script" path="res://Scenes/Characters/other_player_stats.gd" id="14_oatuj"]
+[ext_resource type="Script" path="res://Scenes/Characters/Control/player_input_synchronizer.gd" id="15_htlxn"]
+[ext_resource type="Script" path="res://Scenes/Characters/Character_UI/damage_label_popup.gd" id="24_6v3xj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_jyv0s"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("5_thuqf")
+shader_parameter/DissolveTiling = Vector2(1, 1)
+shader_parameter/DissolveSpeed = Vector2(0, 0)
+shader_parameter/DissolveAmount = 0.0
+shader_parameter/Texture2DParameter = ExtResource("6_5bd3u")
+
+[sub_resource type="Curve" id="Curve_q12xo"]
+max_value = 0.1
+_data = [Vector2(0.421801, 0.010989), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_mxhhn"]
+curve = SubResource("Curve_q12xo")
+
+[sub_resource type="Curve" id="Curve_embai"]
+max_value = 15.0
+_data = [Vector2(0.0879121, 0), 0.0, 0.0, 0, 0, Vector2(0.374408, 11.5385), 0.0, 0.0, 0, 0, Vector2(0.989011, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_y12l3"]
+curve = SubResource("Curve_embai")
+
+[sub_resource type="Curve" id="Curve_pm5b1"]
+_data = [Vector2(0, 0.076923), 0.0, 0.0, 0, 0, Vector2(0.21978, 0.791209), 0.0, 0.0, 0, 0, Vector2(1, 0.021978), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_m1ksk"]
+curve = SubResource("Curve_pm5b1")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ulanm"]
+emission_shape = 1
+emission_sphere_radius = 0.2
+angle_min = -360.0
+angle_max = 360.0
+gravity = Vector3(0, 2, 0)
+damping_min = 0.5
+damping_max = 1.0
+scale_min = 4.0
+scale_max = 6.0
+scale_curve = SubResource("CurveTexture_m1ksk")
+color = Color(4.01176, 1.2549, 0.607843, 1)
+alpha_curve = SubResource("CurveTexture_mxhhn")
+emission_curve = SubResource("CurveTexture_y12l3")
+
+[sub_resource type="QuadMesh" id="QuadMesh_qliny"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cx6nl"]
+render_priority = 0
+shader = ExtResource("7_mdntm")
+shader_parameter/Texture2DParameter = ExtResource("8_5f7ot")
+
+[sub_resource type="Curve" id="Curve_jjecd"]
+max_value = 15.0
+_data = [Vector2(0, 1.15384), 0.0, 0.0, 0, 0, Vector2(0.273171, 9.56044), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_dh8mn"]
+curve = SubResource("Curve_jjecd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_1ium1"]
+emission_shape = 1
+emission_sphere_radius = 2.0
+gravity = Vector3(0, 5, 0)
+scale_min = 0.01
+scale_max = 0.4
+color = Color(4.01176, 1.2549, 0.607843, 1)
+emission_curve = SubResource("CurveTexture_dh8mn")
+turbulence_enabled = true
+turbulence_noise_scale = 2.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_1iwq7"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5rhm7"]
+render_priority = 0
+shader = ExtResource("9_t1ib8")
+shader_parameter/offset = Vector3(0, 0, 0)
+shader_parameter/Dissolve = Vector3(0, 0, 0)
+shader_parameter/gradient_offset = Vector3(0.001, 0, 0)
 
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_7eciw"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_kg8m5"]
-graph_offset = Vector2(-596.465, 0)
-nodes/AnimationNodeStateMachine/node = ExtResource("3_pnqpt")
-nodes/AnimationNodeStateMachine/position = Vector2(-160, 120)
+graph_offset = Vector2(-429.488, 22.8091)
+nodes/AnimationNodeStateMachine/node = ExtResource("12_ixm8c")
+nodes/AnimationNodeStateMachine/position = Vector2(-240, 120)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_7eciw")
 nodes/TimeScale/position = Vector2(115.451, 129.532)
 node_connections = [&"TimeScale", 0, &"AnimationNodeStateMachine", &"output", 0, &"TimeScale"]
@@ -20,144 +121,388 @@ node_connections = [&"TimeScale", 0, &"AnimationNodeStateMachine", &"output", 0,
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_clfcw"]
 height = 2.4
 
-[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_kelhh"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hahsy"]
+radius = 1.03152
+height = 2.06303
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_sdr3y"]
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_fj38g"]
+radius = 0.6
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_or0jx"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_08u58"]
+bg_color = Color(0.853569, 0.109188, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_peqn2"]
+bg_color = Color(0.458824, 0.458824, 0.458824, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_b0833"]
+bg_color = Color(0.458405, 0.458405, 0.458405, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3liog"]
 texture = ExtResource("6_ve8c0")
 
-[node name="Barbarian" instance=ExtResource("1_qi1wv")]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ljqio"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hssem"]
+bg_color = Color(0.853569, 0.109188, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_x7ije"]
+font_size = 20
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_kmcnf"]
+radius = 2.0
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_0tfar"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+properties/2/path = NodePath("Rig:rotation")
+properties/2/spawn = true
+properties/2/replication_mode = 1
+properties/3/path = NodePath("Hit_Hurt Boxes:rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 1
+properties/4/path = NodePath("PlayerUi/FloatingNamePanel:position")
+properties/4/spawn = false
+properties/4/replication_mode = 0
+properties/5/path = NodePath("PlayerUi/FloatingNamePanel:rotation")
+properties/5/spawn = false
+properties/5/replication_mode = 0
+properties/6/path = NodePath("PlayerUi/FloatingNamePanel/PlayerName2:text")
+properties/6/spawn = true
+properties/6/replication_mode = 2
+properties/7/path = NodePath("PlayerUi/HealthBar:value")
+properties/7/spawn = true
+properties/7/replication_mode = 2
+properties/8/path = NodePath("PlayerUi/FloatingNamePanel/HealthBar2:value")
+properties/8/spawn = true
+properties/8/replication_mode = 2
+
+[sub_resource type="Animation" id="Animation_3awyw"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Trail:material_override:shader_parameter/Vector3Parameter")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(-1, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Trail:material_override:shader_parameter/gradient_offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0.001, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Trail:material_override:shader_parameter/Dissolve")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Trail:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_hrics"]
+resource_name = "new_animation"
+length = 0.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Trail:material_override:shader_parameter/offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(-1, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Trail:material_override:shader_parameter/gradient_offset")
+tracks/1/interp = 1
+tracks/1/loop_wrap = false
+tracks/1/keys = {
+"times": PackedFloat32Array(0.1, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(-1, 0, 0), Vector3(0, 0, 0), Vector3(0, 0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Trail:material_override:shader_parameter/Dissolve")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(1, 1, 1), Vector3(0, 0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Trail:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_sbtt4"]
+_data = {
+"RESET": SubResource("Animation_3awyw"),
+"new_animation": SubResource("Animation_hrics")
+}
+
+[node name="Barbarian" groups=["Player"] instance=ExtResource("1_qi1wv")]
+collision_layer = 9
 script = ExtResource("2_q20by")
+player_type = 1
+player_data = ExtResource("3_d7x2n")
+speed = 4.0
+combo_cooldown = 1.5
+
+[node name="InventoryController" type="Node3D" parent="." index="0"]
+script = ExtResource("3_phb0u")
+
+[node name="EffectsManager" type="Node3D" parent="." index="1"]
+script = ExtResource("4_nxleu")
+
+[node name="Effects" type="Node3D" parent="EffectsManager" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.20292, 0)
+
+[node name="Aura_Flame" type="GPUParticles3D" parent="EffectsManager/Effects" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.262045, 0)
+visible = false
+material_override = SubResource("ShaderMaterial_jyv0s")
+amount = 50
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_ulanm")
+draw_pass_1 = SubResource("QuadMesh_qliny")
+
+[node name="Orb_Particles" type="GPUParticles3D" parent="EffectsManager/Effects" index="1"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.15384, 0)
+sorting_offset = 1.0
+material_override = SubResource("ShaderMaterial_cx6nl")
+emitting = false
+amount = 50
+lifetime = 2.0
+process_material = SubResource("ParticleProcessMaterial_1ium1")
+draw_pass_1 = SubResource("QuadMesh_1iwq7")
+
+[node name="Effects_Light" type="OmniLight3D" parent="EffectsManager/Effects" index="2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.79569, -0.239777)
+light_energy = 0.0
+light_size = 0.007
+omni_range = 10.0
 
 [node name="Skeleton3D" parent="Rig" index="0"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
-bones/1/position = Vector3(0, 0.504194, 0)
-bones/1/rotation = Quaternion(-1.02444e-09, 0.00294937, 7.78144e-09, 0.999996)
-bones/2/rotation = Quaternion(0.00129833, -0.00294469, 0.000170928, 0.999995)
-bones/3/rotation = Quaternion(-0.00223436, 5.00005e-14, 5.20868e-12, 0.999997)
-bones/4/rotation = Quaternion(-0.663976, -0.341837, -0.371712, 0.551464)
+bones/1/position = Vector3(0, 0.381389, 0)
+bones/1/rotation = Quaternion(-1.11123e-10, 0.0431578, 2.57241e-09, 0.999068)
+bones/2/rotation = Quaternion(-6.93889e-18, 7.10543e-15, 4.93038e-32, 1)
+bones/3/rotation = Quaternion(8.27181e-25, 3.72529e-09, 0, 1)
+bones/4/position = Vector3(0.212007, 0.134132, 7.92996e-08)
+bones/4/rotation = Quaternion(-0.552948, -0.0634432, -0.657759, 0.50752)
 bones/4/scale = Vector3(0.999999, 0.999999, 1)
-bones/5/rotation = Quaternion(1.84266e-08, -5.07407e-08, -0.564983, 0.825103)
+bones/5/rotation = Quaternion(2.83533e-08, -5.35232e-08, -0.473216, 0.880947)
 bones/6/rotation = Quaternion(-9.73784e-11, -2.98437e-10, 0.0266581, 0.999645)
 bones/6/scale = Vector3(1, 1, 1)
-bones/7/rotation = Quaternion(-0.0881932, 0.0470068, 0.489432, 0.866296)
+bones/7/rotation = Quaternion(-0.316632, -0.327964, 0.133322, 0.880005)
 bones/8/position = Vector3(8.34843e-10, 0.0961252, -0.0575)
-bones/8/rotation = Quaternion(1.60975e-09, 1.60975e-09, -0.707107, 0.707107)
+bones/8/rotation = Quaternion(0.00163396, 0.00163396, -0.701082, 0.713077)
 bones/8/scale = Vector3(1, 1, 1)
-bones/11/rotation = Quaternion(-0.647984, 0.370767, 0.396292, 0.534417)
+bones/11/position = Vector3(-0.212007, 0.134132, 8.6814e-08)
+bones/11/rotation = Quaternion(-0.612417, 0.0834738, 0.630406, 0.469645)
 bones/11/scale = Vector3(0.999999, 0.999999, 1)
-bones/12/rotation = Quaternion(1.33697e-08, 4.98485e-08, 0.504833, 0.863217)
+bones/12/rotation = Quaternion(-4.46046e-10, 5.67118e-08, 0.497435, 0.867502)
 bones/13/rotation = Quaternion(-9.73784e-11, 2.98437e-10, -0.0266581, 0.999645)
 bones/13/scale = Vector3(1, 1, 1)
-bones/14/rotation = Quaternion(-0.0175286, -0.0918899, -0.456548, 0.884767)
-bones/15/position = Vector3(1.40663e-08, 0.0961251, -0.0575)
-bones/15/rotation = Quaternion(-2.34153e-09, 7.60989e-09, 0.707107, 0.707107)
+bones/14/rotation = Quaternion(-0.315139, 0.301955, -0.214981, 0.873667)
+bones/15/position = Vector3(-1.5736e-08, 0.0961251, -0.0575)
+bones/15/rotation = Quaternion(0.00418959, 0.00493472, 0.702736, 0.711421)
 bones/15/scale = Vector3(1, 1, 1)
-bones/22/position = Vector3(0.170945, 0.113587, 1.78556e-08)
-bones/22/rotation = Quaternion(0.95063, 0.0228074, 0.0285816, 0.308166)
+bones/19/rotation = Quaternion(-5.80608e-11, -0.0313417, -1.88012e-09, 0.999509)
+bones/22/position = Vector3(0.170945, 0.113587, 1.59941e-08)
+bones/22/rotation = Quaternion(0.992156, 0.0831291, 0.0765105, 0.0535023)
 bones/22/scale = Vector3(1, 1, 1)
-bones/23/rotation = Quaternion(0.605058, 5.4509e-08, -4.19159e-07, 0.796182)
-bones/24/rotation = Quaternion(-0.359393, -0.0474834, 0.0173487, 0.931816)
-bones/25/rotation = Quaternion(-3.03504e-08, 0.920355, -0.391084, 7.15634e-08)
+bones/23/rotation = Quaternion(0.306631, 6.37884e-08, -2.12801e-07, 0.951828)
+bones/24/rotation = Quaternion(-0.575285, -0.205502, 0.0612244, 0.789346)
+bones/25/rotation = Quaternion(-9.74065e-09, 0.920355, -0.391084, 7.8309e-08)
 bones/25/scale = Vector3(1, 1, 1)
-bones/26/position = Vector3(-0.170945, 0.113587, 1.78556e-08)
-bones/26/rotation = Quaternion(0.901171, -0.0302181, -0.0387877, 0.430665)
+bones/26/position = Vector3(-0.170945, 0.113587, 1.55755e-08)
+bones/26/rotation = Quaternion(0.994689, -0.0313947, 0.0306323, 0.093108)
 bones/26/scale = Vector3(1, 1, 1)
-bones/27/rotation = Quaternion(0.816147, -3.97169e-08, 5.62393e-07, 0.577845)
-bones/28/rotation = Quaternion(-0.597297, 0.0504024, -0.0446371, 0.799189)
-bones/29/rotation = Quaternion(2.88291e-08, 0.920355, -0.391084, -6.9174e-08)
+bones/27/rotation = Quaternion(0.361753, -6.17716e-08, 2.51903e-07, 0.932274)
+bones/28/rotation = Quaternion(-0.605781, 0.113706, -0.016158, 0.787299)
+bones/29/rotation = Quaternion(3.03591e-08, 0.920355, -0.391084, -6.95338e-08)
 bones/29/scale = Vector3(1, 1, 1)
 bones/30/rotation = Quaternion(0.707107, -2.29302e-07, -4.60552e-08, 0.707107)
-bones/31/position = Vector3(0.210945, 0.0564993, 0.163613)
-bones/31/rotation = Quaternion(-0.420781, 0.0183716, 0.0395617, 0.906113)
-bones/32/position = Vector3(3.43593e-08, 0.362833, -2.42861e-15)
-bones/32/rotation = Quaternion(7.10544e-15, -1.49012e-08, 1, 1.05879e-22)
-bones/33/rotation = Quaternion(-1.026e-07, 0.391084, 0.920355, -2.99279e-08)
-bones/34/position = Vector3(-6.31128e-09, 0.16565, 5.63557e-09)
-bones/35/rotation = Quaternion(1, -1.69494e-15, 1.94009e-07, 1.86265e-09)
+bones/31/position = Vector3(0.202182, 0.0259903, 0.205181)
+bones/31/rotation = Quaternion(-0.707107, -7.05285e-08, -7.05285e-08, 0.707107)
+bones/32/rotation = Quaternion(9.65792e-09, 1.77955e-09, 0.985719, -0.168398)
+bones/33/position = Vector3(-2.60494e-08, 0.213436, -5.1715e-09)
+bones/33/rotation = Quaternion(-1.01273e-07, 0.391084, 0.920355, -3.35091e-08)
+bones/34/position = Vector3(8.58988e-09, 0.16565, -2.40963e-09)
+bones/35/rotation = Quaternion(1, -2.33136e-09, 1.99777e-07, -1.34211e-15)
 bones/37/rotation = Quaternion(0.707107, -3.82385e-08, 1.45009e-07, 0.707107)
-bones/38/position = Vector3(-0.210945, 0.167233, 0.225909)
-bones/38/rotation = Quaternion(-0.511457, -0.0223308, -0.0374699, 0.858201)
-bones/39/position = Vector3(3.43593e-08, 0.362833, 2.42861e-15)
-bones/39/rotation = Quaternion(7.10544e-15, 7.45058e-09, 1, -9.31323e-10)
-bones/40/position = Vector3(3.75294e-09, 0.213436, 1.07269e-08)
-bones/40/rotation = Quaternion(-1.00542e-07, 0.391084, 0.920355, -2.70299e-08)
-bones/41/position = Vector3(-6.31127e-09, 0.16565, -2.00878e-08)
+bones/38/rotation = Quaternion(-0.707107, -7.05285e-08, -7.05285e-08, 0.707107)
+bones/39/rotation = Quaternion(-5.83589e-09, 6.43837e-10, 0.994809, 0.101756)
+bones/40/position = Vector3(-1.11482e-08, 0.213436, -2.50942e-15)
+bones/40/rotation = Quaternion(-1.05796e-07, 0.391084, 0.920355, -2.58643e-08)
+bones/41/position = Vector3(-6.31128e-09, 0.16565, 2.70695e-09)
 bones/41/rotation = Quaternion(-0.391084, -6.885e-08, -6.56287e-08, 0.920355)
-bones/42/rotation = Quaternion(1, -2.45728e-15, 1.95173e-07, 1.49012e-08)
+bones/42/rotation = Quaternion(1, 3.76526e-09, 1.94879e-07, 7.45058e-09)
 bones/44/rotation = Quaternion(-0.707107, -7.27951e-08, -7.27951e-08, 0.707107)
-bones/45/position = Vector3(0.620841, 1.16315, 0.0512295)
-bones/45/rotation = Quaternion(0.634021, 0.313114, 0.476021, -0.522859)
+bones/45/position = Vector3(0.520841, 0.769157, -0.0576374)
+bones/45/rotation = Quaternion(0.794627, -1.11759e-07, 0.607098, -5.96046e-08)
 bones/46/rotation = Quaternion(-0.707107, -7.27951e-08, -7.27951e-08, 0.707107)
-bones/47/position = Vector3(-0.639244, 1.16126, 0.0597369)
-bones/47/rotation = Quaternion(0.585158, -0.35012, -0.455044, -0.572661)
+bones/47/position = Vector3(-0.510844, 0.769157, 0.0597369)
+bones/47/rotation = Quaternion(0.758253, 1.52737e-07, -0.651961, 1.11759e-08)
 
 [node name="1H_Axe_Offhand" parent="Rig/Skeleton3D" index="0"]
-transform = Transform3D(-0.894843, 0.350686, 0.276176, 0.25715, -0.100732, 0.961106, 0.364866, 0.931059, -3.99175e-05, 0.761848, 1.07808, 0.0912919)
+transform = Transform3D(6.77863e-07, 0.262863, 0.964833, 0.999845, -0.0169625, 0.00462169, 0.0175813, 0.964683, -0.262822, 0.516174, 0.616062, 0.0119997)
 visible = false
 
 [node name="Barbarian_Round_Shield" parent="Rig/Skeleton3D" index="1"]
-transform = Transform3D(-0.894843, 0.350688, 0.276175, 0.257149, -0.100732, 0.961106, 0.364868, 0.931058, -3.93946e-05, 0.799185, 1.22955, 0.076112)
+transform = Transform3D(4.66373e-07, 0.262863, 0.964833, 0.999844, -0.016965, 0.00462259, 0.017584, 0.964683, -0.262822, 0.662294, 0.617059, -0.0446921)
 visible = false
 
 [node name="1H_Axe" parent="Rig/Skeleton3D" index="2"]
-transform = Transform3D(0.930922, -0.340702, 0.131545, 0.0989507, -0.11142, -0.988834, 0.351555, 0.933545, -0.0700107, -0.793923, 1.08869, 0.093951)
+transform = Transform3D(-0.00296058, -0.162622, 0.986684, 0.999923, -0.0122881, 0.000974067, 0.0119667, 0.986611, 0.162645, -0.4964, 0.620272, 0.137877)
+
+[node name="Trail" type="MeshInstance3D" parent="Rig/Skeleton3D/1H_Axe" index="1"]
+transform = Transform3D(-0.29, 2.45231e-08, 3.5534e-10, -2.84217e-14, -7.45058e-09, 0.221298, 2.53785e-08, 0.279584, 7.45058e-09, 1.065, 0.444, 0)
+visible = false
+material_override = SubResource("ShaderMaterial_5rhm7")
+mesh = ExtResource("10_888md")
+skeleton = NodePath("../1H_Axe")
 
 [node name="2H_Axe" parent="Rig/Skeleton3D" index="3"]
-transform = Transform3D(0.930922, -0.340702, 0.131545, 0.0989507, -0.11142, -0.988834, 0.351555, 0.933545, -0.0700107, -0.793923, 1.08869, 0.093951)
+transform = Transform3D(-0.00296058, -0.162622, 0.986684, 0.999923, -0.0122881, 0.000974067, 0.0119667, 0.986611, 0.162645, -0.4964, 0.620272, 0.137877)
 visible = false
 
 [node name="Mug" parent="Rig/Skeleton3D" index="4"]
-transform = Transform3D(0.930922, -0.340702, 0.131545, 0.0989507, -0.11142, -0.988834, 0.351555, 0.933545, -0.0700107, -1.05705, 1.0644, -0.0574079)
+transform = Transform3D(-0.00296058, -0.162622, 0.986684, 0.999923, -0.0122881, 0.000974067, 0.0119667, 0.986611, 0.162645, -0.487551, 0.320331, 0.0859891)
 visible = false
 
 [node name="Barbarian_Hat" parent="Rig/Skeleton3D" index="5"]
-transform = Transform3D(1, -0.00033424, 8.541e-06, 0.000334223, 0.999998, 0.00187108, -9.16701e-06, -0.00187107, 0.999998, -0.000206625, 1.3144, 0.000518819)
+transform = Transform3D(0.99972, -1.40143e-09, 0.0236466, 1.39341e-09, 1, 3.55686e-10, -0.0236466, -3.22637e-10, 0.99972, -7.55726e-09, 1.1916, -1.39052e-07)
 
 [node name="Barbarian_Cape" parent="Rig/Skeleton3D" index="6"]
-transform = Transform3D(1, -0.00033424, 8.541e-06, 0.000334223, 0.999998, 0.00187108, -9.16701e-06, -0.00187107, 0.999998, -0.000208533, 1.3144, 0.000518819)
+transform = Transform3D(0.996275, -5.14962e-09, 0.0862353, 5.13043e-09, 1, 4.44077e-10, -0.0862353, 1.88007e-15, 0.996275, -1.91641e-06, 1.1916, 2.59003e-08)
 
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="." index="2"]
-transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.80548, 0)
-remote_path = NodePath("../PlayerUi/Control/ClippingMask/SubViewportContainer/PlayerPortrait/SpringArm3D")
-
-[node name="AnimationTree" type="AnimationTree" parent="." index="3"]
+[node name="AnimationTree" type="AnimationTree" parent="." index="4"]
 tree_root = SubResource("AnimationNodeBlendTree_kg8m5")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../AnimationPlayer")
-parameters/AnimationNodeStateMachine/conditions/blocking = false
+parameters/AnimationNodeStateMachine/conditions/charging = false
 parameters/AnimationNodeStateMachine/conditions/grounded = false
+parameters/AnimationNodeStateMachine/conditions/stop_charge = false
 parameters/AnimationNodeStateMachine/IWR/blend_position = Vector2(0, 0)
 parameters/TimeScale/scale = 1.0
 
-[node name="Physics" type="CollisionShape3D" parent="." index="4"]
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="." index="5"]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.80548, 0)
+remote_path = NodePath("../PlayerUi/FaceDisplay/ClippingMask/SubViewportContainer/PlayerPortrait/SpringArm3D")
+
+[node name="Physics" type="CollisionShape3D" parent="." index="6"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
 shape = SubResource("CapsuleShape3D_clfcw")
 
-[node name="CameraPivot" type="Node3D" parent="." index="5"]
-transform = Transform3D(1, 0, 0, 0, 0.939693, -0.34202, 0, 0.34202, 0.939693, 0, 0, 0)
-
-[node name="Camera3D" type="Camera3D" parent="CameraPivot" index="0"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
-
-[node name="SpotLight3D" type="SpotLight3D" parent="." index="6"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0)
-spot_angle = 60.0
-
 [node name="Hit_Hurt Boxes" type="Node3D" parent="." index="7"]
 
-[node name="HurtBox" type="Area3D" parent="Hit_Hurt Boxes" index="0"]
+[node name="HitBox1" type="Area3D" parent="Hit_Hurt Boxes" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -1)
+collision_layer = 6
+collision_mask = 0
+script = ExtResource("4_gbch1")
+damage = 7
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hit_Hurt Boxes/HitBox1" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.90316, -0.182694)
+shape = SubResource("CapsuleShape3D_hahsy")
+disabled = true
+
+[node name="HurtBox" type="Area3D" parent="Hit_Hurt Boxes" index="1"]
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("4_65adk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Hit_Hurt Boxes/HurtBox" index="0"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
-shape = SubResource("CapsuleShape3D_kelhh")
+shape = SubResource("CapsuleShape3D_fj38g")
 
 [node name="Timer" type="Timer" parent="Hit_Hurt Boxes/HurtBox" index="1"]
 wait_time = 0.5
+one_shot = true
 
-[node name="PlayerUi" parent="." index="8" instance=ExtResource("5_3ysqs")]
+[node name="CameraPivot" type="Node3D" parent="." index="8"]
+transform = Transform3D(1, 0, 0, 0, 0.939693, -0.34202, 0, 0.34202, 0.939693, 0, 0, 0)
 
-[node name="Control" type="Control" parent="PlayerUi" index="5"]
+[node name="SpringArm3D" type="SpringArm3D" parent="CameraPivot" index="0"]
+spring_length = 4.0
+
+[node name="Camera3D" type="Camera3D" parent="CameraPivot/SpringArm3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+script = ExtResource("6_hcq4y")
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." index="9"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 3, 0)
+spot_angle = 60.0
+
+[node name="PlayerUi" parent="." index="10" instance=ExtResource("5_3ysqs")]
+layer = 0
+
+[node name="HealthBar" parent="PlayerUi" index="1"]
+theme_override_styles/background = SubResource("StyleBoxEmpty_or0jx")
+theme_override_styles/fill = SubResource("StyleBoxFlat_08u58")
+
+[node name="Potions" parent="PlayerUi" index="2"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_peqn2")
+
+[node name="Coins" parent="PlayerUi" index="3"]
+theme_override_styles/panel = SubResource("StyleBoxFlat_b0833")
+
+[node name="FaceDisplay" type="Control" parent="PlayerUi" index="5"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -166,7 +511,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="ClippingMask" type="Panel" parent="PlayerUi/Control" index="0"]
+[node name="ClippingMask" type="Panel" parent="PlayerUi/FaceDisplay" index="0"]
 clip_children = 2
 z_index = 2
 layout_mode = 0
@@ -175,9 +520,9 @@ offset_top = 34.0
 offset_right = 209.0
 offset_bottom = 256.0
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_sdr3y")
+theme_override_styles/panel = SubResource("StyleBoxTexture_3liog")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="PlayerUi/Control/ClippingMask" index="0"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="PlayerUi/FaceDisplay/ClippingMask" index="0"]
 layout_mode = 0
 offset_left = -36.0
 offset_top = -34.0
@@ -185,16 +530,160 @@ offset_right = 476.0
 offset_bottom = 478.0
 scale = Vector2(0.5, 0.5)
 
-[node name="PlayerPortrait" type="SubViewport" parent="PlayerUi/Control/ClippingMask/SubViewportContainer" index="0"]
+[node name="PlayerPortrait" type="SubViewport" parent="PlayerUi/FaceDisplay/ClippingMask/SubViewportContainer" index="0"]
 handle_input_locally = false
 render_target_update_mode = 4
 
-[node name="SpringArm3D" type="SpringArm3D" parent="PlayerUi/Control/ClippingMask/SubViewportContainer/PlayerPortrait" index="0"]
+[node name="SpringArm3D" type="SpringArm3D" parent="PlayerUi/FaceDisplay/ClippingMask/SubViewportContainer/PlayerPortrait" index="0"]
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 1.80548, 0)
 collision_mask = 3
 spring_length = 2.5
 margin = 0.1
 
-[node name="Camera3D" type="Camera3D" parent="PlayerUi/Control/ClippingMask/SubViewportContainer/PlayerPortrait/SpringArm3D" index="0"]
+[node name="Camera3D" type="Camera3D" parent="PlayerUi/FaceDisplay/ClippingMask/SubViewportContainer/PlayerPortrait/SpringArm3D" index="0"]
+
+[node name="FloatingNamePanel" type="Panel" parent="PlayerUi" index="6"]
+visible = false
+offset_right = 515.0
+offset_bottom = 90.0
+
+[node name="HealthBar2" parent="PlayerUi/FloatingNamePanel" index="0" instance=ExtResource("9_34qpp")]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 48.0
+offset_right = 508.0
+offset_bottom = 75.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_ljqio")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hssem")
+
+[node name="PlayerName2" type="Label" parent="PlayerUi/FloatingNamePanel" index="1"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 4.0
+offset_right = 230.0
+offset_bottom = 53.0
+theme_override_fonts/font = ExtResource("10_1hhb1")
+theme_override_font_sizes/font_size = 40
+text = "Player"
+vertical_alignment = 2
+
+[node name="Inventory" parent="PlayerUi" index="7" instance=ExtResource("11_fmbgm")]
+
+[node name="InteractionsManager" type="Control" parent="PlayerUi" index="8"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("12_2ndho")
+button_test = true
+
+[node name="Interact" type="Button" parent="PlayerUi/InteractionsManager" index="0"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 828.5
+offset_top = 500.0
+offset_right = 1051.5
+offset_bottom = 540.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme_override_fonts/font = ExtResource("13_7xqn3")
+theme_override_font_sizes/font_size = 35
+text = "Interact"
+flat = true
+
+[node name="Other" type="Control" parent="PlayerUi" index="9"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("14_oatuj")
+
+[node name="Panel" type="Panel" parent="PlayerUi/Other" index="0"]
+layout_mode = 0
+offset_left = 47.0
+offset_top = 256.0
+offset_right = 545.0
+offset_bottom = 419.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PlayerUi/Other/Panel" index="0"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -238.0
+offset_top = -72.5
+offset_right = 238.0
+offset_bottom = 73.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="area_list" type="Label" parent="PlayerUi/Other/Panel/VBoxContainer" index="0"]
+layout_mode = 2
+text = "ENTERED AREAS: "
+label_settings = SubResource("LabelSettings_x7ije")
+
+[node name="active_effects" type="Label" parent="PlayerUi/Other/Panel/VBoxContainer" index="1"]
+layout_mode = 2
+text = "ACTIVE EFFECTS: "
+label_settings = SubResource("LabelSettings_x7ije")
+
+[node name="stat3" type="Label" parent="PlayerUi/Other/Panel/VBoxContainer" index="2"]
+layout_mode = 2
+text = "STAT3: "
+label_settings = SubResource("LabelSettings_x7ije")
+
+[node name="Damage_Amount" type="Label" parent="PlayerUi/Other" index="1"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -108.0
+offset_top = -24.5
+offset_right = 108.0
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("10_1hhb1")
+theme_override_font_sizes/font_size = 40
+text = "-10"
+horizontal_alignment = 1
+vertical_alignment = 2
+script = ExtResource("24_6v3xj")
+
+[node name="Interact" type="Area3D" parent="." index="11"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Interact" index="0"]
+shape = SubResource("SphereShape3D_kmcnf")
+
+[node name="PlayerInputSynchronizer" type="MultiplayerSynchronizer" parent="." index="12"]
+replication_config = SubResource("SceneReplicationConfig_0tfar")
+script = ExtResource("15_htlxn")
+
+[node name="trail_anim_player" type="AnimationPlayer" parent="." index="13"]
+root_node = NodePath("../Rig/Skeleton3D/1H_Axe")
+libraries = {
+"": SubResource("AnimationLibrary_sbtt4")
+}
 
 [connection signal="timeout" from="Hit_Hurt Boxes/HurtBox/Timer" to="Hit_Hurt Boxes/HurtBox" method="_on_timer_timeout"]
+[connection signal="pressed" from="PlayerUi/InteractionsManager/Interact" to="PlayerUi/InteractionsManager" method="_on_interact_pressed"]
+[connection signal="area_entered" from="Interact" to="Interact" method="_on_area_entered"]
+[connection signal="area_exited" from="Interact" to="Interact" method="_on_area_exited"]
+[connection signal="body_entered" from="Interact" to="Interact" method="_on_interact_body_entered"]
+[connection signal="body_exited" from="Interact" to="Interact" method="_on_interact_body_exited"]
+
+[editable path="PlayerUi"]

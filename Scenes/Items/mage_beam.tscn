@@ -1,0 +1,167 @@
+[gd_scene load_steps=28 format=3 uid="uid://dec2wuyeeo4wh"]
+
+[ext_resource type="Script" path="res://Scenes/Items/projectile.gd" id="1_fwa0c"]
+[ext_resource type="Script" path="res://Scripts/hitbox.gd" id="2_4f6j7"]
+[ext_resource type="Shader" uid="uid://cx4toex8ia5gn" path="res://Shaders/fire_shader.tres" id="2_igvw3"]
+[ext_resource type="Texture2D" uid="uid://bgpjqktiqo72a" path="res://Assets/Effects/Flame01.png" id="3_1jfqs"]
+[ext_resource type="Texture2D" uid="uid://c430f77ljw3u1" path="res://Assets/Effects/Voronoi01.png" id="4_18a7e"]
+[ext_resource type="Texture2D" uid="uid://c55lnvr1yvbea" path="res://Assets/Effects/Flame02.png" id="5_3v8vr"]
+[ext_resource type="Shader" uid="uid://csob75j63l0l2" path="res://Shaders/simple_particles.tres" id="6_o557a"]
+[ext_resource type="Texture2D" uid="uid://cgry1qvuijsrt" path="res://Assets/Effects/Flare00.PNG" id="7_t6kqs"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6iya4"]
+render_priority = 0
+shader = ExtResource("2_igvw3")
+shader_parameter/DissolveTiling = Vector2(0.25, 0.2)
+shader_parameter/DissolveSpeed = Vector2(0, 0.2)
+shader_parameter/DissolveAmount = 0.55
+shader_parameter/Texture2DParameter = ExtResource("3_1jfqs")
+shader_parameter/Texture2DParameter2 = ExtResource("4_18a7e")
+
+[sub_resource type="Curve" id="Curve_n3nvd"]
+max_value = 15.0
+_data = [Vector2(0.25, 9.23077), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_6v8i6"]
+curve = SubResource("Curve_n3nvd")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ewng0"]
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_max = 0.5
+color = Color(0.486275, 0.27451, 0.831373, 1)
+emission_curve = SubResource("CurveTexture_6v8i6")
+
+[sub_resource type="QuadMesh" id="QuadMesh_0qyyf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tri51"]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("2_igvw3")
+shader_parameter/DissolveTiling = Vector2(1, 1)
+shader_parameter/DissolveSpeed = Vector2(0, 0)
+shader_parameter/DissolveAmount = 0.0
+shader_parameter/Texture2DParameter = ExtResource("5_3v8vr")
+
+[sub_resource type="Curve" id="Curve_jgbj3"]
+max_value = 15.0
+_data = [Vector2(0.0879121, 0), 0.0, 0.0, 0, 0, Vector2(0.417582, 15), 0.0, 0.0, 0, 0, Vector2(0.989011, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_bfuvq"]
+curve = SubResource("Curve_jgbj3")
+
+[sub_resource type="Curve" id="Curve_v6gvp"]
+_data = [Vector2(0, 0.076923), 0.0, 0.0, 0, 0, Vector2(0.21978, 0.791209), 0.0, 0.0, 0, 0, Vector2(1, 0.021978), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_seju5"]
+curve = SubResource("Curve_v6gvp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5lyen"]
+emission_shape = 1
+emission_sphere_radius = 0.2
+angle_min = -360.0
+angle_max = 360.0
+gravity = Vector3(0, 0, 5)
+damping_min = 0.5
+damping_max = 1.0
+scale_min = 0.5
+scale_max = 1.5
+scale_curve = SubResource("CurveTexture_seju5")
+color = Color(0.564706, 0.152941, 0.607843, 1)
+emission_curve = SubResource("CurveTexture_bfuvq")
+
+[sub_resource type="QuadMesh" id="QuadMesh_r42kr"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_b3nyy"]
+render_priority = 0
+shader = ExtResource("6_o557a")
+shader_parameter/Texture2DParameter = ExtResource("7_t6kqs")
+
+[sub_resource type="Curve" id="Curve_nw3q0"]
+max_value = 15.0
+_data = [Vector2(0, 1.15384), 0.0, 0.0, 0, 0, Vector2(0.273171, 9.56044), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_ydwjt"]
+curve = SubResource("Curve_nw3q0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_spqb7"]
+emission_shape = 1
+emission_sphere_radius = 0.4
+gravity = Vector3(0, 1, 0)
+scale_min = 0.01
+scale_max = 0.2
+color = Color(0.431373, 0.466667, 1, 1)
+emission_curve = SubResource("CurveTexture_ydwjt")
+turbulence_enabled = true
+turbulence_noise_scale = 5.0
+
+[sub_resource type="QuadMesh" id="QuadMesh_qv5cp"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v7bgn"]
+radius = 1.03152
+height = 2.06303
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_fwewu"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[node name="MageProjectile" type="RayCast3D" groups=["PlayerProjectile"]]
+top_level = true
+target_position = Vector3(0, 0, -0.1)
+script = ExtResource("1_fwa0c")
+speed = 7.0
+
+[node name="StaticFlame" type="GPUParticles3D" parent="."]
+visible = false
+material_override = SubResource("ShaderMaterial_6iya4")
+local_coords = true
+process_material = SubResource("ParticleProcessMaterial_ewng0")
+draw_pass_1 = SubResource("QuadMesh_0qyyf")
+
+[node name="Flame" type="GPUParticles3D" parent="."]
+material_override = SubResource("ShaderMaterial_tri51")
+amount = 20
+local_coords = true
+trail_lifetime = 10.0
+process_material = SubResource("ParticleProcessMaterial_5lyen")
+draw_pass_1 = SubResource("QuadMesh_r42kr")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+sorting_offset = 1.0
+material_override = SubResource("ShaderMaterial_b3nyy")
+amount = 25
+lifetime = 2.0
+local_coords = true
+draw_order = 1
+process_material = SubResource("ParticleProcessMaterial_spqb7")
+draw_pass_1 = SubResource("QuadMesh_qv5cp")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="."]
+light_color = Color(0.533333, 0.2, 1, 1)
+light_energy = 2.0
+omni_range = 3.084
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+autostart = true
+
+[node name="HitBox" type="Area3D" parent="."]
+collision_layer = 6
+collision_mask = 0
+script = ExtResource("2_4f6j7")
+damage = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+shape = SubResource("CapsuleShape3D_v7bgn")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_fwewu")

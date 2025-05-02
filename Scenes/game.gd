@@ -2,6 +2,9 @@ extends Node
 class_name GameManager
 
 @export var debug : TestDebug
+@onready var quests_popup : QuestPopMenu = get_node("/root/QuestPopupMenu")
+@onready var scene_manager : ScenesList = get_node("/root/SceneManager")
+@onready var lobby : Lobby = get_node("/root/MultiplayerLobby")
 
 @onready var level_container : Node = $Level
 var cur_level : Node3D = null :
@@ -17,6 +20,7 @@ var level_itr : int : # Iterate through levels array
 	get: return level_itr
 
 @export var ui_control : CanvasLayer
+@onready var pause_menu : Control = $UI/PauseMenu
 @export var players : Array[CharacterBody3D]
 @export var start_level_idx : int = 0
 @export var levels : Array[PackedScene]
@@ -42,11 +46,28 @@ var player_defeat : Array = []:
 		return player_defeat
 
 func _ready() -> void:
+	# Set multiplayer_active here so the autoload knows which mode we're in.
+	# Both scenes use lobby autoload, so we need to set it when the scene starts.
+	lobby.multiplayer_active = false 
+	ui_setup()
 	if levels.is_empty(): 
 		printerr($".", " Error: No levels to load - Add scene elements to 'levels' Array")
 		await get_tree().create_timer(1.0).timeout
 		get_tree().call_deferred("quit")
-	else: load_first_level()
+	#else: load_first_level()
+
+func ui_setup():
+	pause_menu.tween_shader_property("lod",0.0, 0.25) # Blur effect - Tween that changes blur strength over 0.25 seconds
+
+func initialize(player_scene : PackedScene):
+	var player = player_scene.instantiate()
+	add_child(player)
+	self.move_child(player,1)
+	players[0] = player
+	start_game()
+
+func start_game():
+	load_first_level()
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("pause_game"):
@@ -65,18 +86,31 @@ func change_level(new_level_scene: PackedScene):
 	for player in players:
 		if player != null: 
 			player.position = new_level.player_spawn_point
-			player.interact.entered_areas.clear()
+			player.interact_manager.entered_areas.clear()
 	
 	level_container.add_child(new_level)
 	new_level.owner = get_tree().current_scene
 	#self.move_child(new_level,0)
+	after_level_loaded()
 
+func after_level_loaded():
+	for player in players:
+		if debug: debug.get_player_properties(player)
+	self.ui_control.ui_fade_reset(1.0) # Undo UI fade effect
+	quests_popup.reset() # Close any quest popup windows
+	quests_popup.toggle_quest_menu(false)
 
 func load_first_level():
 	level_itr = start_level_idx
 
 func next_level():
 	level_itr += 1
+
+func switch_to_main_menu(): # Resets game
+	var main_menu_scene = scene_manager.scenes_packed[scene_manager.SCENES.MAIN_MENU]
+	scene_manager.skip_titlecard = true
+	print(self,": Returning to Main Menu...")
+	get_tree().change_scene_to_packed(main_menu_scene)
 
 func find_player(player_name : String):
 	for player in players:

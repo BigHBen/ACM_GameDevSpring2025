@@ -1,10 +1,8 @@
 [gd_scene load_steps=19 format=3 uid="uid://b7b7sfgkquv5w"]
 
 [ext_resource type="Script" path="res://Scenes/UI/main_menu.gd" id="1_4ke5f"]
-[ext_resource type="PackedScene" uid="uid://0udrovh0uwjn" path="res://Scenes/game_manager.tscn" id="2_cvt01"]
 [ext_resource type="PackedScene" uid="uid://bmufjv7v7pw2e" path="res://Scenes/Levels/main_menu_background.tscn" id="2_ld76y"]
 [ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="2_m2bor"]
-[ext_resource type="PackedScene" uid="uid://cpcb18xsmydxv" path="res://Scenes/Networking/game_manager_multiplayer.tscn" id="3_mim4p"]
 [ext_resource type="Texture2D" uid="uid://fucx7sa5e162" path="res://Assets/UI_Assets/icons8-tick-box-50.png" id="4_kf0rd"]
 [ext_resource type="Texture2D" uid="uid://cl1q2t1tkvgxx" path="res://Assets/UI_Assets/icons8-unchecked-checkbox-50.png" id="5_ydxd7"]
 [ext_resource type="Script" path="res://Scenes/UI/resolution_option_button.gd" id="6_w3upg"]
@@ -66,9 +64,14 @@ font_size = 50
 font = ExtResource("2_m2bor")
 font_size = 50
 
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wgec6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_btybm"]
+font = ExtResource("2_m2bor")
+font_size = 30
+
 [node name="MainMenu" type="Node"]
 script = ExtResource("1_4ke5f")
-levels = Array[PackedScene]([ExtResource("2_cvt01"), ExtResource("3_mim4p")])
 
 [node name="mainmenubackground" parent="." instance=ExtResource("2_ld76y")]
 
@@ -230,6 +233,64 @@ theme_override_fonts/font = ExtResource("2_m2bor")
 theme_override_font_sizes/font_size = 50
 text = "Back
 "
+flat = true
+
+[node name="Confirm" type="Panel" parent="CanvasLayer/Settings"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -269.0
+offset_top = -138.0
+offset_right = 269.0
+offset_bottom = 138.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Settings/Confirm"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/Settings/Confirm/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+theme_override_styles/separator = SubResource("StyleBoxEmpty_wgec6")
+
+[node name="Label" type="Label" parent="CanvasLayer/Settings/Confirm/VBoxContainer"]
+layout_mode = 2
+text = "CONFIRM SETTINGS?"
+label_settings = SubResource("LabelSettings_btybm")
+horizontal_alignment = 1
+
+[node name="HSeparator2" type="HSeparator" parent="CanvasLayer/Settings/Confirm/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+theme_override_styles/separator = SubResource("StyleBoxEmpty_wgec6")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Settings/Confirm/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 30
+alignment = 1
+
+[node name="Ye" type="Button" parent="CanvasLayer/Settings/Confirm/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_m2bor")
+theme_override_font_sizes/font_size = 30
+text = "YES"
+flat = true
+
+[node name="No" type="Button" parent="CanvasLayer/Settings/Confirm/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("2_m2bor")
+theme_override_font_sizes/font_size = 30
+text = "No"
 flat = true
 
 [node name="TitleCard" type="Control" parent="CanvasLayer"]

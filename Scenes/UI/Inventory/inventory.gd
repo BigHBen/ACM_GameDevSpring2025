@@ -93,7 +93,9 @@ func _input(event: InputEvent) -> void:
 		var game = get_tree().current_scene
 		if !game.input_handling: return
 	if event.is_action_pressed("inventory"): #E
-		if get_tree().current_scene.game_paused: return
+		var game_active = get_tree().current_scene is GameManager or \
+		get_tree().current_scene is GameManagerMultiplayer
+		if game_active and get_tree().current_scene.game_paused: return
 		toggle_window(!window.visible)
 
 # Add item directly to inventory via script
@@ -103,6 +105,8 @@ func on_give_player_item (_item : BaseItem, _amount : int):
 func add_item(item : BaseItem, from):
 	if from != null and from.is_in_group("Player"):
 		player_ref = from
+	
+	#if item.type == item.ITEM_TYPE.QUEST_ITEM: print(get_slot_to_add(item))
 	var slot = get_slot_to_add(item)
 	if slot == null: return
 	if slot.item == null:
@@ -139,10 +143,16 @@ func get_slot_to_add(item : BaseItem) -> InventorySlot:
 		if slot.item and item.type:
 			#print("Slot item %s | Item: %s" % [slot.item.ITEM_TYPE_NAMES[slot.item.type],item.ITEM_TYPE_NAMES[item.type]])
 			match slot.item.type:
+				item.ITEM_TYPE.QUEST_ITEM:
+					if item.type != item.ITEM_TYPE.QUEST_ITEM: continue # Only allow special potions to stack
+					if slot.item.type and slot.item.info == item.info:
+						return slot
 				item.ITEM_TYPE.SPECIAL_POTION: 
+					if !item.type == item.ITEM_TYPE.SPECIAL_POTION: continue # Only allow special potions to stack
 					if slot.item.type and slot.item.special_name_type == item.special_name_type:
 						return slot
 				item.ITEM_TYPE.ARMOR:
+					if !item.type == item.ITEM_TYPE.ARMOR: continue # Only allow armor types to stack
 					if slot.item.type and slot.item.armor_type == item.armor_type:
 						return slot
 				_: if slot.item.type == item.type: return slot

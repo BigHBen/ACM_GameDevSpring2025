@@ -1,11 +1,13 @@
 @tool
-class_name BaseItem_Mesh
-extends Area3D
+class_name BaseItem_Mesh extends Area3D
 
+const ITEM_ROTATE_SPEED : float = 1.0
 @export var item_type: BaseItem
 @export var needs_update := false
+@export var item_glow : bool = false
 
 @onready var item_mesh:= $MeshInstance3D
+@onready var light:= $SpotLight3D
 
 func _init() -> void:
 	collision_layer = 0
@@ -18,11 +20,16 @@ func _ready() -> void:
 	else:
 		print("No type given to an item!w")
 
-func _process(_delta: float) -> void:
+func _process(delta: float) -> void:
 	if Engine.is_editor_hint():
 		if needs_update:
 			item_mesh.mesh = item_type.mesh
 			needs_update = false
+	else:
+		self.rotate_y(delta * ITEM_ROTATE_SPEED)
+		if light:
+			if item_glow: light.light_energy = 5
+			else: light.light_energy = 0.0
 
 func item_spawn_animation():
 	self.scale = Vector3.ONE/8

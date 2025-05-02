@@ -53,7 +53,6 @@ func set_clear(val:bool)->void:
 func set_border_size(val : int) -> void:
 	border_size = val
 	if Engine.is_editor_hint() and !keep and !trees_filled:
-		print("hi")
 		#center_x = int(border_size / 2)
 		#center_z = int(border_size / 2)
 		visualize_border()

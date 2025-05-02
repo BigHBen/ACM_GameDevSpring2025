@@ -382,7 +382,7 @@ func spawn_wall(cell_position: Vector3, orientation: int, new_gridmap: GridMap):
 		_:  pass
 
 
-func spawn_floor_under(pos : Vector3, start, height):
+func spawn_floor_under(pos : Vector3, _start_height, height):
 	if !final_under_gridmap: return
 	#var wall_mesh = mesh_library.get_item_mesh(get_tile_index(TileType.WALL))
 	#var total_height = -start + wall_mesh.get_aabb().size.y/2

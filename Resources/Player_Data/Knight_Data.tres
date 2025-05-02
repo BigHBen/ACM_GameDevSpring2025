@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PlayerData" load_steps=2 format=3 uid="uid://chbqjetp4lwxx"]
+
+[ext_resource type="Script" path="res://Scenes/Characters/PlayerData.gd" id="1_7xy6t"]
+
+[resource]
+script = ExtResource("1_7xy6t")
+type = 0
+display_name = "Knight"
+description = "All Around Good Guy"
+hp = 75
+speed = 5.0

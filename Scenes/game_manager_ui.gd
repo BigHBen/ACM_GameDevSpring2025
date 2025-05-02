@@ -1,6 +1,6 @@
 extends CanvasLayer
 
-@onready var color_rect2 : ColorRect = $StatsDisplay/ColorRect2
+@export var color_rect2 : ColorRect
 @onready var pause_menu : Control = $PauseMenu
 
 func magic_fade_out(sec:float):

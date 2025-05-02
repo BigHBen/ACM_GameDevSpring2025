@@ -80,10 +80,10 @@ radius = 2.0
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_cqd8f"]
 properties/0/path = NodePath("Rig:position")
 properties/0/spawn = true
-properties/0/replication_mode = 1
+properties/0/replication_mode = 2
 properties/1/path = NodePath("Rig:rotation")
 properties/1/spawn = true
-properties/1/replication_mode = 1
+properties/1/replication_mode = 2
 
 [node name="Locked_Door" type="Node3D" node_paths=PackedStringArray("dialogue") groups=["NPC"]]
 script = ExtResource("1_c8byg")

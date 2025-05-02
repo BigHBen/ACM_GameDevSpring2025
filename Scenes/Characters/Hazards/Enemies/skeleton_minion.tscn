@@ -1,0 +1,183 @@
+[gd_scene load_steps=18 format=3 uid="uid://kc5708b5hsbg"]
+
+[ext_resource type="PackedScene" uid="uid://0lr5k6d7p1yv" path="res://Assets/RPG/KayKit_Skeletons_1.0_FREE/KayKit_Skeletons_1.0_FREE/characters/gltf/Skeleton_Minion.glb" id="1_n15qb"]
+[ext_resource type="Resource" uid="uid://jsnnrcc31ges" path="res://Resources/Enemy_Data/Skeleton_Minion_Data.tres" id="2_4kvfq"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://dkixtt24ydabq" path="res://Resources/skeleton_minion_state.tres" id="2_pg0tn"]
+[ext_resource type="Script" path="res://Scripts/hitbox.gd" id="5_7shu5"]
+[ext_resource type="Script" path="res://Scripts/hurtbox.gd" id="6_xkqkf"]
+[ext_resource type="PackedScene" uid="uid://nsjluf8e1piw" path="res://Scenes/Characters/Character_UI/health_bar.tscn" id="7_2fxsd"]
+[ext_resource type="FontFile" uid="uid://hxqlvug5a3dn" path="res://Assets/Fonts/Sagewold-Regular.ttf" id="8_7ak0h"]
+
+[sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_7eciw"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_6q6dk"]
+nodes/AnimationNodeStateMachine/node = ExtResource("2_pg0tn")
+nodes/AnimationNodeStateMachine/position = Vector2(-220, 100)
+nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_7eciw")
+nodes/TimeScale/position = Vector2(115.451, 129.532)
+node_connections = [&"TimeScale", 0, &"AnimationNodeStateMachine", &"output", 0, &"TimeScale"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_h06cg"]
+radius = 12.0
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_u58er"]
+radius = 8.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_r51gu"]
+height = 2.4
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ykosc"]
+radius = 1.03152
+height = 2.06303
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_ce65s"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_si6et"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6ga1s"]
+bg_color = Color(0.853569, 0.109188, 0, 1)
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_1jg5i"]
+properties/0/path = NodePath(".:health")
+properties/0/spawn = true
+properties/0/replication_mode = 2
+properties/1/path = NodePath("EnemyUi/HealthBar:value")
+properties/1/spawn = true
+properties/1/replication_mode = 2
+properties/2/path = NodePath("Rig:position")
+properties/2/spawn = true
+properties/2/replication_mode = 2
+properties/3/path = NodePath("Rig:rotation")
+properties/3/spawn = true
+properties/3/replication_mode = 2
+
+[node name="Skeleton_Minion" groups=["Enemy"] instance=ExtResource("1_n15qb")]
+enemy_type = 1
+enemy_data = ExtResource("2_4kvfq")
+speed = 4.0
+health = 35
+
+[node name="Skeleton3D" parent="Rig" index="0"]
+bones/4/rotation = Quaternion(-0.514121, -0.485468, -0.485468, 0.514122)
+bones/5/rotation = Quaternion(1.64805e-09, -5.95036e-08, -0.0552856, 0.998471)
+bones/6/rotation = Quaternion(-9.73784e-11, -2.98437e-10, 0.0266581, 0.999645)
+bones/8/rotation = Quaternion(1.60975e-09, 1.60975e-09, -0.707107, 0.707107)
+bones/9/rotation = Quaternion(-0.514121, 0.485468, 0.485468, 0.514122)
+bones/10/rotation = Quaternion(1.64805e-09, 5.95036e-08, 0.0552856, 0.998471)
+bones/11/rotation = Quaternion(-9.73784e-11, 2.98437e-10, -0.0266581, 0.999645)
+bones/13/rotation = Quaternion(1.60973e-09, -1.60973e-09, 0.707107, 0.707107)
+bones/15/rotation = Quaternion(0.999849, -7.13276e-08, -1.20427e-08, 0.0173732)
+bones/16/rotation = Quaternion(0.106225, 6.86528e-08, -7.37699e-08, 0.994342)
+bones/17/rotation = Quaternion(-0.455239, 1.61971e-08, -3.43568e-08, 0.890369)
+bones/18/rotation = Quaternion(4.77599e-08, 0.920355, -0.391084, 5.80156e-08)
+bones/19/rotation = Quaternion(0.999849, 7.42656e-08, -3.17263e-08, 0.0173732)
+bones/20/rotation = Quaternion(0.106225, -6.86529e-08, 7.37699e-08, 0.994342)
+bones/22/rotation = Quaternion(2.12198e-08, 0.920355, -0.391084, 6.45059e-08)
+bones/23/rotation = Quaternion(0.707107, -2.29302e-07, -4.60552e-08, 0.707107)
+bones/25/rotation = Quaternion(7.10544e-15, -1.38321e-22, 1, -2.33983e-34)
+bones/26/rotation = Quaternion(-1.04035e-07, 0.391084, 0.920355, -2.9526e-08)
+bones/30/rotation = Quaternion(0.707107, -3.82385e-08, 1.45009e-07, 0.707107)
+bones/31/rotation = Quaternion(-0.707107, -7.05285e-08, -7.05285e-08, 0.707107)
+bones/32/rotation = Quaternion(7.10544e-15, -1.38321e-22, 1, -2.33983e-34)
+bones/33/rotation = Quaternion(-1.04035e-07, 0.391084, 0.920355, -2.95261e-08)
+bones/34/rotation = Quaternion(-0.391084, -6.885e-08, -6.56287e-08, 0.920355)
+bones/40/rotation = Quaternion(0.5, -0.5, -0.5, -0.5)
+
+[node name="AnimationTree" type="AnimationTree" parent="." index="2"]
+tree_root = SubResource("AnimationNodeBlendTree_6q6dk")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
+parameters/AnimationNodeStateMachine/conditions/blocking = false
+parameters/AnimationNodeStateMachine/conditions/grounded = false
+parameters/AnimationNodeStateMachine/IWR/blend_position = Vector2(0, 0)
+parameters/TimeScale/scale = 1.0
+
+[node name="detection_area" type="Area3D" parent="." index="3"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="detection_area" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("SphereShape3D_h06cg")
+
+[node name="detection_scan" type="Timer" parent="detection_area" index="1"]
+autostart = true
+
+[node name="attack_area" type="Area3D" parent="." index="4"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="attack_area" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("SphereShape3D_u58er")
+
+[node name="Scan" type="Timer" parent="attack_area" index="1"]
+wait_time = 0.25
+autostart = true
+
+[node name="Physics" type="CollisionShape3D" parent="." index="5"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CapsuleShape3D_r51gu")
+
+[node name="Hit_Hurt Boxes" type="Node3D" parent="." index="6"]
+
+[node name="HitBox1" type="Area3D" parent="Hit_Hurt Boxes" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.03237)
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("5_7shu5")
+damage = 5
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hit_Hurt Boxes/HitBox1" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.90316, -0.182694)
+shape = SubResource("CapsuleShape3D_ykosc")
+disabled = true
+
+[node name="HurtBox" type="Area3D" parent="Hit_Hurt Boxes" index="1"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("6_xkqkf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Hit_Hurt Boxes/HurtBox" index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.2, 0)
+shape = SubResource("CapsuleShape3D_ce65s")
+
+[node name="Timer" type="Timer" parent="Hit_Hurt Boxes/HurtBox" index="1"]
+wait_time = 0.5
+one_shot = true
+
+[node name="EnemyUi" type="CanvasLayer" parent="." index="7"]
+layer = 0
+
+[node name="HealthBar" parent="EnemyUi" index="0" instance=ExtResource("7_2fxsd")]
+visible = false
+offset_left = 187.0
+offset_top = 62.0
+offset_right = 687.0
+offset_bottom = 89.0
+theme_override_styles/background = SubResource("StyleBoxEmpty_si6et")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6ga1s")
+
+[node name="PlayerName" type="Label" parent="EnemyUi/HealthBar" index="2"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = -44.0
+offset_right = 222.0
+offset_bottom = 5.0
+theme_override_fonts/font = ExtResource("8_7ak0h")
+theme_override_font_sizes/font_size = 40
+text = "Skeleton"
+vertical_alignment = 2
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." index="8"]
+
+[node name="ScanRaycast" type="RayCast3D" parent="." index="9"]
+target_position = Vector3(0, 1, -25)
+debug_shape_custom_color = Color(1, 0, 0, 1)
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="." index="10"]
+replication_config = SubResource("SceneReplicationConfig_1jg5i")
+
+[connection signal="body_entered" from="detection_area" to="." method="_on_detection_area_body_entered"]
+[connection signal="body_exited" from="detection_area" to="." method="_on_detection_area_body_exited"]
+[connection signal="body_entered" from="attack_area" to="." method="_on_attack_area_body_entered"]
+[connection signal="body_exited" from="attack_area" to="." method="_on_attack_area_body_exited"]
+[connection signal="timeout" from="Hit_Hurt Boxes/HurtBox/Timer" to="Hit_Hurt Boxes/HurtBox" method="_on_timer_timeout"]

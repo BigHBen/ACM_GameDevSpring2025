@@ -1,22 +1,30 @@
 extends Control
 
-@onready var game_root
-@onready var debug : TestDebug
+@export var game_root : Node
+@export var debug : TestDebug
 @onready var fps : Label
 @onready var ping : Label
 var ping_val : float = 0 : set=update_ping_text
 
 func _ready() -> void:
-	if get_tree().current_scene is GameManager: 
-		game_root = get_tree().current_scene
+	if game_root is GameManager:
 		fps = $FPS
 		ping = null
-	elif get_tree().current_scene is GameManagerMultiplayer: 
-		game_root = get_tree().current_scene
+	elif game_root is GameManagerMultiplayer:
 		fps = $VBoxContainer/FPS
 		ping = $VBoxContainer/Ping
 		hide()
-	debug = game_root.debug
+	else:
+		if get_tree().current_scene is GameManager: 
+			game_root = get_tree().current_scene
+			fps = $FPS
+			ping = null
+		elif get_tree().current_scene is GameManagerMultiplayer: 
+			game_root = get_tree().current_scene
+			fps = $VBoxContainer/FPS
+			ping = $VBoxContainer/Ping
+			hide()
+	if game_root: debug = game_root.debug
 	if debug: 
 		debug.fps_vis.connect(_on_fps_vis)
 		debug.ping_vis.connect(_on_ping_vis)
