@@ -6,6 +6,6 @@
 script = ExtResource("1_7xy6t")
 type = 0
 display_name = "Knight"
-description = "All Around Good Guy"
+description = "Balanced, Reliable"
 hp = 75
 speed = 5.0

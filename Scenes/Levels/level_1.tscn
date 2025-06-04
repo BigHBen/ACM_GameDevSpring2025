@@ -93,7 +93,6 @@ properties/3/replication_mode = 1
 
 [node name="level_1" type="Node3D" node_paths=PackedStringArray("world_environment") groups=["Level"]]
 script = ExtResource("1_i3j8r")
-player_spawn_point = Vector3(-154, 2, -6)
 world_environment = NodePath("Environment/WorldEnvironment")
 
 [node name="Hazards" type="Node3D" parent="."]

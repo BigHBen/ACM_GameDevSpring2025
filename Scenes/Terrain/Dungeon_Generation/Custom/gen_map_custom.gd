@@ -74,12 +74,14 @@ var mesh_preset_2 = {
 	"mesh_items":
 		[
 		6, # Stone Floor
-		6, # Iron Fences
+		6, # Stone floor (for wall tiles)
 		6, # Stone pillars
 		6, # Same stone floor
+		14, # Iron Fences (spawn on top of wall tiles)
 	],
 	"shuffle_floor": true,
 	"floor_under": [true, 1, 4],
+	"walls": true
 }
 
 var center_x = 0 
@@ -166,7 +168,6 @@ func load_mesh_presets(preset : Dictionary):
 	corner_mesh_idx = preset["mesh_items"][2]
 	hallway_mesh_idx = preset["mesh_items"][3]
 
-
 # Gridmap (Self) contains simplified boxmeshes to represent dungeon areas (floor, etc)
 # User selects meshes (types: floor, wall, hallway) from tiles.tres
 # Simplified tiles from gridmap (self) will be scanned
@@ -224,7 +225,6 @@ func visualize_border_centered():
 			source_gridmap.set_cell_item(Vector3i(center_x + border_size, 0, center_z + i), get_tile_index(TileType.BORDER))  # Right border
 
 func scan_floor_tiles():
-	
 	if get_parent() is LevelGen:
 		if current_mesh_preset and current_mesh_preset.keys().has("floor_under"):
 			if current_mesh_preset["floor_under"].size() == 3 and current_mesh_preset["floor_under"][0]:
@@ -251,40 +251,45 @@ func scan_floor_tiles():
 					if current_mesh_preset and current_mesh_preset.keys().has("shuffle_floor"):
 						if current_mesh_preset.has("shuffle_floor") and current_mesh_preset["shuffle_floor"]:
 							shuffled_orientation = get_shuffled_orientation()
-				if tile_index == get_tile_index(TileType.ROOM) || \
-					tile_index == get_tile_index(TileType.DOOR):
-					
-					if shuffled_orientation == -1:
+					if tile_index == get_tile_index(TileType.ROOM) || \
+						tile_index == get_tile_index(TileType.DOOR):
+						
+						if shuffled_orientation == -1:
+							var some_basis = Basis.from_euler(trans_rotation)
+							var orth_idx = get_orthogonal_index_from_basis(some_basis)
+							final_floor_gridmap.set_cell_item(pos, floor_mesh_idx,orth_idx)
+						else:
+							final_floor_gridmap.set_cell_item(pos, floor_mesh_idx,shuffled_orientation)
+						
+						floor_tile_count += 1
+					elif tile_index == get_tile_index(TileType.HALLWAY):
+						trans_rotation = Vector3(0, 0, 0)
 						var some_basis = Basis.from_euler(trans_rotation)
 						var orth_idx = get_orthogonal_index_from_basis(some_basis)
-						final_floor_gridmap.set_cell_item(pos, floor_mesh_idx,orth_idx)
-					else:
-						final_floor_gridmap.set_cell_item(pos, floor_mesh_idx,shuffled_orientation)
+						final_floor_gridmap.set_cell_item(pos, hallway_mesh_idx,orth_idx)
+						floor_tile_count += 1
+					elif tile_index == get_tile_index(TileType.WALL) and final_wall_gridmap:
+						var wall_orientation = get_wall_orientation(pos)
+						#print("Orientation for ", 2*pos, ": ", orientation_map[wall_orientation])
+						spawn_wall(pos, wall_orientation,final_wall_gridmap)
+						wall_tile_count += 1
 					
-					floor_tile_count += 1
-				elif tile_index == get_tile_index(TileType.HALLWAY):
-					trans_rotation = Vector3(0, 0, 0)
-					var some_basis = Basis.from_euler(trans_rotation)
-					var orth_idx = get_orthogonal_index_from_basis(some_basis)
-					final_floor_gridmap.set_cell_item(pos, hallway_mesh_idx,orth_idx)
-					floor_tile_count += 1
-				elif tile_index == get_tile_index(TileType.WALL) and final_wall_gridmap:
-					var wall_orientation = get_wall_orientation(pos)
-					#print("Orientation for ", 2*pos, ": ", orientation_map[wall_orientation])
-					spawn_wall(pos, wall_orientation,final_wall_gridmap)
-					wall_tile_count += 1
-				
-				if get_parent() is LevelGen:
-					if current_mesh_preset and current_mesh_preset.keys().has("floor_under"):
-						if current_mesh_preset["floor_under"].size() == 3 and current_mesh_preset["floor_under"][0]:
-							var floor_mesh_lib : MeshLibrary = final_floor_gridmap.mesh_library
-							var mesh : Mesh = floor_mesh_lib.get_item_mesh(tile_index)
-							var mesh_height = mesh.get_aabb().size.y
-							
-							#var pos_y = pos.y - current_mesh_preset["floor_under"][1]
-							var height = current_mesh_preset["floor_under"][2]
-							spawn_floor_under(pos,mesh_height,height)
-				#await get_tree().create_timer(0.001).timeout
+					# Add extra from mesh preset (ex: Ground tiles for Stone Graveyard preset)
+					if current_mesh_preset:
+						if current_mesh_preset.keys().has("floor_under"):
+							if current_mesh_preset["floor_under"].size() == 3 and current_mesh_preset["floor_under"][0] == true:
+								var floor_mesh_lib : MeshLibrary = final_floor_gridmap.mesh_library
+								var mesh : Mesh = floor_mesh_lib.get_item_mesh(tile_index)
+								var mesh_height = mesh.get_aabb().size.y
+								
+								#var pos_y = pos.y - current_mesh_preset["floor_under"][1]
+								var height = current_mesh_preset["floor_under"][2]
+								spawn_floor_under(pos,mesh_height,height)
+						if current_mesh_preset.keys().has("walls"):
+							if current_mesh_preset["walls"] == true:
+								var walls_mesh_lib : MeshLibrary = final_wall_gridmap.mesh_library
+								pass#spawn_walls_preset()
+
 
 func get_shuffled_orientation() -> int:
 	var angles = [0, 90, 180, 270]
@@ -339,7 +344,6 @@ func get_wall_orientation(cell_position: Vector3) -> int:
 
 # Given wall orientation, rotate and spawn wall
 func spawn_wall(cell_position: Vector3, orientation: int, new_gridmap: GridMap):
-	
 	var orth_idx : int
 	var trans_rotation : Vector3
 	match orientation:
@@ -381,6 +385,8 @@ func spawn_wall(cell_position: Vector3, orientation: int, new_gridmap: GridMap):
 			new_gridmap.set_cell_item(cell_position, wall_mesh_idx,orth_idx)
 		_:  pass
 
+func spawn_walls_preset():
+	pass
 
 func spawn_floor_under(pos : Vector3, _start_height, height):
 	if !final_under_gridmap: return

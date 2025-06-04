@@ -46,6 +46,10 @@ var block_multipliers = {
 
 @export_group("Stats")
 @export_range(0,100) var health : int = 100
+@export var show_effect_stats : bool = false :
+	set(val):
+		show_effect_stats = val
+		player_stats_debug.visible = val
 
 @export_group("Camera")
 #@export var mouse_sensitivity = 0.0015
@@ -87,6 +91,7 @@ var rayEnd = Vector3()
 @onready var p_effects : Node3D = $EffectsManager
 @onready var trail : MeshInstance3D
 @onready var trail_effects_anim : AnimationPlayer
+@onready var player_stats_debug: Player_Stats_Debug = $PlayerUi/Other
 
 # Inventory Controller node
 @onready var p_inv_controller : Node3D = $InventoryController
@@ -173,7 +178,7 @@ func _ready():
 	# Multiplayer startup functions
 	if !multiplayer_startup(): return
 	
-	
+	player_stats_debug.visible = show_effect_stats
 	camera.current = true
 	set_camera()
 
