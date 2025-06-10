@@ -25,7 +25,7 @@ var base_friction_multiplier = 10
 
 @export_group("Attacking")
 @export_range(0,3) var max_block_time : float = 1.0
-@export_range(0,3) var max_charge_time : float = 2.0
+@export_range(0,5) var max_charge_time : float = 2.0
 @export_range(0,1) var block_damage_multiplier: float = 0.5
 @export_range(0.1,10.0) var combo_cooldown : float = 0.5
 @export_range(1,10) var combo_length : int = 3
@@ -64,6 +64,7 @@ var gravity = ProjectSettings.get_setting("physics/3d/default_gravity")
 var jumping = false
 var last_floor = true
 var attacks : Array[String] = []
+var special_attacks : Array[String] = []
 var hit_animations = ["Hit_A","Hit_B"]
 var rayOrigin = Vector3()
 var rayEnd = Vector3()
@@ -82,6 +83,8 @@ var rayEnd = Vector3()
 @onready var healthbar2 = $PlayerUi/FloatingNamePanel/HealthBar2
 @onready var name_label : Label = $PlayerUi/PlayerName
 @onready var name_label2 : Label = $PlayerUi/FloatingNamePanel/PlayerName2
+@export_group("UI")
+@export var floating_charge : Panel
 
 # Player meshes (for armor mainly)
 @onready var helm_mesh : MeshInstance3D
@@ -105,6 +108,10 @@ var rayEnd = Vector3()
 
 # Player specific nodes
 var projectile_launcher : ProjectileLauncher = null # For Rogue and Mage (shoot arrows and spells)
+var mage_explosion = preload("res://Scenes/Effects/mage_special_explosion.tscn") # For Mage 
+var mage_explosion_location : Node3D = null # For Mage
+var mage_explosion_instance = null
+var mage_special_wand_color : Color
 
 var attacking = false
 
@@ -289,6 +296,7 @@ func player_type_setup():
 			attacks = ["1H_Melee_Attack_Slice_Horizontal",
 			"1H_Melee_Attack_Slice_Diagonal",
 			"1H_Melee_Attack_Chop"]
+			special_attacks = []
 			combo_length = 3 # 3 hits per combo
 		PlayerType.BARBARIAN:
 			#print("Big Barbarian")
@@ -299,19 +307,26 @@ func player_type_setup():
 			attacks = ["1H_Melee_Attack_Slice_Horizontal",
 			"1H_Melee_Attack_Slice_Diagonal",
 			"1H_Melee_Attack_Chop"]
+			special_attacks = []
 			combo_length = 4 
 		PlayerType.ROGUE:
 			#print("Rogue...")
 			attacks = ["1H_Ranged_Shoot"]
+			special_attacks = ["2H_Ranged_Shoot"]
 			combo_length = 3
 			projectile_launcher = $Rig/ProjectileLauncher
 			projectile_launcher.configure_launcher(PlayerType.ROGUE)
 		PlayerType.MAGE:
 			#print("Mage Caster")
 			attacks = ["Spellcast_Shoot"]
+			special_attacks = ["Spellcast_Long"]
 			combo_length = 2
 			projectile_launcher = $Rig/ProjectileLauncher
 			projectile_launcher.configure_launcher(PlayerType.MAGE)
+			mage_explosion_instance = mage_explosion.instantiate()
+			mage_explosion_location = $"Hit_Hurt Boxes/Explosion_Location"
+			var wand_light : OmniLight3D = $"Rig/Skeleton3D/1H_Wand/OmniLight3D"
+			mage_special_wand_color = wand_light.light_color
 
 func update_current_camera():
 	camera_viewport = get_viewport().get_camera_3d()
@@ -320,6 +335,7 @@ func _process(_delta: float) -> void:
 	for id in GameManagerMultiplayer.get_active_players_multiplayer():
 		if multiplayer.has_multiplayer_peer():
 			update_floating_healthbar.rpc_id(id)
+	if floating_charge: update_floating_chargebar()
 	#if camera_viewport != null: update_floating_healthbar.rpc()
 
 @rpc("any_peer","call_local")
@@ -328,6 +344,11 @@ func update_floating_healthbar():
 	var screen_pos = get_viewport().get_camera_3d().unproject_position(self.global_position + Vector3(0, 4, 0))
 	$PlayerUi/FloatingNamePanel.global_position = screen_pos 
 	$PlayerUi/FloatingNamePanel.global_position += Vector2(-$PlayerUi/FloatingNamePanel.size.x / 2, 0)
+
+func update_floating_chargebar():
+	var screen_pos = get_viewport().get_camera_3d().unproject_position(self.global_position + Vector3(0, 4, 0))
+	floating_charge.global_position = screen_pos 
+	floating_charge.global_position += Vector2(-floating_charge.size.x / 2, 0)
 
 
 # _Ready() runs once for both server and client
@@ -470,6 +491,27 @@ func handle_attack():
 			combo_over = true
 			return
 
+func handle_special_attack():
+	if hit or defeated: return
+	var attack = special_attacks[0]
+	attacking = true
+	if game_root: 
+		for id in GameManagerMultiplayer.get_active_players_multiplayer():
+			attack_special_animations.rpc_id(id,attack)
+	else: attack_special_animations(attack)
+
+@rpc("call_local")
+func attack_special_animations(anim):
+	match player_type:
+		PlayerType.KNIGHT: 
+			return
+		PlayerType.BARBARIAN: 
+			return
+		PlayerType.ROGUE: 
+			rogue_special(anim)
+		PlayerType.MAGE: 
+			mage_special(anim)
+
 @rpc("call_local")
 func attack_animations(anim):
 	anim_state.travel(anim)
@@ -505,10 +547,56 @@ func rogue_shoot(_anim):
 		await get_tree().create_timer(0.3).timeout
 		projectile_launcher.fire()
 
+func rogue_special(anim):
+	var fire_count : int = 3
+	var fire_delay : float = 0.1
+	pause_anim_tree()
+	for i in range(fire_count):
+		anim_player.play(anim)
+		#anim_state.travel(anim)
+		if projectile_launcher:
+			await get_tree().create_timer(0.2).timeout
+			projectile_launcher.fire(true)
+		await get_tree().create_timer(fire_delay).timeout
+		anim_player.stop()
+	play_anim_tree()
+
 func mage_spellcast(_anim):
 	if projectile_launcher:
 		await get_tree().create_timer(0.225).timeout
 		projectile_launcher.fire()
+
+func mage_special(anim):
+	var light : OmniLight3D
+	if player_type == PlayerType.MAGE: 
+		light = $"Rig/Skeleton3D/1H_Wand/OmniLight3D"
+		light.light_color = mage_special_wand_color
+	
+	var _fire_delay : float = 0.1
+	pause_anim_tree()
+	anim_player.play(anim)
+	blocking = true
+	var anim_length = anim_player.current_animation_length
+	var elapsed_timer : float = 0.0
+	
+	while elapsed_timer < anim_length-1:
+		elapsed_timer += get_process_delta_time()
+		light.light_energy = min(light.light_energy + elapsed_timer,20)
+		await get_tree().process_frame
+	
+	if mage_explosion_instance and mage_explosion_location:
+		var instance = mage_explosion.instantiate()
+		instance.top_level = true
+		var pos = mage_explosion_location.global_position
+		instance.position = pos
+		projectile_launcher.add_child(instance)
+		camera.camera_shake(5.0) 
+	await anim_player.animation_finished
+	blocking = false
+	if light and light.light_energy > 0:
+		var tween := create_tween()
+		tween.tween_property(light, "light_energy", 0.0,0.5)
+	play_anim_tree()
 
 #@rpc("any_peer")
 func update_sword_effects(in_progress : bool): # Sync sword trail animation
@@ -542,13 +630,63 @@ func handle_block():
 
 func handle_charge():
 	var charge_timer : float = 0.0
-	
+	var progressbar : ProgressBar
+	var flash_count : int = 0
+	var max_flashes = 10
+	var flash_timer : float = 0.0
+	var flash_on : bool = false
 	charging = true
+	
+	if player_type == PlayerType.MAGE:
+		var wand_light : OmniLight3D = $"Rig/Skeleton3D/1H_Wand/OmniLight3D"
+		wand_light.light_color = Color("Dodger Blue")
+		var tween := create_tween()
+		tween.tween_property(wand_light, "light_energy", 5.0,0.5)
+	
+	if floating_charge:
+		progressbar = floating_charge.get_child(0)
+		floating_charge.show()
+		if floating_charge.get_child_count() > 0:
+			progressbar.value = 0
+
 	while Input.is_action_pressed("block") and charge_timer < max_charge_time:
-		#_set_animation_state_params.rpc("parameters/AnimationNodeStateMachine/conditions/blocking", true)
 		charge_timer += get_process_delta_time()
+		#progressbar.value = charge_timer / max_charge_time * progressbar.max_value  # normalized
+		progressbar.value += charge_timer
+		# Check for attack input when charge is maxed out
+		if Input.is_action_just_pressed("attack"):
+			if progressbar.value >= progressbar.max_value:
+				handle_special_attack()
+				break
+		
+		# Flashing logic when charge is maxed
+		if progressbar.value >= progressbar.max_value:
+			flash_timer += get_process_delta_time()
+			if flash_count < max_flashes:
+				if flash_timer >= 0.1:  # Flash every 0.1 seconds
+					flash_timer = 0.0
+					if flash_on: 
+						progressbar.new_stylebox_normal.bg_color = Color("White")
+					else: 
+						progressbar.new_stylebox_normal.bg_color = progressbar.default_color
+					progressbar.add_theme_stylebox_override("fill",progressbar.new_stylebox_normal)
+					flash_count += 1
+					flash_on = !flash_on
+			else:
+				break  # Stop flashing after max flashes
 		await get_tree().process_frame
+
+	if player_type == PlayerType.MAGE:
+		var wand_light : OmniLight3D = $"Rig/Skeleton3D/1H_Wand/OmniLight3D"
+		if wand_light.light_energy > 0:
+			var tween := create_tween()
+			tween.tween_property(wand_light, "light_energy", 0.0,0.5)
+	
 	#_set_animation_state_params.rpc("parameters/AnimationNodeStateMachine/conditions/blocking", false)
+	if floating_charge: 
+		floating_charge.hide()
+		progressbar.value = 0
+		progressbar.reset()
 	charging = false
 
 func set_block_state(state):

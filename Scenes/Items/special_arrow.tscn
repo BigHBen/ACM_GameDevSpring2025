@@ -1,0 +1,100 @@
+[gd_scene load_steps=13 format=3 uid="uid://gqtclefgli6c"]
+
+[ext_resource type="Script" path="res://Scenes/Items/projectile.gd" id="1_sj8ol"]
+[ext_resource type="ArrayMesh" uid="uid://dbquk01ibxfun" path="res://Assets/RPG/KayKit_Skeletons_1.0_FREE/KayKit_Skeletons_1.0_FREE/assets/obj/Skeleton_Arrow.obj" id="2_vf36t"]
+[ext_resource type="Script" path="res://Scripts/hitbox.gd" id="3_iosgn"]
+[ext_resource type="Shader" uid="uid://x5rir0ejsnb8" path="res://special_arrow_shader.tres" id="4_pnern"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xlm5w"]
+top_radius = 0.0
+bottom_radius = 0.1
+height = 1.0
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_v7bgn"]
+radius = 1.03152
+height = 2.06303
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_mbtev"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath(".:rotation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_epuco"]
+render_priority = 0
+shader = ExtResource("4_pnern")
+shader_parameter/arrow_color = Color(0.953845, 0.909208, 0.619698, 1)
+
+[sub_resource type="Curve" id="Curve_727qa"]
+_data = [Vector2(0, 0.967033), 0.0, 0.610405, 0, 0, Vector2(0.995781, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_n7fy1"]
+curve = SubResource("Curve_727qa")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_oiv2b"]
+direction = Vector3(0, -1, 0)
+spread = 0.0
+initial_velocity_min = 2.0
+initial_velocity_max = 5.0
+orbit_velocity_min = 9.49949e-08
+orbit_velocity_max = 1.789
+radial_velocity_min = 0.0999776
+radial_velocity_max = 0.299978
+gravity = Vector3(0, 0, 3)
+color = Color(0.969137, 0.969137, 0.969137, 1)
+alpha_curve = SubResource("CurveTexture_n7fy1")
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_j4lfh"]
+lightmap_size_hint = Vector2i(17, 19)
+bottom_radius = 0.0
+
+[node name="ArrowProjectile" type="RayCast3D" groups=["PlayerProjectile"]]
+top_level = true
+target_position = Vector3(0, 0, -0.1)
+script = ExtResource("1_sj8ol")
+special = true
+speed = 20.0
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)
+visible = false
+mesh = SubResource("CylinderMesh_xlm5w")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+mesh = ExtResource("2_vf36t")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+autostart = true
+
+[node name="HitBox" type="Area3D" parent="."]
+collision_layer = 6
+collision_mask = 0
+script = ExtResource("3_iosgn")
+damage = 4
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="HitBox"]
+shape = SubResource("CapsuleShape3D_v7bgn")
+
+[node name="SpotLight" type="SpotLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0.527714, 0)
+light_color = Color(1, 1, 0.541176, 1)
+light_energy = 5.0
+spot_range = 2.0
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_mbtev")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+material_override = SubResource("ShaderMaterial_epuco")
+lifetime = 0.5
+explosiveness = 0.2
+fixed_fps = 60
+process_material = SubResource("ParticleProcessMaterial_oiv2b")
+draw_pass_1 = SubResource("CylinderMesh_j4lfh")

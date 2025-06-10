@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://onh3dcfdxcij"]
+
+[ext_resource type="Script" path="res://Scenes/Characters/Character_UI/charge_bar.gd" id="1_kh10h"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_x0akc"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l8lny"]
+bg_color = Color(1.73271e-06, 0.71949, 0.999741, 1)
+
+[node name="ChargeBar" type="ProgressBar"]
+z_index = 1
+z_as_relative = false
+offset_left = 8.0
+offset_top = 48.0
+offset_right = 508.0
+offset_bottom = 75.0
+mouse_filter = 1
+theme_override_styles/background = SubResource("StyleBoxEmpty_x0akc")
+theme_override_styles/fill = SubResource("StyleBoxFlat_l8lny")
+max_value = 80.0
+show_percentage = false
+script = ExtResource("1_kh10h")

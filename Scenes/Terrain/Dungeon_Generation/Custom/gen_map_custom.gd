@@ -11,6 +11,7 @@ class_name GridMapMeshCustomizer
 @export var source_gridmap : GridMap
 @export var final_floor_gridmap : GridMap
 @export var final_wall_gridmap : GridMap
+@export var final_wall_2_gridmap : GridMap # For Extra wall tiles (ex: fences)
 @export var final_under_gridmap :GridMap
 @export var grid_rotation : int = 0  # 0, 90, -90, 180 degrees rotation
 
@@ -18,7 +19,9 @@ class_name GridMapMeshCustomizer
 @export var mesh_lib : MeshLibrary
 @export var floor_mesh_idx : int
 @export var wall_mesh_idx : int
+@export var wall_2_mesh_idx : int
 @export var corner_mesh_idx : int
+@export var corner_2_mesh_idx : int
 @export var hallway_mesh_idx : int
 
 
@@ -30,6 +33,7 @@ enum TileType {
 	BORDER,
 	HIGHLIGHT,
 	WALL,
+	WALL2,
 }
 
 # Should find a better way to assign indexes
@@ -40,6 +44,7 @@ var tile_index_map = [
 	5,  # BORDER
 	1,  # HIGHLIGHT
 	4,  # WALL
+	4,  # WALL 2
 ]
 
 @export_category("Level Gen Parameters")
@@ -75,9 +80,10 @@ var mesh_preset_2 = {
 		[
 		6, # Stone Floor
 		6, # Stone floor (for wall tiles)
-		6, # Stone pillars
+		6, # Stone Floor (for corner tiles)
 		6, # Same stone floor
 		14, # Iron Fences (spawn on top of wall tiles)
+		17, # Stone Pillars
 	],
 	"shuffle_floor": true,
 	"floor_under": [true, 1, 4],
@@ -143,6 +149,7 @@ func set_clear(val:bool)->void:
 			final_floor_gridmap.clear()
 			if final_wall_gridmap: final_wall_gridmap.clear()
 			if final_under_gridmap: final_under_gridmap.clear()
+			if final_wall_2_gridmap: final_wall_2_gridmap.clear()
 			source_gridmap.visible = true
 			clear_fill = false
 		else: printerr("GridMapMeshCustomizer: Missing mesh library, source, or final gridmap")
@@ -167,6 +174,9 @@ func load_mesh_presets(preset : Dictionary):
 	wall_mesh_idx = preset["mesh_items"][1]
 	corner_mesh_idx = preset["mesh_items"][2]
 	hallway_mesh_idx = preset["mesh_items"][3]
+	if preset["mesh_items"].size() > 4:
+		wall_2_mesh_idx = preset["mesh_items"][4]
+		if preset["mesh_items"].size() > 5: corner_2_mesh_idx = preset["mesh_items"][5]
 
 # Gridmap (Self) contains simplified boxmeshes to represent dungeon areas (floor, etc)
 # User selects meshes (types: floor, wall, hallway) from tiles.tres
@@ -275,7 +285,14 @@ func scan_floor_tiles():
 						wall_tile_count += 1
 					
 					# Add extra from mesh preset (ex: Ground tiles for Stone Graveyard preset)
-					if current_mesh_preset:
+					if MESH_PRESET == MeshPresetChoice.STONE_GRAVEYARD and current_mesh_preset:
+						
+						# Spawn fences
+						if tile_index == get_tile_index(TileType.WALL) and final_wall_2_gridmap:
+							var wall_orientation = get_wall_orientation(pos)
+							spawn_wall(pos, wall_orientation,final_wall_2_gridmap,true)
+						
+						# Spawn tiles under floor
 						if current_mesh_preset.keys().has("floor_under"):
 							if current_mesh_preset["floor_under"].size() == 3 and current_mesh_preset["floor_under"][0] == true:
 								var floor_mesh_lib : MeshLibrary = final_floor_gridmap.mesh_library
@@ -285,10 +302,7 @@ func scan_floor_tiles():
 								#var pos_y = pos.y - current_mesh_preset["floor_under"][1]
 								var height = current_mesh_preset["floor_under"][2]
 								spawn_floor_under(pos,mesh_height,height)
-						if current_mesh_preset.keys().has("walls"):
-							if current_mesh_preset["walls"] == true:
-								var walls_mesh_lib : MeshLibrary = final_wall_gridmap.mesh_library
-								pass#spawn_walls_preset()
+						
 
 
 func get_shuffled_orientation() -> int:
@@ -343,46 +357,51 @@ func get_wall_orientation(cell_position: Vector3) -> int:
 		return -1 
 
 # Given wall orientation, rotate and spawn wall
-func spawn_wall(cell_position: Vector3, orientation: int, new_gridmap: GridMap):
+func spawn_wall(cell_position: Vector3, orientation: int, new_gridmap: GridMap,wall2=false):
 	var orth_idx : int
 	var trans_rotation : Vector3
+	var wall_idx : int = wall_mesh_idx
+	var corner_idx : int = corner_mesh_idx
+	if wall2: 
+		wall_idx = wall_2_mesh_idx
+		corner_idx = corner_2_mesh_idx
 	match orientation:
 		0: # Horizontal wall
 			trans_rotation = Vector3(0, 0, 0)
 			var some_basis = Basis.from_euler(trans_rotation)
 			orth_idx = get_orthogonal_index_from_basis(some_basis)
-			new_gridmap.set_cell_item(cell_position, wall_mesh_idx,orth_idx)
+			new_gridmap.set_cell_item(cell_position, wall_idx,orth_idx)
 		1: # Vertical wall
 			trans_rotation = Vector3(0, PI / 2, 0)
 			var some_basis = Basis.from_euler(trans_rotation)
 			orth_idx = get_orthogonal_index_from_basis(some_basis)
-			new_gridmap.set_cell_item(cell_position, wall_mesh_idx,orth_idx)
+			new_gridmap.set_cell_item(cell_position, wall_idx,orth_idx)
 		2: # Corner wall (top left)
 			trans_rotation = Vector3(0, PI / 2, 0)
 			var some_basis = Basis.from_euler(trans_rotation)
 			orth_idx = get_orthogonal_index_from_basis(some_basis)
 			
-			new_gridmap.set_cell_item(cell_position, corner_mesh_idx,orth_idx)
+			new_gridmap.set_cell_item(cell_position, corner_idx,orth_idx)
 		3: # Corner wall (top right)
 			trans_rotation = Vector3(0, 0, 0)
 			var some_basis = Basis.from_euler(trans_rotation)
 			orth_idx = get_orthogonal_index_from_basis(some_basis)
-			new_gridmap.set_cell_item(cell_position, corner_mesh_idx,orth_idx)
+			new_gridmap.set_cell_item(cell_position, corner_idx,orth_idx)
 		4: # Corner wall (bottom left)
 			trans_rotation = Vector3(0, PI, 0)
 			var some_basis = Basis.from_euler(trans_rotation)
 			orth_idx = get_orthogonal_index_from_basis(some_basis)
-			new_gridmap.set_cell_item(cell_position, corner_mesh_idx,orth_idx)
+			new_gridmap.set_cell_item(cell_position, corner_idx,orth_idx)
 		5: # Corner wall (bottom right)
 			trans_rotation = Vector3(0, -PI / 2, 0)
 			var some_basis = Basis.from_euler(trans_rotation)
 			orth_idx = get_orthogonal_index_from_basis(some_basis)
-			new_gridmap.set_cell_item(cell_position, corner_mesh_idx,orth_idx)
+			new_gridmap.set_cell_item(cell_position, corner_idx,orth_idx)
 		6: # Single isolated wall (edge case)
 			trans_rotation = Vector3(0, 0, 0)
 			var some_basis = Basis.from_euler(trans_rotation)
 			orth_idx = get_orthogonal_index_from_basis(some_basis)
-			new_gridmap.set_cell_item(cell_position, wall_mesh_idx,orth_idx)
+			new_gridmap.set_cell_item(cell_position, wall_idx,orth_idx)
 		_:  pass
 
 func spawn_walls_preset():

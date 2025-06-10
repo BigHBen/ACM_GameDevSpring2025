@@ -1,5 +1,6 @@
 class_name Projectile extends RayCast3D
 
+@export var special : bool = false
 @export var speed : float = 10.0
 @onready var hit_box: HitBox = $HitBox
 
@@ -23,11 +24,14 @@ func _physics_process(delta: float) -> void:
 	if is_colliding() or hit_box.get_overlapping_areas().size() > 0:
 		global_position = get_collision_point()
 		$HitBox/CollisionShape3D.disabled = true
-		if collider.is_in_group("Enemy") or type == "Mage":
+		if collider.is_in_group("Enemy") or type == "Mage" or special:
 			cleanup()
 		set_physics_process(false)
 
 func cleanup():
+	#if type == "Rogue":
+			#$GPUParticles3D.emitting = false
+			#$SpotLight.light_energy = 0
 	if type == "Mage":
 		$StaticFlame.emitting = false
 		$StaticFlame.hide()

@@ -25,6 +25,7 @@ properties/1/replication_mode = 1
 top_level = true
 target_position = Vector3(0, 0, -0.1)
 script = ExtResource("1_c8k74")
+speed = 15.0
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0)

@@ -117,7 +117,7 @@ properties/1/replication_mode = 1
 top_level = true
 target_position = Vector3(0, 0, -0.1)
 script = ExtResource("1_fwa0c")
-speed = 7.0
+speed = 8.0
 
 [node name="StaticFlame" type="GPUParticles3D" parent="."]
 visible = false

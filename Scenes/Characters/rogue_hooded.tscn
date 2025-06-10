@@ -1,4 +1,4 @@
-[gd_scene load_steps=53 format=3 uid="uid://bmojg7sr7rwrc"]
+[gd_scene load_steps=55 format=3 uid="uid://bmojg7sr7rwrc"]
 
 [ext_resource type="PackedScene" uid="uid://qx67mwwxw0gx" path="res://Assets/RPG/KayKit_Adventurers_1.0_FREE/KayKit_Adventurers_1.0_FREE/Characters/gltf/Rogue_Hooded.glb" id="1_6ng26"]
 [ext_resource type="Resource" uid="uid://bjyuhj4ljuebk" path="res://Resources/Player_Data/Rogue_Data.tres" id="2_dubws"]
@@ -20,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://buc3i1ysrljmw" path="res://Scenes/UI/Inventory/inventory.tscn" id="16_v3yt7"]
 [ext_resource type="Script" path="res://Scenes/Characters/Control/player_interact_manager.gd" id="17_5mqpt"]
 [ext_resource type="FontFile" uid="uid://csf05u5hrgcdp" path="res://Resources/SuperComic-qZg62.ttf" id="18_cbljw"]
+[ext_resource type="PackedScene" uid="uid://onh3dcfdxcij" path="res://Scenes/Characters/Character_UI/charge_bar.tscn" id="18_h4678"]
 [ext_resource type="Script" path="res://Scenes/Characters/other_player_stats.gd" id="19_i0uoa"]
 [ext_resource type="Script" path="res://Scenes/Characters/Control/player_input_synchronizer.gd" id="20_5y513"]
 [ext_resource type="Script" path="res://Scenes/Characters/Character_UI/damage_label_popup.gd" id="22_32yya"]
@@ -102,7 +103,7 @@ turbulence_noise_scale = 2.0
 [sub_resource type="AnimationNodeTimeScale" id="AnimationNodeTimeScale_48far"]
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_7vpj6"]
-graph_offset = Vector2(-627, 64)
+graph_offset = Vector2(-379, 150)
 nodes/AnimationNodeStateMachine/node = ExtResource("2_u2cea")
 nodes/AnimationNodeStateMachine/position = Vector2(-240, 120)
 nodes/TimeScale/node = SubResource("AnimationNodeTimeScale_48far")
@@ -137,6 +138,8 @@ texture = ExtResource("5_tcit6")
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_l8lny"]
 bg_color = Color(0.853569, 0.109188, 0, 1)
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_ag2sq"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_byxwu"]
 font_size = 20
@@ -173,11 +176,12 @@ properties/8/path = NodePath("PlayerUi/FloatingNamePanel/HealthBar2:value")
 properties/8/spawn = true
 properties/8/replication_mode = 2
 
-[node name="Rogue_Hooded" groups=["Player"] instance=ExtResource("1_6ng26")]
+[node name="Rogue_Hooded" node_paths=PackedStringArray("floating_charge") groups=["Player"] instance=ExtResource("1_6ng26")]
 collision_layer = 9
 player_type = 2
 player_data = ExtResource("2_dubws")
 combo_cooldown = 1.5
+floating_charge = NodePath("PlayerUi/FloatingChargePanel")
 
 [node name="InventoryController" type="Node3D" parent="." index="0"]
 script = ExtResource("2_sbk4s")
@@ -215,32 +219,32 @@ omni_range = 10.0
 
 [node name="Skeleton3D" parent="Rig" index="0"]
 transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
-bones/1/position = Vector3(0, 0.373097, 0)
+bones/1/position = Vector3(0, 0.376029, 0)
 bones/1/rotation = Quaternion(-1.11123e-10, 0.0431578, 2.57241e-09, 0.999068)
 bones/2/rotation = Quaternion(-6.93889e-18, 7.10543e-15, 4.93038e-32, 1)
 bones/3/rotation = Quaternion(8.27181e-25, 3.72529e-09, 0, 1)
 bones/4/position = Vector3(0.212007, 0.134132, 7.92996e-08)
-bones/4/rotation = Quaternion(-0.553221, -0.0568093, -0.637259, 0.533498)
-bones/5/rotation = Quaternion(2.52039e-08, -5.63103e-08, -0.515407, 0.856945)
-bones/7/rotation = Quaternion(-0.321836, -0.33682, 0.150581, 0.871951)
+bones/4/rotation = Quaternion(-0.551368, -0.0616672, -0.654413, 0.513745)
+bones/5/rotation = Quaternion(3.05231e-08, -6.08813e-08, -0.482453, 0.875922)
+bones/7/rotation = Quaternion(-0.317142, -0.331545, 0.136297, 0.878022)
 bones/8/position = Vector3(8.34843e-10, 0.0961252, -0.0575)
-bones/8/rotation = Quaternion(0.00072498, 0.00072497, -0.704441, 0.709762)
+bones/8/rotation = Quaternion(0.00162375, 0.00162375, -0.70112, 0.71304)
 bones/10/position = Vector3(-0.212007, 0.134132, 8.6814e-08)
-bones/10/rotation = Quaternion(-0.611673, 0.0772398, 0.612785, 0.494353)
-bones/11/rotation = Quaternion(5.45507e-09, 5.66268e-08, 0.537781, 0.843085)
-bones/13/rotation = Quaternion(-0.32078, 0.313018, -0.232717, 0.863112)
+bones/10/rotation = Quaternion(-0.610786, 0.0818693, 0.627687, 0.475654)
+bones/11/rotation = Quaternion(3.37318e-09, 4.31265e-08, 0.506233, 0.862397)
+bones/13/rotation = Quaternion(-0.315859, 0.305961, -0.218066, 0.871245)
 bones/14/position = Vector3(-1.5736e-08, 0.0961251, -0.0575)
-bones/14/rotation = Quaternion(0.00230971, 0.0027205, 0.704704, 0.709492)
+bones/14/rotation = Quaternion(0.00437267, 0.00515036, 0.702544, 0.711608)
 bones/19/rotation = Quaternion(-5.8061e-11, -0.0313416, -1.88013e-09, 0.999509)
 bones/21/position = Vector3(0.170945, 0.113587, 1.59941e-08)
-bones/21/rotation = Quaternion(0.990436, 0.0834441, 0.0781111, 0.0772877)
-bones/22/rotation = Quaternion(0.369186, 6.2804e-08, -2.56041e-07, 0.929356)
-bones/23/rotation = Quaternion(-0.607947, -0.202359, 0.0720445, 0.764369)
+bones/21/rotation = Quaternion(0.99107, 0.0832791, 0.0775887, 0.0694564)
+bones/22/rotation = Quaternion(0.348536, 6.43686e-08, -2.50134e-07, 0.937295)
+bones/23/rotation = Quaternion(-0.597141, -0.203481, 0.0683871, 0.772878)
 bones/24/rotation = Quaternion(-9.74126e-09, 0.920355, -0.391084, 7.8309e-08)
 bones/25/position = Vector3(-0.170945, 0.113587, 1.55755e-08)
-bones/25/rotation = Quaternion(0.992474, -0.0327564, 0.0300525, 0.114106)
-bones/26/rotation = Quaternion(0.416075, -6.02184e-08, 2.89458e-07, 0.90933)
-bones/27/rotation = Quaternion(-0.63501, 0.112899, -0.0211545, 0.763917)
+bones/25/rotation = Quaternion(0.993266, -0.032284, 0.0302493, 0.107079)
+bones/26/rotation = Quaternion(0.39787, -6.02705e-08, 2.78022e-07, 0.917442)
+bones/27/rotation = Quaternion(-0.625191, 0.1132, -0.0194479, 0.771974)
 bones/28/rotation = Quaternion(3.03597e-08, 0.920355, -0.391084, -6.95338e-08)
 bones/29/rotation = Quaternion(0.707107, -2.29302e-07, -4.60551e-08, 0.707107)
 bones/30/position = Vector3(0.202182, 0.0259903, 0.205181)
@@ -258,33 +262,33 @@ bones/39/rotation = Quaternion(-1.05796e-07, 0.391084, 0.920355, -2.58643e-08)
 bones/40/position = Vector3(-6.31128e-09, 0.16565, 2.70695e-09)
 bones/41/rotation = Quaternion(1, 3.76526e-09, 1.94879e-07, 7.45058e-09)
 bones/43/rotation = Quaternion(-0.707107, -7.27951e-08, -7.27951e-08, 0.707107)
-bones/44/position = Vector3(0.520841, 0.778098, -0.0576374)
+bones/44/position = Vector3(0.520841, 0.767831, -0.0576374)
 bones/44/rotation = Quaternion(0.794627, -1.11759e-07, 0.607098, -5.96046e-08)
 bones/45/rotation = Quaternion(-0.707107, -7.27951e-08, -7.27951e-08, 0.707107)
-bones/46/position = Vector3(-0.510844, 0.778098, 0.0597369)
+bones/46/position = Vector3(-0.510844, 0.767831, 0.0597369)
 bones/46/rotation = Quaternion(0.758253, 1.52737e-07, -0.651961, 1.11759e-08)
 
 [node name="Knife_Offhand" parent="Rig/Skeleton3D" index="0"]
-transform = Transform3D(3.79247e-07, 0.262863, 0.964832, 0.999969, -0.0075264, 0.00205045, 0.00780097, 0.964803, -0.262855, 0.507429, 0.626777, -0.0173122)
+transform = Transform3D(4.94851e-05, 0.262843, 0.964838, 0.999845, -0.0169342, 0.00456232, 0.0175382, 0.964689, -0.262803, 0.507318, 0.614999, -0.0195747)
 visible = false
 
 [node name="1H_Crossbow" parent="Rig/Skeleton3D" index="1"]
-transform = Transform3D(0.98761, -0.156919, 0.00161289, 0.000556671, -0.00677297, -0.999976, 0.156926, 0.987588, -0.00660208, -0.488994, 0.736029, 0.0982695)
+transform = Transform3D(0.986591, -0.163178, 0.00309208, 0.00101274, -0.0128233, -0.999916, 0.163205, 0.986512, -0.0124863, -0.489416, 0.723908, 0.0966628)
 
 [node name="2H_Crossbow" parent="Rig/Skeleton3D" index="2"]
-transform = Transform3D(0.98761, -0.156919, 0.00161289, 0.000556671, -0.00677297, -0.999976, 0.156926, 0.987588, -0.00660208, -0.488994, 0.736029, 0.0982695)
+transform = Transform3D(0.986591, -0.163178, 0.00309208, 0.00101274, -0.0128233, -0.999916, 0.163205, 0.986512, -0.0124863, -0.489416, 0.723908, 0.0966628)
 visible = false
 
 [node name="Knife" parent="Rig/Skeleton3D" index="3"]
-transform = Transform3D(-0.00161288, -0.156918, 0.98761, 0.999976, -0.00677282, 0.000556691, 0.00660193, 0.987588, 0.156926, -0.490451, 0.631333, 0.107809)
+transform = Transform3D(-0.00309207, -0.163178, 0.986591, 0.999916, -0.0128231, 0.00101277, 0.0124862, 0.986512, 0.163205, -0.490783, 0.619155, 0.105575)
 visible = false
 
 [node name="Throwable" parent="Rig/Skeleton3D" index="4"]
-transform = Transform3D(-0.00161287, -0.156918, 0.98761, 0.999976, -0.00677281, 0.000556677, 0.00660192, 0.987588, 0.156926, -0.518735, 0.630112, 0.285818)
+transform = Transform3D(-0.00309205, -0.163178, 0.986591, 0.999916, -0.0128231, 0.00101275, 0.0124862, 0.986512, 0.163205, -0.520195, 0.616844, 0.28339)
 visible = false
 
 [node name="Rogue_Cape" parent="Rig/Skeleton3D" index="5"]
-transform = Transform3D(0.996275, -5.14962e-09, 0.0862353, 5.13043e-09, 1, 4.44077e-10, -0.0862353, 1.88007e-15, 0.996275, -4.17227e-09, 1.18331, 1.52591e-15)
+transform = Transform3D(0.996275, -5.14962e-09, 0.0862353, 5.13043e-09, 1, 4.44077e-10, -0.0862353, 1.88007e-15, 0.996275, -4.17227e-09, 1.18624, 1.52591e-15)
 
 [node name="ProjectileLauncher" parent="Rig" index="1" instance=ExtResource("10_c66x3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.225, 1.2, -1)
@@ -425,9 +429,22 @@ theme_override_font_sizes/font_size = 40
 text = "Player"
 vertical_alignment = 2
 
-[node name="Inventory" parent="PlayerUi" index="7" instance=ExtResource("16_v3yt7")]
+[node name="FloatingChargePanel" type="Panel" parent="PlayerUi" index="7"]
+visible = false
+offset_right = 515.0
+offset_bottom = 90.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_ag2sq")
 
-[node name="InteractionsManager" type="Control" parent="PlayerUi" index="8"]
+[node name="ChargeBar" parent="PlayerUi/FloatingChargePanel" index="0" instance=ExtResource("18_h4678")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 500.0
+offset_bottom = 27.0
+
+[node name="Inventory" parent="PlayerUi" index="8" instance=ExtResource("16_v3yt7")]
+
+[node name="InteractionsManager" type="Control" parent="PlayerUi" index="9"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -455,7 +472,7 @@ theme_override_font_sizes/font_size = 35
 text = "Interact"
 flat = true
 
-[node name="Other" type="Control" parent="PlayerUi" index="9"]
+[node name="Other" type="Control" parent="PlayerUi" index="10"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

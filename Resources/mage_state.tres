@@ -1,4 +1,4 @@
-[gd_resource type="AnimationNodeStateMachine" load_steps=53 format=3 uid="uid://ckvpcv7namy0g"]
+[gd_resource type="AnimationNodeStateMachine" load_steps=56 format=3 uid="uid://ckvpcv7namy0g"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_036e2"]
 animation = &"1H_Melee_Attack_Chop"
@@ -22,7 +22,7 @@ animation = &"Hit_A"
 animation = &"Hit_B"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_fohdh"]
-animation = &"1H_Ranged_Aiming"
+animation = &"Spellcasting"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ihjfx"]
 animation = &"Idle"
@@ -75,6 +75,9 @@ animation = &"PickUp"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_uyos8"]
 animation = &"Sit_Floor_StandUp"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pkq6e"]
+animation = &"Spellcast_Long"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5g0me"]
 animation = &"Spellcast_Shoot"
@@ -190,6 +193,12 @@ advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_76rng"]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_jnpah"]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ylttm"]
+switch_mode = 2
+advance_mode = 2
+
 [resource]
 states/1H_Melee_Attack_Chop/node = SubResource("AnimationNodeAnimation_036e2")
 states/1H_Melee_Attack_Chop/position = Vector2(579, 50.4508)
@@ -222,10 +231,12 @@ states/PickUp/node = SubResource("AnimationNodeAnimation_0xqqq")
 states/PickUp/position = Vector2(217.409, 296.487)
 states/Sit_Floor_StandUp/node = SubResource("AnimationNodeAnimation_uyos8")
 states/Sit_Floor_StandUp/position = Vector2(523.409, 402.487)
+states/Spellcast_Long/node = SubResource("AnimationNodeAnimation_pkq6e")
+states/Spellcast_Long/position = Vector2(358, 499.93)
 states/Spellcast_Shoot/node = SubResource("AnimationNodeAnimation_5g0me")
 states/Spellcast_Shoot/position = Vector2(246, -88.71)
 states/Start/position = Vector2(187, 188)
 states/Use_Item/node = SubResource("AnimationNodeAnimation_4hmal")
 states/Use_Item/position = Vector2(216.409, 402.487)
-transitions = ["IWR", "Death_A", SubResource("AnimationNodeStateMachineTransition_pslpk"), "IWR", "Interact", SubResource("AnimationNodeStateMachineTransition_w0bnc"), "IWR", "1H_Melee_Attack_Chop", SubResource("AnimationNodeStateMachineTransition_lcx2c"), "IWR", "1H_Melee_Attack_Slice_Horizontal", SubResource("AnimationNodeStateMachineTransition_il1di"), "IWR", "1H_Melee_Attack_Slice_Diagonal", SubResource("AnimationNodeStateMachineTransition_hn3e3"), "1H_Melee_Attack_Slice_Diagonal", "IWR", SubResource("AnimationNodeStateMachineTransition_kpwmb"), "1H_Melee_Attack_Chop", "IWR", SubResource("AnimationNodeStateMachineTransition_up81j"), "1H_Melee_Attack_Slice_Horizontal", "IWR", SubResource("AnimationNodeStateMachineTransition_c6b14"), "Interact", "IWR", SubResource("AnimationNodeStateMachineTransition_drn4t"), "IWR", "IH_Ranged_Aiming", SubResource("AnimationNodeStateMachineTransition_oovqy"), "IH_Ranged_Aiming", "IWR", SubResource("AnimationNodeStateMachineTransition_ieddc"), "IWR", "Jump_Idle", SubResource("AnimationNodeStateMachineTransition_i3yrw"), "Jump_Idle", "Jump_Land", SubResource("AnimationNodeStateMachineTransition_s6jx0"), "Jump_Land", "IWR", SubResource("AnimationNodeStateMachineTransition_jnxub"), "Start", "IWR", SubResource("AnimationNodeStateMachineTransition_xldxr"), "IWR", "PickUp", SubResource("AnimationNodeStateMachineTransition_a1434"), "PickUp", "IWR", SubResource("AnimationNodeStateMachineTransition_w50dk"), "IWR", "Use_Item", SubResource("AnimationNodeStateMachineTransition_v18f5"), "Use_Item", "IWR", SubResource("AnimationNodeStateMachineTransition_14cre"), "IWR", "Hit_A", SubResource("AnimationNodeStateMachineTransition_hqsyr"), "IWR", "Hit_B", SubResource("AnimationNodeStateMachineTransition_um0wr"), "Hit_B", "IWR", SubResource("AnimationNodeStateMachineTransition_451wv"), "Hit_A", "IWR", SubResource("AnimationNodeStateMachineTransition_cygxe"), "IWR", "Sit_Floor_StandUp", SubResource("AnimationNodeStateMachineTransition_drnwx"), "Sit_Floor_StandUp", "IWR", SubResource("AnimationNodeStateMachineTransition_mub4r"), "Jump_Full_Short", "IWR", SubResource("AnimationNodeStateMachineTransition_ey585"), "Cheer", "IWR", SubResource("AnimationNodeStateMachineTransition_86olk"), "Spellcast_Shoot", "IWR", SubResource("AnimationNodeStateMachineTransition_tlaej"), "IWR", "Spellcast_Shoot", SubResource("AnimationNodeStateMachineTransition_76rng")]
-graph_offset = Vector2(-39.591, 128.93)
+transitions = ["IWR", "Death_A", SubResource("AnimationNodeStateMachineTransition_pslpk"), "IWR", "Interact", SubResource("AnimationNodeStateMachineTransition_w0bnc"), "IWR", "1H_Melee_Attack_Chop", SubResource("AnimationNodeStateMachineTransition_lcx2c"), "IWR", "1H_Melee_Attack_Slice_Horizontal", SubResource("AnimationNodeStateMachineTransition_il1di"), "IWR", "1H_Melee_Attack_Slice_Diagonal", SubResource("AnimationNodeStateMachineTransition_hn3e3"), "1H_Melee_Attack_Slice_Diagonal", "IWR", SubResource("AnimationNodeStateMachineTransition_kpwmb"), "1H_Melee_Attack_Chop", "IWR", SubResource("AnimationNodeStateMachineTransition_up81j"), "1H_Melee_Attack_Slice_Horizontal", "IWR", SubResource("AnimationNodeStateMachineTransition_c6b14"), "Interact", "IWR", SubResource("AnimationNodeStateMachineTransition_drn4t"), "IWR", "IH_Ranged_Aiming", SubResource("AnimationNodeStateMachineTransition_oovqy"), "IH_Ranged_Aiming", "IWR", SubResource("AnimationNodeStateMachineTransition_ieddc"), "IWR", "Jump_Idle", SubResource("AnimationNodeStateMachineTransition_i3yrw"), "Jump_Idle", "Jump_Land", SubResource("AnimationNodeStateMachineTransition_s6jx0"), "Jump_Land", "IWR", SubResource("AnimationNodeStateMachineTransition_jnxub"), "Start", "IWR", SubResource("AnimationNodeStateMachineTransition_xldxr"), "IWR", "PickUp", SubResource("AnimationNodeStateMachineTransition_a1434"), "PickUp", "IWR", SubResource("AnimationNodeStateMachineTransition_w50dk"), "IWR", "Use_Item", SubResource("AnimationNodeStateMachineTransition_v18f5"), "Use_Item", "IWR", SubResource("AnimationNodeStateMachineTransition_14cre"), "IWR", "Hit_A", SubResource("AnimationNodeStateMachineTransition_hqsyr"), "IWR", "Hit_B", SubResource("AnimationNodeStateMachineTransition_um0wr"), "Hit_B", "IWR", SubResource("AnimationNodeStateMachineTransition_451wv"), "Hit_A", "IWR", SubResource("AnimationNodeStateMachineTransition_cygxe"), "IWR", "Sit_Floor_StandUp", SubResource("AnimationNodeStateMachineTransition_drnwx"), "Sit_Floor_StandUp", "IWR", SubResource("AnimationNodeStateMachineTransition_mub4r"), "Jump_Full_Short", "IWR", SubResource("AnimationNodeStateMachineTransition_ey585"), "Cheer", "IWR", SubResource("AnimationNodeStateMachineTransition_86olk"), "Spellcast_Shoot", "IWR", SubResource("AnimationNodeStateMachineTransition_tlaej"), "IWR", "Spellcast_Shoot", SubResource("AnimationNodeStateMachineTransition_76rng"), "IH_Ranged_Aiming", "Spellcast_Long", SubResource("AnimationNodeStateMachineTransition_jnpah"), "Spellcast_Long", "IWR", SubResource("AnimationNodeStateMachineTransition_ylttm")]
+graph_offset = Vector2(-217.591, 138.383)
